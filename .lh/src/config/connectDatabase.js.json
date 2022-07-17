@@ -1,0 +1,102 @@
+{
+    "sourceFile": "src/config/connectDatabase.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 21,
+            "patches": [
+                {
+                    "date": 1657872257956,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1657872277412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n // get the client\r\n-const mysql = require('mysql2');\r\n+import mysql2 from 'mysql2';\r\n \r\n // create the connection to database\r\n const connection = mysql.createConnection({\r\n     host: 'localhost',\r\n"
+                },
+                {
+                    "date": 1657872308157,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n });\r\n \r\n // simple query\r\n connection.query(\r\n-    'SELECT * FROM `table` WHERE `name` = \"Page\" AND `age` > 45',\r\n+    'SELECT * FROM `USERS` ',\r\n     function (err, results, fields) {\r\n         console.log(results); // results contains rows returned by server\r\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n"
+                },
+                {
+                    "date": 1657872327191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n // create the connection to database\r\n const connection = mysql.createConnection({\r\n     host: 'localhost',\r\n     user: 'root',\r\n-    database: 'test'\r\n+    database: 'nodejs_demo'\r\n });\r\n \r\n // simple query\r\n connection.query(\r\n"
+                },
+                {
+                    "date": 1657872344033,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,13 +15,4 @@\n         console.log(results); // results contains rows returned by server\r\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n-\r\n-// with placeholder\r\n-connection.query(\r\n-    'SELECT * FROM `table` WHERE `name` = ? AND `age` > ?',\r\n-    ['Page', 45],\r\n-    function (err, results) {\r\n-        console.log(results);\r\n-    }\r\n-);\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872351647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,9 @@\n // simple query\r\n connection.query(\r\n     'SELECT * FROM `USERS` ',\r\n     function (err, results, fields) {\r\n+        console.log(\"cehckk\");\r\n         console.log(results); // results contains rows returned by server\r\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n"
+                },
+                {
+                    "date": 1657872366288,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,4 +16,6 @@\n         console.log(results); // results contains rows returned by server\r\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n+\r\n+export default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872522696,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,5 +17,5 @@\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n \r\n-export default connection;\n\\ No newline at end of file\n+module.exports = connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872599212,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,5 +17,5 @@\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n \r\n-module.exports = connection;\n\\ No newline at end of file\n+exports default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872610687,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n // get the client\r\n import mysql2 from 'mysql2';\r\n \r\n // create the connection to database\r\n-const connection = mysql.createConnection({\r\n+const connection = mysql2.createConnection({\r\n     host: 'localhost',\r\n     user: 'root',\r\n     database: 'nodejs_demo'\r\n });\r\n"
+                },
+                {
+                    "date": 1657872617091,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n // get the client\r\n import mysql2 from 'mysql2';\r\n \r\n // create the connection to database\r\n-const connection = mysql2.createConnection({\r\n+const connection = mysql.createConnection({\r\n     host: 'localhost',\r\n     user: 'root',\r\n     database: 'nodejs_demo'\r\n });\r\n"
+                },
+                {
+                    "date": 1657872628327,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n // get the client\r\n-import mysql2 from 'mysql2';\r\n+import mysql from 'mysql2';\r\n \r\n // create the connection to database\r\n const connection = mysql.createConnection({\r\n     host: 'localhost',\r\n@@ -17,5 +17,4 @@\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n \r\n-exports default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872651637,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,4 +17,5 @@\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n \r\n+export default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872710988,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,8 @@\n // simple query\r\n connection.query(\r\n     'SELECT * FROM `USERS` ',\r\n     function (err, results, fields) {\r\n-        console.log(\"cehckk\");\r\n         console.log(results); // results contains rows returned by server\r\n         console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n"
+                },
+                {
+                    "date": 1657872789637,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,8 @@\n connection.query(\r\n     'SELECT * FROM `USERS` ',\r\n     function (err, results, fields) {\r\n         console.log(results); // results contains rows returned by server\r\n-        console.log(fields); // fields contains extra meta data about results, if available\r\n     }\r\n );\r\n \r\n export default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872799860,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n // simple query\r\n connection.query(\r\n     'SELECT * FROM `USERS` ',\r\n     function (err, results, fields) {\r\n-        console.log(results); // results contains rows returned by server\r\n+        console.log(results[0]); // results contains rows returned by server\r\n     }\r\n );\r\n \r\n export default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872896787,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n // simple query\r\n connection.query(\r\n     'SELECT * FROM `USERS` ',\r\n     function (err, results, fields) {\r\n-        console.log(results[0]); // results contains rows returned by server\r\n+        console.log(results[1]); // results contains rows returned by server\r\n     }\r\n );\r\n \r\n export default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872902686,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n // simple query\r\n connection.query(\r\n     'SELECT * FROM `USERS` ',\r\n     function (err, results, fields) {\r\n-        console.log(results[1]); // results contains rows returned by server\r\n+        console.log(results[0]); // results contains rows returned by server\r\n     }\r\n );\r\n \r\n export default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657873394651,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,12 +8,12 @@\n     database: 'nodejs_demo'\r\n });\r\n \r\n // simple query\r\n-connection.query(\r\n-    'SELECT * FROM `USERS` ',\r\n-    function (err, results, fields) {\r\n-        console.log(results[0]); // results contains rows returned by server\r\n-    }\r\n-);\r\n+// connection.query(\r\n+//     'SELECT * FROM `USERS` ',\r\n+//     function (err, results, fields) {\r\n+//         console.log(results[0]); // results contains rows returned by server\r\n+//     }\r\n+// );\r\n \r\n export default connection;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658031380712,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n // get the client\r\n-import mysql from 'mysql2';\r\n+import mysql from 'mysql2/promise';\r\n \r\n // create the connection to database\r\n const connection = mysql.createConnection({\r\n     host: 'localhost',\r\n"
+                },
+                {
+                    "date": 1658031733792,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n // get the client\r\n import mysql from 'mysql2/promise';\r\n \r\n // create the connection to database\r\n-const connection = mysql.createConnection({\r\n+const pool = mysql.createPool({\r\n     host: 'localhost',\r\n     user: 'root',\r\n     database: 'nodejs_demo'\r\n });\r\n"
+                },
+                {
+                    "date": 1658031872507,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,13 +7,6 @@\n     user: 'root',\r\n     database: 'nodejs_demo'\r\n });\r\n \r\n-// simple query\r\n-// connection.query(\r\n-//     'SELECT * FROM `USERS` ',\r\n-//     function (err, results, fields) {\r\n-//         console.log(results[0]); // results contains rows returned by server\r\n-//     }\r\n-// );\r\n \r\n-export default connection;\n\\ No newline at end of file\n+export default pool;\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1657872257956,
+            "name": "Commit-0",
+            "content": "// get the client\r\nconst mysql = require('mysql2');\r\n\r\n// create the connection to database\r\nconst connection = mysql.createConnection({\r\n    host: 'localhost',\r\n    user: 'root',\r\n    database: 'test'\r\n});\r\n\r\n// simple query\r\nconnection.query(\r\n    'SELECT * FROM `table` WHERE `name` = \"Page\" AND `age` > 45',\r\n    function (err, results, fields) {\r\n        console.log(results); // results contains rows returned by server\r\n        console.log(fields); // fields contains extra meta data about results, if available\r\n    }\r\n);\r\n\r\n// with placeholder\r\nconnection.query(\r\n    'SELECT * FROM `table` WHERE `name` = ? AND `age` > ?',\r\n    ['Page', 45],\r\n    function (err, results) {\r\n        console.log(results);\r\n    }\r\n);"
+        }
+    ]
+}

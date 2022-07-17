@@ -1,0 +1,30 @@
+{
+    "sourceFile": "src/public/css/style.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1657875451069,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1657875548109,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,4 @@\n-h1 {\r\n-    color: red;\r\n-}\r\n ul {\r\n     list-style-type: none;\r\n     margin: 0;\r\n     padding: 0;\r\n@@ -22,5 +19,28 @@\n   }\r\n   \r\n   li a:hover {\r\n     background-color: #111;\r\n+  }\r\n+\r\n+  #customers {\r\n+    font-family: Arial, Helvetica, sans-serif;\r\n+    border-collapse: collapse;\r\n+    width: 100%;\r\n+  }\r\n+  \r\n+  #customers td, #customers th {\r\n+    border: 1px solid #ddd;\r\n+    padding: 8px;\r\n+  }\r\n+  \r\n+  #customers tr:nth-child(even){background-color: #f2f2f2;}\r\n+  \r\n+  #customers tr:hover {background-color: #ddd;}\r\n+  \r\n+  #customers th {\r\n+    padding-top: 12px;\r\n+    padding-bottom: 12px;\r\n+    text-align: left;\r\n+    background-color: #04AA6D;\r\n+    color: white;\r\n   }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658033906576,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,5 +42,6 @@\n     padding-bottom: 12px;\r\n     text-align: left;\r\n     background-color: #04AA6D;\r\n     color: white;\r\n-  }\n\\ No newline at end of file\n+  }\r\n+  \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658042180204,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,5 +43,37 @@\n     text-align: left;\r\n     background-color: #04AA6D;\r\n     color: white;\r\n   }\r\n-  \n\\ No newline at end of file\n+  input[type=text], select {\r\n+    width: 100%;\r\n+    padding: 12px 20px;\r\n+    margin: 8px 0;\r\n+    display: inline-block;\r\n+    border: 1px solid #ccc;\r\n+    border-radius: 4px;\r\n+    box-sizing: border-box;\r\n+  }\r\n+  \r\n+  input[type=submit] {\r\n+    width: 100%;\r\n+    background-color: #4CAF50;\r\n+    color: white;\r\n+    padding: 14px 20px;\r\n+    margin: 8px 0;\r\n+    border: none;\r\n+    border-radius: 4px;\r\n+    cursor: pointer;\r\n+  }\r\n+  \r\n+  input[type=submit]:hover {\r\n+    background-color: #45a049;\r\n+  }\r\n+  \r\n+  div {\r\n+    border-radius: 5px;\r\n+    background-color: #f2f2f2;\r\n+    padding: 20px;\r\n+  }\r\n+  form{\r\n+    display: inline;\r\n+  }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1657875451069,
+            "name": "Commit-0",
+            "content": "h1 {\r\n    color: red;\r\n}\r\nul {\r\n    list-style-type: none;\r\n    margin: 0;\r\n    padding: 0;\r\n    overflow: hidden;\r\n    background-color: #333;\r\n  }\r\n  \r\n  li {\r\n    float: left;\r\n  }\r\n  \r\n  li a {\r\n    display: block;\r\n    color: white;\r\n    text-align: center;\r\n    padding: 14px 16px;\r\n    text-decoration: none;\r\n  }\r\n  \r\n  li a:hover {\r\n    background-color: #111;\r\n  }"
+        }
+    ]
+}

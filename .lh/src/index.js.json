@@ -1,0 +1,90 @@
+{
+    "sourceFile": "src/index.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 18,
+            "patches": [
+                {
+                    "date": 1657863426399,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1657863503804,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n require('dotenv').config()\r\n import express from 'express'\r\n+im\r\n import configViewEngine from './config/viewEngine'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n"
+                },
+                {
+                    "date": 1657863532110,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,13 @@\n require('dotenv').config()\r\n import express from 'express'\r\n-im\r\n+import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n \r\n-\r\n+initWebRoute(app)\r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657863571648,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n \r\n+//init web route\r\n initWebRoute(app)\r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1657872392554,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n+import \r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657872412581,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n-import \r\n+import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657872419523,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n-import connection from './config/connectDatabase'\r\n+// import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657872435823,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n-// import connection from './config/connectDatabase'\r\n+import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657872444161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n-import connection from './config/connectDatabase'\r\n+\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657872456086,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n-\r\n+import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657872498076,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n-import connection from './config/connectDatabase'\r\n+// import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657872550800,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n+import connection from './config/connectDatabase'\r\n // import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n"
+                },
+                {
+                    "date": 1657873468431,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,10 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n-import connection from './config/connectDatabase'\r\n // import connection from './config/connectDatabase'\r\n+// import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1657873474104,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,8 @@\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n // import connection from './config/connectDatabase'\r\n-// import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n //config view engine\r\n configViewEngine(app)\r\n"
+                },
+                {
+                    "date": 1658040930132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,7 +9,12 @@\n configViewEngine(app)\r\n \r\n //init web route\r\n initWebRoute(app)\r\n+\r\n+app.use(bodyParser.urlencoded({ extended: false }))\r\n+\r\n+// parse application/json\r\n+app.use(bodyParser.json())\r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658040955912,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,11 +10,10 @@\n \r\n //init web route\r\n initWebRoute(app)\r\n \r\n-app.use(bodyParser.urlencoded({ extended: false }))\r\n+app.use(express.urlencoded({ extended: false }))\r\n+app.use(express.json())\r\n \r\n-// parse application/json\r\n-app.use(bodyParser.json())\r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658040961229,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n \r\n //init web route\r\n initWebRoute(app)\r\n \r\n-app.use(express.urlencoded({ extended: false }))\r\n+app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n \r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n"
+                },
+                {
+                    "date": 1658041172762,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,16 +4,17 @@\n import configViewEngine from './config/viewEngine'\r\n // import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n+\r\n+app.use(express.urlencoded({ extended: true }))\r\n+app.use(express.json())\r\n //config view engine\r\n configViewEngine(app)\r\n \r\n //init web route\r\n initWebRoute(app)\r\n \r\n-app.use(express.urlencoded({ extended: true }))\r\n-app.use(express.json())\r\n \r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658041271562,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n const port = process.env.PORT || 3000\r\n \r\n app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n+\r\n //config view engine\r\n configViewEngine(app)\r\n \r\n //init web route\r\n"
+                }
+            ],
+            "date": 1657863426399,
+            "name": "Commit-0",
+            "content": "require('dotenv').config()\r\nimport express from 'express'\r\nimport configViewEngine from './config/viewEngine'\r\nconst app = express()\r\nconst port = process.env.PORT || 3000\r\n//config view engine\r\nconfigViewEngine(app)\r\n\r\n\r\napp.listen(port, () => {\r\n    console.log(`Example app listening at http://localhost:${port}`)\r\n})"
+        }
+    ]
+}
