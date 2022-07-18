@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 21,
+            "activePatchIndex": 22,
             "patches": [
                 {
                     "date": 1657872257956,
@@ -92,6 +92,10 @@
                 {
                     "date": 1658031872507,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,13 +7,6 @@\n     user: 'root',\r\n     database: 'nodejs_demo'\r\n });\r\n \r\n-// simple query\r\n-// connection.query(\r\n-//     'SELECT * FROM `USERS` ',\r\n-//     function (err, results, fields) {\r\n-//         console.log(results[0]); // results contains rows returned by server\r\n-//     }\r\n-// );\r\n \r\n-export default connection;\n\\ No newline at end of file\n+export default pool;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658149156377,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n // create the connection to database\r\n const pool = mysql.createPool({\r\n     host: 'localhost',\r\n     user: 'root',\r\n-    database: 'nodejs_demo'\r\n+    database: 'shop_my_pham'\r\n });\r\n \r\n \r\n export default pool;\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1657872257956,

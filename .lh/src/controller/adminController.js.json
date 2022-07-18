@@ -1,0 +1,610 @@
+{
+    "sourceFile": "src/controller/adminController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 148,
+            "patches": [
+                {
+                    "date": 1658143462253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658143486199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n-        const [rows, fields] = await pool.execute('SELECT * FROM `USERS` ');\r\n-        return res.render('index.ejs', { dataUser: rows })\r\n+        return res.render('/admin/index.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658143661585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n-        return res.render('/admin/index.ejs')\r\n+        return res.render('login.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658144247704,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n-        return res.render('login.ejs')\r\n+        return res.render('login_admin.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658144666867,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n-        return res.render('login_admin.ejs')\r\n+        return res.render('/admin/login_admin.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658144677949,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n-        return res.render('/admin/login_admin.ejs')\r\n+        return res.render('admin/login_admin.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658147278553,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,11 @@\n class AdminController {\r\n     login = async (req, res) => {\r\n         return res.render('admin/login_admin.ejs')\r\n     }\r\n+    checkuser = async (req, res) => {\r\n+        return res.render('admin/login_admin.ejs')\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new AdminController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658147504249,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,16 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login_admin.ejs')\r\n     }\r\n     checkuser = async (req, res) => {\r\n-        return res.render('admin/login_admin.ejs')\r\n+        const { user_name, password } = req.body\r\n+        const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`\r\n+        const [rows] = await pool.query(sql)\r\n+        if (rows.length > 0) {\r\n+            return res.redirect('/admin/user')\r\n+        } else {\r\n+            return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n+        }\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658147530574,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n         const { user_name, password } = req.body\r\n         const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n         if (rows.length > 0) {\r\n-            return res.redirect('/admin/user')\r\n+            return res.render('/admin/user', { data: rows })\r\n         } else {\r\n             return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658147573884,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n         const { user_name, password } = req.body\r\n         const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n         if (rows.length > 0) {\r\n+            console.log(rows));\r\n             return res.render('/admin/user', { data: rows })\r\n         } else {\r\n             return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n         }\r\n"
+                },
+                {
+                    "date": 1658147792844,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,14 +3,15 @@\n class AdminController {\r\n     login = async (req, res) => {\r\n         return res.render('admin/login_admin.ejs')\r\n     }\r\n+\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n         const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n         if (rows.length > 0) {\r\n-            console.log(rows));\r\n+            console.log(rows);\r\n             return res.render('/admin/user', { data: rows })\r\n         } else {\r\n             return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n         }\r\n"
+                },
+                {
+                    "date": 1658148547061,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,14 +8,14 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n         const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n-        if (rows.length > 0) {\r\n-            console.log(rows);\r\n-            return res.render('/admin/user', { data: rows })\r\n-        } else {\r\n-            return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n-        }\r\n+        // if (rows.length > 0) {\r\n+        //     console.log(rows);\r\n+        //     return res.render('/admin/user', { data: rows })\r\n+        // } else {\r\n+        //     return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n+        // }\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658148567457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n-        const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`\r\n+        const sql = `SELECT * FROM thanhvien WHERE user_name = '${user_name}' AND password = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n"
+                },
+                {
+                    "date": 1658148573326,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n-        const sql = `SELECT * FROM thanhvien WHERE user_name = '${user_name}' AND password = '${password}'`\r\n+        const sql = `SELECT * FROM thanhvien WHERE e = '${user_name}' AND password = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n"
+                },
+                {
+                    "date": 1658148599002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n-        const sql = `SELECT * FROM thanhvien WHERE e = '${user_name}' AND password = '${password}'`\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n"
+                },
+                {
+                    "date": 1658148633374,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`\r\n         const [rows] = await pool.query(sql)\r\n+        console.log(rows));\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658148669984,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,10 @@\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`\r\n-        const [rows] = await pool.query(sql)\r\n-        console.log(rows));\r\n+        const [rows] = await pool.execute(sql)\r\n+        console.log(rows);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658148732603,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,8 @@\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`\r\n-        const [rows] = await pool.execute(sql)\r\n-        console.log(rows);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658148754833,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`\r\n+\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658148827823,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n-\r\n+        const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658148864693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,15 +6,16 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n+        console.log(req.body));\r\n         const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n-        // if (rows.length > 0) {\r\n-        //     console.log(rows);\r\n-        //     return res.render('/admin/user', { data: rows })\r\n-        // } else {\r\n-        //     return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n-        // }\r\n+        if (rows.length > 0) {\r\n+            console.log(rows);\r\n+            return res.render('/admin/user', { data: rows })\r\n+        } else {\r\n+            return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n+        }\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658148900824,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,16 +6,16 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n-        console.log(req.body));\r\n-        const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n-        if (rows.length > 0) {\r\n-            console.log(rows);\r\n-            return res.render('/admin/user', { data: rows })\r\n-        } else {\r\n-            return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n-        }\r\n+        console.log(req.body);\r\n+        // const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n+        // if (rows.length > 0) {\r\n+        //     console.log(rows);\r\n+        //     return res.render('/admin/user', { data: rows })\r\n+        // } else {\r\n+        //     return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n+        // }\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658148940072,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,10 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n-        console.log(req.body);\r\n-        // const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n+\r\n+        const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658148960788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n \r\n         const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n+        console.log(rows);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658149052439,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n \r\n-        const [rows, fields] = await pool.execute('SELECT * FROM `thanhvien` WHERE `email` = ? AND `mat_khau` = ?', [user_name, password]);\r\n+        const [rows, fields] = await pool.execute(`SELECT * FROM thanhvien WHERE email = ${user_name} AND 'mat_khau' = ${password}`);\r\n         console.log(rows);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n"
+                },
+                {
+                    "date": 1658149090585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body\r\n \r\n-        const [rows, fields] = await pool.execute(`SELECT * FROM thanhvien WHERE email = ${user_name} AND 'mat_khau' = ${password}`);\r\n+        const [rows, fields] = await pool.execute(`SELECT * FROM thanhvien WHERE email = ${user_name} AND mat_khau = ${password}`);\r\n         console.log(rows);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n"
+                },
+                {
+                    "date": 1658149223749,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,12 +5,12 @@\n         return res.render('admin/login_admin.ejs')\r\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n-        const { user_name, password } = req.body\r\n-\r\n-        const [rows, fields] = await pool.execute(`SELECT * FROM thanhvien WHERE email = ${user_name} AND mat_khau = ${password}`);\r\n-        console.log(rows);\r\n+        const { user_name, password } = req.body;\r\n+        const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`;\r\n+        const [rows] = await pool.query(sql);\r\n+        log\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658149229836,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n-        log\r\n+        console.log(rows);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n         //     return res.render('/admin/user', { data: rows })\r\n         // } else {\r\n"
+                },
+                {
+                    "date": 1658149283107,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n-        const sql = `SELECT * FROM admin WHERE user_name = '${user_name}' AND password = '${password}'`;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         console.log(rows);\r\n         // if (rows.length > 0) {\r\n         //     console.log(rows);\r\n"
+                },
+                {
+                    "date": 1658149303707,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,15 +8,14 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n-        console.log(rows);\r\n-        // if (rows.length > 0) {\r\n-        //     console.log(rows);\r\n-        //     return res.render('/admin/user', { data: rows })\r\n-        // } else {\r\n-        //     return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n-        // }\r\n+        if (rows.length > 0) {\r\n+            console.log(rows);\r\n+            return res.render('/admin/user', { data: rows })\r\n+        } else {\r\n+            return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n+        }\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658149331755,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,11 +10,11 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n-            return res.render('/admin/user', { data: rows })\r\n+            return res.render('admin/user', { data: rows })\r\n         } else {\r\n-            return res.redirect('/admin/login', { message: 'Username or password is incorrect' })\r\n+            return res.redirect('admin/login', { message: 'Username or password is incorrect' })\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149583245,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user', { data: rows })\r\n         } else {\r\n-            return res.redirect('admin/login', { message: 'Username or password is incorrect' })\r\n+            return res.redirect('admin/login')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149644439,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user', { data: rows })\r\n         } else {\r\n-            return res.redirect('admin/login')\r\n+            return res.redirect('login')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149687990,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n-        return res.render('admin/login_admin.ejs')\r\n+        return res.render('admin/login.ejs')\r\n     }\r\n \r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658149868890,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user', { data: rows })\r\n         } else {\r\n-            return res.redirect('login')\r\n+            return res.redirect('login.ejs')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149874540,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n-            return res.render('admin/user', { data: rows })\r\n+            return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n             return res.redirect('login.ejs')\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658149906617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n-            return res.redirect('login.ejs')\r\n+            return res.redirect('admin/login.ejs')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149927932,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n-            return res.redirect('admin/login.ejs')\r\n+            return res.redirect('./login.ejs')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149939064,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n-            return res.redirect('./login.ejs')\r\n+            return res.redirect('.//login.ejs')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149951299,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n-            return res.redirect('.//login.ejs')\r\n+            return res.redirect('..admin/login.ejs')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149966034,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n-            return res.redirect('..admin/login.ejs')\r\n+            return res.redirect('../admin/login.ejs')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658149983564,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n-            return res.redirect('../admin/login.ejs')\r\n+            return res.render('admin/login.ejs')\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658150021612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n-            return res.render('admin/login.ejs')\r\n+            return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658153916429,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,11 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n-            return res.render('admin/user.ejs', { data: rows })\r\n+            if (rows[0].quyen_truy_cap === 3) {\r\n+                return res.render('admin/user.ejs', { data: rows })\r\n+            }\r\n         } else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658154317123,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,11 @@\n             console.log(rows);\r\n             if (rows[0].quyen_truy_cap === 3) {\r\n                 return res.render('admin/user.ejs', { data: rows })\r\n             }\r\n+            else {\r\n+                return res.render('admin/user.ejs', { err: rows })\r\n+            }\r\n         } else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658155505889,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             if (rows[0].quyen_truy_cap === 3) {\r\n                 return res.render('admin/user.ejs', { data: rows })\r\n             }\r\n             else {\r\n-                return res.render('admin/user.ejs', { err: rows })\r\n+                return res.render('admin/user.ejs', { err: 'Tài khoản này không được cấp quyền truy cập' })\r\n             }\r\n         } else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n"
+                },
+                {
+                    "date": 1658155657197,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,11 +13,8 @@\n             console.log(rows);\r\n             if (rows[0].quyen_truy_cap === 3) {\r\n                 return res.render('admin/user.ejs', { data: rows })\r\n             }\r\n-            else {\r\n-                return res.render('admin/user.ejs', { err: 'Tài khoản này không được cấp quyền truy cập' })\r\n-            }\r\n         } else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658155665531,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,11 +10,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n-            if (rows[0].quyen_truy_cap === 3) {\r\n-                return res.render('admin/user.ejs', { data: rows })\r\n-            }\r\n+            return res.render('admin/user.ejs', { data: rows })\r\n         } else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658155737771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,14 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n             console.log(rows);\r\n-            return res.render('admin/user.ejs', { data: rows })\r\n+            if (rows[0].quyen_truy_cap === 3) {\r\n+                return res.render('admin/user.ejs', { data: rows })\r\n+            }\r\n+            else {\r\n+                return res.render('admin/user.ejs', { err: 'Tài khoản này không được cấp quyền truy cập' })\r\n+            }\r\n         } else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658155998291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n-            console.log(rows);\r\n+            console.log(rows[0]);\r\n             if (rows[0].quyen_truy_cap === 3) {\r\n                 return res.render('admin/user.ejs', { data: rows })\r\n             }\r\n             else {\r\n"
+                },
+                {
+                    "date": 1658156034862,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n-            console.log(rows[0]);\r\n+            console.log(rows[0].quyen_truy_cap);\r\n             if (rows[0].quyen_truy_cap === 3) {\r\n                 return res.render('admin/user.ejs', { data: rows })\r\n             }\r\n             else {\r\n"
+                },
+                {
+                    "date": 1658156092807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,14 +9,13 @@\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0) {\r\n-            console.log(rows[0].quyen_truy_cap);\r\n-            if (rows[0].quyen_truy_cap === 3) {\r\n-                return res.render('admin/user.ejs', { data: rows })\r\n+            if (!rows[0].quyen_truy_cap === 3) {\r\n+                return res.render('admin/user.ejs', { err: 'Tài khoản này không được cấp quyền truy cập' })\r\n             }\r\n             else {\r\n-                return res.render('admin/user.ejs', { err: 'Tài khoản này không được cấp quyền truy cập' })\r\n+                return res.render('admin/user.ejs', { data: rows })\r\n             }\r\n         } else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n"
+                },
+                {
+                    "date": 1658156163386,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,16 +8,13 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n-        if (rows.length > 0) {\r\n-            if (!rows[0].quyen_truy_cap === 3) {\r\n-                return res.render('admin/user.ejs', { err: 'Tài khoản này không được cấp quyền truy cập' })\r\n-            }\r\n-            else {\r\n-                return res.render('admin/user.ejs', { data: rows })\r\n-            }\r\n-        } else {\r\n+        if (rows.length > 0 && rows[0].quyen_truy_cap === 3) {\r\n+            return res.render('admin/user.ejs', { data: rows })\r\n+        }\r\n+\r\n+        else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658156288089,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n-        if (rows.length > 0 && rows[0].quyen_truy_cap === 3) {\r\n+        if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/user.ejs', { data: rows })\r\n         }\r\n \r\n         else {\r\n"
+                },
+                {
+                    "date": 1658157304792,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            return res.render('admin/user.ejs', { data: rows })\r\n+            return res.render('admin/home.ejs', { data: rows })\r\n         }\r\n \r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658157995188,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            return res.render('admin/home.ejs', { data: rows })\r\n+            return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n \r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658158324525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n \r\n+    //[GET]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n@@ -16,8 +17,10 @@\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n+\r\n+    //[GET]\r\n }\r\n \r\n \r\n module.exports = new AdminController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658158347456,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,11 @@\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n \r\n-    //[GET]\r\n+    logout = async (req, res) => {\r\n+        return res.render('admin/login.ejs')\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new AdminController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658158357955,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n+\r\n         return res.render('admin/login.ejs')\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658158367501,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,10 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-\r\n-        return res.render('admin/login.ejs')\r\n+        if ()\r\n+            return res.render('admin/login.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658158376273,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,9 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-        if ()\r\n-            return res.render('admin/login.ejs')\r\n+\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658158476950,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,15 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n+        req.logout();\r\n \r\n+        // destroy session data\r\n+        req.session = null;\r\n+\r\n+        // redirect to homepage\r\n+        res.redirect('/');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658158800464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n+        console.log('logout');\r\n         req.logout();\r\n \r\n         // destroy session data\r\n         req.session = null;\r\n"
+                },
+                {
+                    "date": 1658158835781,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,8 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-        console.log('logout');\r\n         req.logout();\r\n \r\n         // destroy session data\r\n         req.session = null;\r\n"
+                },
+                {
+                    "date": 1658158904760,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,15 +19,15 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-        req.logout();\r\n+        // req.logout();\r\n \r\n         // destroy session data\r\n         req.session = null;\r\n \r\n         // redirect to homepage\r\n-        res.redirect('/');\r\n+        res.redirect('/admin/login');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658158950253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,15 +19,16 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-        // req.logout();\r\n+        return res.render('admin/login.ejs')\r\n+        // // req.logout();\r\n \r\n-        // destroy session data\r\n-        req.session = null;\r\n+        // // destroy session data\r\n+        // req.session = null;\r\n \r\n-        // redirect to homepage\r\n-        res.redirect('/admin/login');\r\n+        // // redirect to homepage\r\n+        // res.redirect('/admin/login');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658159019779,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,16 +19,16 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-        return res.render('admin/login.ejs')\r\n-        // // req.logout();\r\n \r\n-        // // destroy session data\r\n-        // req.session = null;\r\n+        // req.logout();\r\n \r\n-        // // redirect to homepage\r\n-        // res.redirect('/admin/login');\r\n+        // destroy session data\r\n+        req.session = null;\r\n+\r\n+        // redirect to homepage\r\n+        res.redirect('/');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658159146052,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,15 +20,15 @@\n     }\r\n \r\n     logout = async (req, res) => {\r\n \r\n-        // req.logout();\r\n+        req.logout();\r\n \r\n         // destroy session data\r\n         req.session = null;\r\n \r\n         // redirect to homepage\r\n-        res.redirect('/');\r\n+        res.redirect('/admin');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658159196945,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     }\r\n \r\n     logout = async (req, res) => {\r\n \r\n-        req.logout();\r\n+        // req.logout();\r\n \r\n         // destroy session data\r\n         req.session = null;\r\n \r\n"
+                },
+                {
+                    "date": 1658159358644,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,16 +19,12 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-\r\n-        // req.logout();\r\n-\r\n-        // destroy session data\r\n-        req.session = null;\r\n-\r\n-        // redirect to homepage\r\n-        res.redirect('/admin');\r\n+        req.session.destroy(() => {\r\n+            req.logout();\r\n+            res.redirect(\"/admin\"); //Inside a callback… bulletproof!\r\n+        });\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658159396232,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,12 +19,16 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-        req.session.destroy(() => {\r\n-            req.logout();\r\n-            res.redirect(\"/admin\"); //Inside a callback… bulletproof!\r\n-        });\r\n+\r\n+        // req.logout();\r\n+\r\n+        // destroy session data\r\n+        req.session = null;\r\n+\r\n+        // redirect to homepage\r\n+        res.redirect('/admin');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658159451487,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,14 +20,17 @@\n     }\r\n \r\n     logout = async (req, res) => {\r\n \r\n-        // req.logout();\r\n-\r\n-        // destroy session data\r\n-        req.session = null;\r\n-\r\n-        // redirect to homepage\r\n+        req.logout();\r\n+        if (!req.session) {\r\n+            req.session.destroy(function (err) {\r\n+                res.redirect('/login');\r\n+            });\r\n+        }\r\n+        else {\r\n+            res.redirect('/login');\r\n+        }\r\n         res.redirect('/admin');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658159476005,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,17 +20,14 @@\n     }\r\n \r\n     logout = async (req, res) => {\r\n \r\n-        req.logout();\r\n-        if (!req.session) {\r\n-            req.session.destroy(function (err) {\r\n-                res.redirect('/login');\r\n-            });\r\n-        }\r\n-        else {\r\n-            res.redirect('/login');\r\n-        }\r\n+        // req.logout();\r\n+        console.log(req);\r\n+        // destroy session data\r\n+        req.session = null;\r\n+\r\n+        // redirect to homepage\r\n         res.redirect('/admin');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658159796861,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n+        if (error) throw error;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n \r\n"
+                },
+                {
+                    "date": 1658159809756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,10 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (error) throw error;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n+            request.session.loggedin = true;\r\n+            request.session.username = username;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n \r\n         else {\r\n"
+                },
+                {
+                    "date": 1658159830116,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,11 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (error) throw error;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            request.session.loggedin = true;\r\n-            request.session.username = username;\r\n+            // Authenticate the user\r\n+            req.session.loggedin = true;\r\n+            req.session.username = username;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n \r\n         else {\r\n"
+                },
+                {
+                    "date": 1658159854356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n         if (error) throw error;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             // Authenticate the user\r\n             req.session.loggedin = true;\r\n-            req.session.username = username;\r\n+            req.session.email = username;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n \r\n         else {\r\n"
+                },
+                {
+                    "date": 1658159877889,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,15 +7,16 @@\n \r\n     //[GET]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n+        if ()\r\n+            const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (error) throw error;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             // Authenticate the user\r\n             req.session.loggedin = true;\r\n-            req.session.email = username;\r\n+            req.session.email = user_name;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n \r\n         else {\r\n"
+                },
+                {
+                    "date": 1658159895076,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,10 @@\n \r\n     //[GET]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n-        if ()\r\n-            const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n+        if (!user_name || !password) { return }\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (error) throw error;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             // Authenticate the user\r\n"
+                },
+                {
+                    "date": 1658159944627,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,8 @@\n             req.session.loggedin = true;\r\n             req.session.email = user_name;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n-\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658159964167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n-        if (error) throw error;\r\n+\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             // Authenticate the user\r\n             req.session.loggedin = true;\r\n             req.session.email = user_name;\r\n"
+                },
+                {
+                    "date": 1658160072261,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,13 +10,11 @@\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n-\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             // Authenticate the user\r\n-            req.session.loggedin = true;\r\n-            req.session.email = user_name;\r\n+            req.session = { loggedin: true, email: user_name }\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658160209223,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,8 @@\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            // Authenticate the user\r\n-            req.session = { loggedin: true, email: user_name }\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658160219068,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,11 +19,8 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-\r\n-        // req.logout();\r\n-        console.log(req);\r\n         // destroy session data\r\n         req.session = null;\r\n \r\n         // redirect to homepage\r\n"
+                },
+                {
+                    "date": 1658160596373,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,12 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n+        //check user was login \r\n+        if (req.session.user) {\r\n+            res.redirect('/admin')\r\n+        }\r\n         return res.render('admin/login.ejs')\r\n     }\r\n \r\n     //[GET]\r\n@@ -20,8 +24,9 @@\n     }\r\n \r\n     logout = async (req, res) => {\r\n         // destroy session data\r\n+\r\n         req.session = null;\r\n \r\n         // redirect to homepage\r\n         res.redirect('/admin');\r\n"
+                },
+                {
+                    "date": 1658160639664,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n class AdminController {\r\n     login = async (req, res) => {\r\n         //check user was login \r\n         if (req.session.user) {\r\n-            res.redirect('/admin')\r\n+            res.redirect('/admin/home')\r\n         }\r\n         return res.render('admin/login.ejs')\r\n     }\r\n \r\n"
+                },
+                {
+                    "date": 1658160672017,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,11 +2,11 @@\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n         //check user was login \r\n-        if (req.session.user) {\r\n-            res.redirect('/admin/home')\r\n-        }\r\n+        // if (req.session.user) {\r\n+        //     res.redirect('/admin/home')\r\n+        // }\r\n         return res.render('admin/login.ejs')\r\n     }\r\n \r\n     //[GET]\r\n"
+                },
+                {
+                    "date": 1658160698704,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n+        console.log(req.session);\r\n         //check user was login \r\n         // if (req.session.user) {\r\n         //     res.redirect('/admin/home')\r\n         // }\r\n"
+                },
+                {
+                    "date": 1658160983793,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n+        session = req.session;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658160997185,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n+        let session = req.session;\r\n         session = req.session;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n"
+                },
+                {
+                    "date": 1658161021534,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,10 @@\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         let session = req.session;\r\n-        session = req.session;\r\n+        session.userid = user_name;\r\n+\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658161031894,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         let session = req.session;\r\n         session.userid = user_name;\r\n-\r\n+        session.user = rows[0];\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658161077169,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,10 +16,9 @@\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         let session = req.session;\r\n-        session.userid = user_name;\r\n-        session.user = rows[0];\r\n+        session.user = rows[0].email;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658161095910,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         let session = req.session;\r\n         session.user = rows[0].email;\r\n+        console.log(session);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658161163113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,8 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n         let session = req.session;\r\n         session.user = rows[0].email;\r\n-        console.log(session);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658161176473,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,8 @@\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.query(sql);\r\n-        let session = req.session;\r\n-        session.user = rows[0].email;\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658161194170,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,11 +25,9 @@\n     }\r\n \r\n     logout = async (req, res) => {\r\n         // destroy session data\r\n-\r\n         req.session = null;\r\n-\r\n         // redirect to homepage\r\n         res.redirect('/admin');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658161206525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n-        const [rows] = await pool.query(sql);\r\n+        const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658161234899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,10 +24,11 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n+        console.log(req.session);\r\n         // destroy session data\r\n-        req.session = null;\r\n+        // req.session = null;\r\n         // redirect to homepage\r\n         res.redirect('/admin');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658161279150,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n+        console.log(req)\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n@@ -24,9 +25,9 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-        console.log(req.session);\r\n+\r\n         // destroy session data\r\n         // req.session = null;\r\n         // redirect to homepage\r\n         res.redirect('/admin');\r\n"
+                },
+                {
+                    "date": 1658162166515,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,11 @@\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n-        console.log(req)\r\n+\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n+            res.cookie('user', rows[0].email, { maxAge: 1000 * 60 * 60 * 24 * 7 });\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658162257371,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,8 @@\n         }\r\n     }\r\n \r\n     logout = async (req, res) => {\r\n-\r\n         // destroy session data\r\n         // req.session = null;\r\n         // redirect to homepage\r\n         res.redirect('/admin');\r\n"
+                },
+                {
+                    "date": 1658162373690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,12 +2,12 @@\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n         console.log(req.session);\r\n-        //check user was login \r\n-        // if (req.session.user) {\r\n-        //     res.redirect('/admin/home')\r\n-        // }\r\n+        //check cookie\r\n+        if (res.cookie.user) {\r\n+            res.redirect('/admin/home');\r\n+        }\r\n         return res.render('admin/login.ejs')\r\n     }\r\n \r\n     //[GET]\r\n"
+                },
+                {
+                    "date": 1658162428334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n class AdminController {\r\n     login = async (req, res) => {\r\n         console.log(req.session);\r\n         //check cookie\r\n+        console.log(res.cookie);\r\n         if (res.cookie.user) {\r\n             res.redirect('/admin/home');\r\n         }\r\n         return res.render('admin/login.ejs')\r\n"
+                },
+                {
+                    "date": 1658162479618,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,8 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = async (req, res) => {\r\n-        console.log(req.session);\r\n-        //check cookie\r\n-        console.log(res.cookie);\r\n-        if (res.cookie.user) {\r\n-            res.redirect('/admin/home');\r\n-        }\r\n         return res.render('admin/login.ejs')\r\n     }\r\n \r\n     //[GET]\r\n"
+                },
+                {
+                    "date": 1658162596051,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n \r\n-    //[GET]\r\n+    //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n"
+                },
+                {
+                    "date": 1658162658674,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,11 @@\n class AdminController {\r\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n-\r\n+    getHomepage = async (req, res) => {\r\n+        return res.render('admin/home.ejs')\r\n+    }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         if (!user_name || !password) { return }\r\n"
+                },
+                {
+                    "date": 1658163277587,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = async (req, res) => {\r\n-        return res.render('admin/home.ejs')\r\n+\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658163666094,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,10 @@\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n+        res.cookie('user', rows[0].email);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            res.cookie('user', rows[0].email, { maxAge: 1000 * 60 * 60 * 24 * 7 });\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658163673743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,10 @@\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n-        res.cookie('user', rows[0].email);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n+            res.cookie('user', rows[0].email);\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658163709945,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            res.cookie('user', rows[0].email);\r\n+            res.cookie('email', rows[0].email);\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658163995270,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            res.cookie('email', rows[0].email);\r\n+            res.cookie('email', rows[0].email, 'password', rows[0].mat_khau);\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658164016965,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            res.cookie('email', rows[0].email, 'password', rows[0].mat_khau);\r\n+            res.cookie('email', rows[0].email);\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658164095942,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = async (req, res) => {\r\n-\r\n+        return res.render('/')\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658164407843,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = async (req, res) => {\r\n-        return res.render('/')\r\n+        return res.render('/admin/home.ejs')\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658164421023,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = async (req, res) => {\r\n-        return res.render('/admin/home.ejs')\r\n+        return res.render('admin/home.ejs')\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658165373628,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = async (req, res) => {\r\n-        return res.render('admin/home.ejs')\r\n+\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658165482262,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = async (req, res) => {\r\n \r\n+        return res.render('admin/home.ejs')\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658165495003,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = async (req, res) => {\r\n-\r\n+        console.log(req.data);\r\n         return res.render('admin/home.ejs')\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n"
+                },
+                {
+                    "date": 1658165508771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n class AdminController {\r\n     login = async (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n-    getHomepage = async (req, res) => {\r\n+    getHomepage = (req, res) => {\r\n         console.log(req.data);\r\n         return res.render('admin/home.ejs')\r\n     }\r\n     //[POST]\r\n"
+                },
+                {
+                    "date": 1658165517791,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n-    login = async (req, res) => {\r\n+    login = (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = (req, res) => {\r\n         console.log(req.data);\r\n@@ -23,9 +23,9 @@\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n         }\r\n     }\r\n \r\n-    logout = async (req, res) => {\r\n+    logout = (req, res) => {\r\n         // destroy session data\r\n         // req.session = null;\r\n         // redirect to homepage\r\n         res.redirect('/admin');\r\n"
+                },
+                {
+                    "date": 1658165550778,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,10 +4,9 @@\n     login = (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        console.log(req.data);\r\n-        return res.render('admin/home.ejs')\r\n+        return res.render('admin/home.ejs', { data: req.data })\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658165587899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n     login = (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = (req, res) => {\r\n+        console.log(req.data);\r\n         return res.render('admin/home.ejs', { data: req.data })\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n"
+                },
+                {
+                    "date": 1658165624352,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = (req, res) => {\r\n         console.log(req.data);\r\n-        return res.render('admin/home.ejs', { data: req.data })\r\n+        return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658165633629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,8 @@\n     login = (req, res) => {\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        console.log(req.data);\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n"
+                },
+                {
+                    "date": 1658165656201,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,12 +23,10 @@\n         }\r\n     }\r\n \r\n     logout = (req, res) => {\r\n-        // destroy session data\r\n-        // req.session = null;\r\n-        // redirect to homepage\r\n-        res.redirect('/admin');\r\n+        res.clearCookie('email');\r\n+        return res.redirect('/admin');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658165962823,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = (req, res) => {\r\n+        console.log(req.cookies.email);\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = (req, res) => {\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n"
+                },
+                {
+                    "date": 1658165985688,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,12 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = (req, res) => {\r\n-        console.log(req.cookies.email);\r\n+        if (req.cookies.email) {\r\n+            res.redirect('/admin/home');\r\n+            return;\r\n+        }\r\n         return res.render('admin/login.ejs')\r\n     }\r\n     getHomepage = (req, res) => {\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n"
+                },
+                {
+                    "date": 1658166207723,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,10 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            res.cookie('email', rows[0].email);\r\n+            // res.cookie('email', rows[0].email);\r\n+            req.session.email = rows[0].email;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658166419599,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,10 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            // res.cookie('email', rows[0].email);\r\n-            req.session.email = rows[0].email;\r\n+            res.cookie('email', rows[0].email);\r\n+            res.session.email = rows[0].email;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658166556770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n-            res.session.email = rows[0].email;\r\n+            req.query = rows[0].email;\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658166683564,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n-            req.query = rows[0].email;\r\n+            req.query = { email: rows[0].email };\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658166753424,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n-            req.query = { email: rows[0].email };\r\n+            req.query = { 'email': rows[0].email };\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658166831432,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n-            req.query = { 'email': rows[0].email };\r\n+            res.query = { 'email': rows[0].email };\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658166999215,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,8 @@\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n-            res.query = { 'email': rows[0].email };\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n"
+                },
+                {
+                    "date": 1658167118859,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,10 @@\n             res.cookie('email', rows[0].email);\r\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n-            return res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n+            res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n+            return\r\n         }\r\n     }\r\n \r\n     logout = (req, res) => {\r\n"
+                },
+                {
+                    "date": 1658167150823,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n             return res.render('admin/home.ejs', { data: rows[0] })\r\n         }\r\n         else {\r\n             res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n-            return\r\n+            return;\r\n         }\r\n     }\r\n \r\n     logout = (req, res) => {\r\n"
+                },
+                {
+                    "date": 1658167198521,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,10 @@\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n-            return res.render('admin/home.ejs', { data: rows[0] })\r\n+            res.render('admin/home.ejs', { data: rows[0] })\r\n+            return;\r\n         }\r\n         else {\r\n             res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n             return;\r\n"
+                },
+                {
+                    "date": 1658167425873,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         if (req.cookies.email) {\r\n             res.redirect('/admin/home');\r\n             return;\r\n         }\r\n-        return res.render('admin/login.ejs')\r\n+        return res.render('admin/login.ejs', { err: '' });\r\n     }\r\n     getHomepage = (req, res) => {\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658167458625,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         if (req.cookies.email) {\r\n             res.redirect('/admin/home');\r\n             return;\r\n         }\r\n-        return res.render('admin/login.ejs', { err: '' });\r\n+        res.render('admin/login.ejs', { err: '' });\r\n     }\r\n     getHomepage = (req, res) => {\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658167469977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         if (req.cookies.email) {\r\n             res.redirect('/admin/home');\r\n             return;\r\n         }\r\n-        res.render('admin/login.ejs', { err: '' });\r\n+        res.render('admin/login.ejs');\r\n     }\r\n     getHomepage = (req, res) => {\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658167475961,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         if (req.cookies.email) {\r\n             res.redirect('/admin/home');\r\n             return;\r\n         }\r\n-        res.render('admin/login.ejs');\r\n+        res.render('admin/login.ejs', { err: '' });\r\n     }\r\n     getHomepage = (req, res) => {\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658167482021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n         }\r\n         res.render('admin/login.ejs', { err: '' });\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        return res.render('admin/home.ejs', { data: req.data[0] })\r\n+        res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658167555225,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,13 @@\n         }\r\n         res.render('admin/login.ejs', { err: '' });\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        res.render('admin/home.ejs', { data: req.data[0] })\r\n+        if (!req.cookies.email) {\r\n+            res.redirect('/admin/login');\r\n+            return;\r\n+        }\r\n+        res.render('admin/home.ejs', { err: '' });\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n@@ -29,10 +33,14 @@\n         }\r\n     }\r\n \r\n     logout = (req, res) => {\r\n-        res.clearCookie('email');\r\n-        return res.redirect('/admin');\r\n+        if (req.cookies.email) {\r\n+            res.clearCookie('email');\r\n+            res.redirect('/admin/login');\r\n+            return;\r\n+        }\r\n+\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658167564932,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,8 @@\n             res.clearCookie('email');\r\n             res.redirect('/admin/login');\r\n             return;\r\n         }\r\n-\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658167684095,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,13 +8,9 @@\n         }\r\n         res.render('admin/login.ejs', { err: '' });\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        if (!req.cookies.email) {\r\n-            res.redirect('/admin/login');\r\n-            return;\r\n-        }\r\n-        res.render('admin/home.ejs', { err: '' });\r\n+        return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n@@ -33,13 +29,10 @@\n         }\r\n     }\r\n \r\n     logout = (req, res) => {\r\n-        if (req.cookies.email) {\r\n-            res.clearCookie('email');\r\n-            res.redirect('/admin/login');\r\n-            return;\r\n-        }\r\n+        res.clearCookie('email');\r\n+        return res.redirect('/admin');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658167698388,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         if (req.cookies.email) {\r\n             res.redirect('/admin/home');\r\n             return;\r\n         }\r\n-        res.render('admin/login.ejs', { err: '' });\r\n+        return res.render('admin/login.ejs', { err: '' })\r\n     }\r\n     getHomepage = (req, res) => {\r\n         return res.render('admin/home.ejs', { data: req.data[0] })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658167761372,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,11 @@\n         }\r\n         return res.render('admin/login.ejs', { err: '' })\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        return res.render('admin/home.ejs', { data: req.data[0] })\r\n+        if (!req.cookies.email) {\r\n+            return res.render('admin/home.ejs', { data: req.data[0] })\r\n+        }\r\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658167923411,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n         }\r\n         return res.render('admin/login.ejs', { err: '' })\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        if (!req.cookies.email) {\r\n+        if (req.cookies.email) {\r\n             return res.render('admin/home.ejs', { data: req.data[0] })\r\n         }\r\n     }\r\n     //[POST]\r\n"
+                }
+            ],
+            "date": 1658143462253,
+            "name": "Commit-0",
+            "content": "import pool from '../config/connectDatabase'\r\n//[GET]\r\nclass AdminController {\r\n    login = async (req, res) => {\r\n        const [rows, fields] = await pool.execute('SELECT * FROM `USERS` ');\r\n        return res.render('index.ejs', { dataUser: rows })\r\n    }\r\n}\r\n\r\n\r\nmodule.exports = new AdminController;"
+        }
+    ]
+}

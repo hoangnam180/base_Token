@@ -1,0 +1,66 @@
+{
+    "sourceFile": "src/views/admin/login_admin.ejs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 12,
+            "patches": [
+                {
+                    "date": 1658146235561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658146265914,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -142,12 +142,12 @@\n     <form>\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n-        <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\">\r\n+        <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n \r\n         <label for=\"password\">Password</label>\r\n-        <input type=\"password\" placeholder=\"Password\" id=\"password\">\r\n+        <input type=\"password\" placeholder=\"Password\" id=\"password\" name=\"password\">\r\n \r\n         <button>Log In</button>\r\n         <div class=\"social\">\r\n           <div class=\"go\"><i class=\"fab fa-google\"></i>  Google</div>\r\n"
+                },
+                {
+                    "date": 1658146281783,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -147,9 +147,9 @@\n \r\n         <label for=\"password\">Password</label>\r\n         <input type=\"password\" placeholder=\"Password\" id=\"password\" name=\"password\">\r\n \r\n-        <button>Log In</button>\r\n+        <button type=\"submit\">Log In</button>\r\n         <div class=\"social\">\r\n           <div class=\"go\"><i class=\"fab fa-google\"></i>  Google</div>\r\n           <div class=\"fb\"><i class=\"fab fa-facebook\"></i>  Facebook</div>\r\n         </div>\r\n"
+                },
+                {
+                    "date": 1658147328027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form>\r\n+    <form action=\"/user\" action=\"POST\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658147361405,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -149,10 +149,10 @@\n         <input type=\"password\" placeholder=\"Password\" id=\"password\" name=\"password\">\r\n \r\n         <button type=\"submit\">Log In</button>\r\n         <div class=\"social\">\r\n-          <div class=\"go\"><i class=\"fab fa-google\"></i>  Google</div>\r\n-          <div class=\"fb\"><i class=\"fab fa-facebook\"></i>  Facebook</div>\r\n+          <div class=\"go\"><i class=\"fab fa-google\"></i>Google</div>\r\n+          <div class=\"fb\"><i class=\"fab fa-facebook\"></i>Facebook</div>\r\n         </div>\r\n     </form>\r\n </body>\r\n </html>\r\n"
+                },
+                {
+                    "date": 1658147961743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/user\" action=\"POST\">\r\n+    <form action=\"/user\" action=\"GET\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658148157642,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/user\" action=\"GET\">\r\n+    <form action=\"/checkuser\" action=\"GET\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658148212592,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/checkuser\" action=\"GET\">\r\n+    <form action=\"/checkuser\" action=\"POST\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658148284382,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/checkuser\" action=\"POST\">\r\n+    <form action=\"/admin/\" action=\"POST\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658148381772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/admin/\" action=\"POST\">\r\n+    <form action=\"/admin/checkuser\" action=\"POST\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658148497472,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/admin/checkuser\" action=\"POST\">\r\n+    <form action=\"/admin/checkuser\" method=\"POST\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658149609525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/admin/checkuser\" method=\"POST\">\r\n+    <form action=\"/checkuser\" method=\"POST\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                },
+                {
+                    "date": 1658149618775,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,9 +138,9 @@\n     <div class=\"background\">\r\n         <div class=\"shape\"></div>\r\n         <div class=\"shape\"></div>\r\n     </div>\r\n-    <form action=\"/checkuser\" method=\"POST\">\r\n+    <form action=\"/admin/checkuser\" method=\"POST\">\r\n         <h3>Login Here</h3>\r\n \r\n         <label for=\"username\">Username</label>\r\n         <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\" name=\"user_name\">\r\n"
+                }
+            ],
+            "date": 1658146235561,
+            "name": "Commit-0",
+            "content": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <!-- Design by foolishdeveloper.com -->\r\n    <title>Glassmorphism login Form Tutorial in html css</title>\r\n \r\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\">\r\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css\">\r\n    <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap\" rel=\"stylesheet\">\r\n    <!--Stylesheet-->\r\n    <style media=\"screen\">\r\n      *,\r\n*:before,\r\n*:after{\r\n    padding: 0;\r\n    margin: 0;\r\n    box-sizing: border-box;\r\n}\r\nbody{\r\n    background-color: #080710;\r\n}\r\n.background{\r\n    width: 430px;\r\n    height: 520px;\r\n    position: absolute;\r\n    transform: translate(-50%,-50%);\r\n    left: 50%;\r\n    top: 50%;\r\n}\r\n.background .shape{\r\n    height: 200px;\r\n    width: 200px;\r\n    position: absolute;\r\n    border-radius: 50%;\r\n}\r\n.shape:first-child{\r\n    background: linear-gradient(\r\n        #1845ad,\r\n        #23a2f6\r\n    );\r\n    left: -80px;\r\n    top: -80px;\r\n}\r\n.shape:last-child{\r\n    background: linear-gradient(\r\n        to right,\r\n        #ff512f,\r\n        #f09819\r\n    );\r\n    right: -30px;\r\n    bottom: -80px;\r\n}\r\nform{\r\n    height: 520px;\r\n    width: 400px;\r\n    background-color: rgba(255,255,255,0.13);\r\n    position: absolute;\r\n    transform: translate(-50%,-50%);\r\n    top: 50%;\r\n    left: 50%;\r\n    border-radius: 10px;\r\n    backdrop-filter: blur(10px);\r\n    border: 2px solid rgba(255,255,255,0.1);\r\n    box-shadow: 0 0 40px rgba(8,7,16,0.6);\r\n    padding: 50px 35px;\r\n}\r\nform *{\r\n    font-family: 'Poppins',sans-serif;\r\n    color: #ffffff;\r\n    letter-spacing: 0.5px;\r\n    outline: none;\r\n    border: none;\r\n}\r\nform h3{\r\n    font-size: 32px;\r\n    font-weight: 500;\r\n    line-height: 42px;\r\n    text-align: center;\r\n}\r\n\r\nlabel{\r\n    display: block;\r\n    margin-top: 30px;\r\n    font-size: 16px;\r\n    font-weight: 500;\r\n}\r\ninput{\r\n    display: block;\r\n    height: 50px;\r\n    width: 100%;\r\n    background-color: rgba(255,255,255,0.07);\r\n    border-radius: 3px;\r\n    padding: 0 10px;\r\n    margin-top: 8px;\r\n    font-size: 14px;\r\n    font-weight: 300;\r\n}\r\n::placeholder{\r\n    color: #e5e5e5;\r\n}\r\nbutton{\r\n    margin-top: 50px;\r\n    width: 100%;\r\n    background-color: #ffffff;\r\n    color: #080710;\r\n    padding: 15px 0;\r\n    font-size: 18px;\r\n    font-weight: 600;\r\n    border-radius: 5px;\r\n    cursor: pointer;\r\n}\r\n.social{\r\n  margin-top: 30px;\r\n  display: flex;\r\n}\r\n.social div{\r\n  background: red;\r\n  width: 150px;\r\n  border-radius: 3px;\r\n  padding: 5px 10px 10px 5px;\r\n  background-color: rgba(255,255,255,0.27);\r\n  color: #eaf0fb;\r\n  text-align: center;\r\n}\r\n.social div:hover{\r\n  background-color: rgba(255,255,255,0.47);\r\n}\r\n.social .fb{\r\n  margin-left: 25px;\r\n}\r\n.social i{\r\n  margin-right: 4px;\r\n}\r\n\r\n    </style>\r\n</head>\r\n<body>\r\n    <div class=\"background\">\r\n        <div class=\"shape\"></div>\r\n        <div class=\"shape\"></div>\r\n    </div>\r\n    <form>\r\n        <h3>Login Here</h3>\r\n\r\n        <label for=\"username\">Username</label>\r\n        <input type=\"text\" placeholder=\"Email or Phone\" id=\"username\">\r\n\r\n        <label for=\"password\">Password</label>\r\n        <input type=\"password\" placeholder=\"Password\" id=\"password\">\r\n\r\n        <button>Log In</button>\r\n        <div class=\"social\">\r\n          <div class=\"go\"><i class=\"fab fa-google\"></i>  Google</div>\r\n          <div class=\"fb\"><i class=\"fab fa-facebook\"></i>  Facebook</div>\r\n        </div>\r\n    </form>\r\n</body>\r\n</html>\r\n"
+        }
+    ]
+}

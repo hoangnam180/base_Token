@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/views/layout/main_layout.ejs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1658144772195,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658144802900,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,12 @@\n+<!DOCTYPE html>\r\n+<html lang=\"en\">\r\n+<head>\r\n+    <meta charset=\"UTF-8\">\r\n+    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n+    <title>Document</title>\r\n+</head>\r\n+<body>\r\n+    <h1>Main templge</h1>\r\n+</body>\r\n+</html>\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1658144772195,
+            "name": "Commit-0",
+            "content": ""
+        }
+    ]
+}

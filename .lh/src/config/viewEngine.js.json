@@ -1,0 +1,94 @@
+{
+    "sourceFile": "src/config/viewEngine.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 19,
+            "patches": [
+                {
+                    "date": 1658143665594,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658143757483,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n import express from 'express';\r\n+import path from 'path';\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n+    app.set('views', path.join(__dirname, 'views'))\r\n     app.set('view engine', 'ejs')\r\n-    app.set('views', './src/views')\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658143790166,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n import express from 'express';\r\n import path from 'path';\r\n+import __dirname from '../../src/config/__dirname';\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('views', path.join(__dirname, 'views'))\r\n     app.set('view engine', 'ejs')\r\n"
+                },
+                {
+                    "date": 1658143888762,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,6 @@\n import express from 'express';\r\n-import path from 'path';\r\n-import __dirname from '../../src/config/__dirname';\r\n+const path = require('path')\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('views', path.join(__dirname, 'views'))\r\n     app.set('view engine', 'ejs')\r\n"
+                },
+                {
+                    "date": 1658143918420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n import express from 'express';\r\n-const path = require('path')\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n-    app.set('views', path.join(__dirname, 'views'))\r\n     app.set('view engine', 'ejs')\r\n+    app.set('views', './src/views')\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144119157,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import express from 'express';\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n-    app.set('views', './src/views')\r\n+    app.set('views', path.join(__dirname, 'views'));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144127171,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,7 @@\n import express from 'express';\r\n+var path = require('path');\r\n+\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', path.join(__dirname, 'views'));\r\n"
+                },
+                {
+                    "date": 1658144143972,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,8 @@\n import express from 'express';\r\n-var path = require('path');\r\n-\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n-    app.set('views', path.join(__dirname, 'views'));\r\n+    app.set('views', './src/views')\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144331812,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n import express from 'express';\r\n+import path from 'path';\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n"
+                },
+                {
+                    "date": 1658144339232,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,7 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n+\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144349050,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-\r\n+    console.log(path.join(__dirname, 'views'));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144388413,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-    console.log(path.join(__dirname, 'views'));\r\n+    console.log(path.join(__dirname));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144402863,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-    console.log(path.join(__dirname));\r\n+    console.log(path.join(__dirname, '../src/views'));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144418082,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-    console.log(path.join(__dirname, '../src/views'));\r\n+    console.log(path.join(__dirname, '/views'));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144439685,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-    console.log(path.join(__dirname, '/views'));\r\n+    console.log(path.join(__dirname, './views'));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144481443,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-    console.log(path.join(__dirname, './views'));\r\n+    console.log(path.join(__dirname));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144501277,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-    console.log(path.join(__dirname));\r\n+    console.log(path.join(__dirname, '../views'));\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144518066,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,8 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', './src/views')\r\n-    console.log(path.join(__dirname, '../views'));\r\n+    console.log();\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144527690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import path from 'path';\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n-    app.set('views', './src/views')\r\n+    app.set('views', path.join(__dirname, '../views'))\r\n     console.log();\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658144564548,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,7 @@\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n     app.set('views', path.join(__dirname, '../views'))\r\n-    console.log();\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1658143665594,
+            "name": "Commit-0",
+            "content": "import express from 'express';\r\nconst configViewEngine = (app) => {\r\n    app.use(express.static('./src/public'))\r\n    app.set('view engine', 'ejs')\r\n    app.set('views', './src/views')\r\n}\r\n\r\nexport default configViewEngine;"
+        }
+    ]
+}

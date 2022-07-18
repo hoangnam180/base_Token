@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 20,
+            "activePatchIndex": 22,
             "patches": [
                 {
                     "date": 1657863426399,
@@ -88,6 +88,14 @@
                 {
                     "date": 1658061432675,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,10 @@\n configViewEngine(app)\r\n \r\n //init web route\r\n initWebRoute(app)\r\n+//init api route\r\n+initAPIRoute(app)\r\n \r\n \r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n"
+                },
+                {
+                    "date": 1658164769452,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,23 +1,26 @@\n require('dotenv').config()\r\n import express from 'express'\r\n-import initWebRoute from './router/web'\r\n+import initWebRoute from './router/index.js'\r\n import configViewEngine from './config/viewEngine'\r\n-import initAPIRoute from './router/api'\r\n+import morgan from 'morgan'\r\n // import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n+const cookieParser = require(\"cookie-parser\");\r\n \r\n+app.use(morgan(\"combined\"))\r\n+\r\n+app.use(cookieParser());\r\n app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n \r\n+\r\n //config view engine\r\n configViewEngine(app)\r\n \r\n //init web route\r\n initWebRoute(app)\r\n-//init api route\r\n-initAPIRoute(app)\r\n \r\n \r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n"
+                },
+                {
+                    "date": 1658164774650,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,12 +9,12 @@\n const cookieParser = require(\"cookie-parser\");\r\n \r\n app.use(morgan(\"combined\"))\r\n \r\n-app.use(cookieParser());\r\n app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n \r\n+app.use(cookieParser());\r\n \r\n //config view engine\r\n configViewEngine(app)\r\n \r\n"
                 }
             ],
             "date": 1657863426399,
