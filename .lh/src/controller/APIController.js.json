@@ -1,0 +1,126 @@
+{
+    "sourceFile": "src/controller/APIController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 27,
+            "patches": [
+                {
+                    "date": 1658061210954,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658061228611,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n const getAllUsers = (req, res) => {\r\n \r\n }\r\n \r\n-export.exports = {\r\n+module.exports = {\r\n     getAllUsers\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658061491591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,16 @@\n const getAllUsers = (req, res) => {\r\n+    return res.status(200).json({\r\n+        message: 'Get all users',\r\n+        data: [\r\n+            {\r\n+                id: 1,\r\n+                name: 'John',\r\n\\ No newline at end of file\n+                email: '@gmail.com',\r\n+                password: '123456'\r\n+            },\r\n+            {\r\n+            }\r\n \r\n-}\r\n-\r\n module.exports = {\r\n-    getAllUsers\r\n-}\n+                getAllUsers\r\n+            }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658061517265,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,11 +6,12 @@\n                 id: 1,\r\n                 name: 'John',\r\n                 email: '@gmail.com',\r\n                 password: '123456'\r\n-            },\r\n-            {\r\n             }\r\n+        ]\r\n+    })\r\n+}\r\n \r\n\\ No newline at end of file\n module.exports = {\r\n-                getAllUsers\r\n-            }\n+    getAllUsers\r\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658088165612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,7 @@\n+import pool from '../config/connectDatabase'\r\n const getAllUsers = (req, res) => {\r\n+    const []\r\n     return res.status(200).json({\r\n         message: 'Get all users',\r\n         data: [\r\n             {\r\n"
+                },
+                {
+                    "date": 1658088176391,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import pool from '../config/connectDatabase'\r\n const getAllUsers = (req, res) => {\r\n-    const []\r\n+    const [rows, fields] = await pool.execute('SELECT * FROM `USERS`')\r\n     return res.status(200).json({\r\n         message: 'Get all users',\r\n         data: [\r\n             {\r\n"
+                },
+                {
+                    "date": 1658088187533,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n import pool from '../config/connectDatabase'\r\n-const getAllUsers = (req, res) => {\r\n+const getAllUsers = async (req, res) => {\r\n     const [rows, fields] = await pool.execute('SELECT * FROM `USERS`')\r\n     return res.status(200).json({\r\n         message: 'Get all users',\r\n         data: [\r\n"
+                },
+                {
+                    "date": 1658088246726,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,16 +2,9 @@\n const getAllUsers = async (req, res) => {\r\n     const [rows, fields] = await pool.execute('SELECT * FROM `USERS`')\r\n     return res.status(200).json({\r\n         message: 'Get all users',\r\n-        data: [\r\n-            {\r\n-                id: 1,\r\n-                name: 'John',\r\n-                email: '@gmail.com',\r\n-                password: '123456'\r\n-            }\r\n-        ]\r\n+        data: rows\r\n     })\r\n }\r\n \r\n module.exports = {\r\n"
+                },
+                {
+                    "date": 1658088435457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,16 @@\n         message: 'Get all users',\r\n         data: rows\r\n     })\r\n }\r\n+const addUser = async (req, res) => {\r\n+    const { name, email, password } = req.body\r\n+    const [rows, fields] = await pool.execute('INSERT INTO `USERS` (`name`, `email`, `password`) VALUES (?, ?, ?)', [name, email, password])\r\n+    return res.status(200).json({\r\n+        message: 'Add user',\r\n+        data: rows\r\n+    })\r\n+}\r\n \r\n module.exports = {\r\n     getAllUsers\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658119406976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         message: 'Get all users',\r\n         data: rows\r\n     })\r\n }\r\n-const addUser = async (req, res) => {\r\n+const createNewUser = async (req, res) => {\r\n     const { name, email, password } = req.body\r\n     const [rows, fields] = await pool.execute('INSERT INTO `USERS` (`name`, `email`, `password`) VALUES (?, ?, ?)', [name, email, password])\r\n     return res.status(200).json({\r\n         message: 'Add user',\r\n"
+                },
+                {
+                    "date": 1658119492429,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,12 +6,18 @@\n         data: rows\r\n     })\r\n }\r\n const createNewUser = async (req, res) => {\r\n-    const { name, email, password } = req.body\r\n-    const [rows, fields] = await pool.execute('INSERT INTO `USERS` (`name`, `email`, `password`) VALUES (?, ?, ?)', [name, email, password])\r\n-    return res.status(200).json({\r\n-        message: 'Add user',\r\n+    const { first_name, last_name, email, age } = req.body;\r\n+    if (!first_name || !last_name || !email || !age) {\r\n+        return res.status(400).json({\r\n+            message: 'Bad request',\r\n+            data: 'Please fill all field'\r\n+        })\r\n+    }\r\n+    const [rows] = await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n+    return res.status(201).json({\r\n+        message: 'Create new user',\r\n         data: rows\r\n     })\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658119501487,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,6 +21,7 @@\n     })\r\n }\r\n \r\n module.exports = {\r\n-    getAllUsers\r\n+    getAllUsers,\r\n+    createNewUser\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658120431431,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n             data: 'Please fill all field'\r\n         })\r\n     }\r\n     const [rows] = await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n+    console.log(rows);\r\n     return res.status(201).json({\r\n         message: 'Create new user',\r\n         data: rows\r\n     })\r\n"
+                },
+                {
+                    "date": 1658120461765,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n             message: 'Bad request',\r\n             data: 'Please fill all field'\r\n         })\r\n     }\r\n-    const [rows] = await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n+    const rows = await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n     console.log(rows);\r\n     return res.status(201).json({\r\n         message: 'Create new user',\r\n         data: rows\r\n"
+                },
+                {
+                    "date": 1658120491576,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,13 +13,11 @@\n             message: 'Bad request',\r\n             data: 'Please fill all field'\r\n         })\r\n     }\r\n-    const rows = await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n-    console.log(rows);\r\n+    await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n     return res.status(201).json({\r\n         message: 'Create new user',\r\n-        data: rows\r\n     })\r\n }\r\n \r\n module.exports = {\r\n"
+                },
+                {
+                    "date": 1658120625400,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,12 @@\n     return res.status(201).json({\r\n         message: 'Create new user',\r\n     })\r\n }\r\n+const getUserById = async (req, res) => {\r\n \r\n+}\r\n+\r\n module.exports = {\r\n     getAllUsers,\r\n     createNewUser\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658120779992,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,24 @@\n         message: 'Create new user',\r\n     })\r\n }\r\n const getUserById = async (req, res) => {\r\n-\r\n+    const { id } = req.params;\r\n+    if (!id) {\r\n+        return res.status(400).json({\r\n+            message: \"bad request\",\r\n+        })\r\n+    }\r\n+    const [rows] = await pool.execute(\"select * from `USERS` where id=?\", [id]);\r\n+    if (rows.length === 0) {\r\n+        return res.status(404).json({\r\n+            message: \"user not found\",\r\n+        })\r\n+    }\r\n+    return res.status(200).json({\r\n+        message: \"get user by id\",\r\n+        data: rows[0]\r\n+    })\r\n }\r\n \r\n module.exports = {\r\n     getAllUsers,\r\n"
+                },
+                {
+                    "date": 1658120813143,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,6 +39,7 @@\n }\r\n \r\n module.exports = {\r\n     getAllUsers,\r\n-    createNewUser\r\n+    createNewUser,\r\n+    getUserById\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658120962446,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     })\r\n }\r\n const getUserById = async (req, res) => {\r\n     const { id } = req.params;\r\n+    console.log(id);\r\n     if (!id) {\r\n         return res.status(400).json({\r\n             message: \"bad request\",\r\n         })\r\n"
+                },
+                {
+                    "date": 1658121270479,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,10 +37,14 @@\n         message: \"get user by id\",\r\n         data: rows[0]\r\n     })\r\n }\r\n+const updateUser = async (req, res) => {\r\n+    const\r\n+}\r\n \r\n module.exports = {\r\n     getAllUsers,\r\n     createNewUser,\r\n-    getUserById\r\n+    getUserById,\r\n+    updateUser\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658121345971,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,19 @@\n         data: rows[0]\r\n     })\r\n }\r\n const updateUser = async (req, res) => {\r\n-    const\r\n+    const { first_name, last_name, email, age, id } = req.body;\r\n+    if (!first_name || !last_name || !email || !age || !id) {\r\n+        return res.status(400).json({\r\n+            message: 'Bad request',\r\n+            data: 'Please fill all field'\r\n+        })\r\n+    }\r\n+    await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n+    return res.status(201).json({\r\n+        message: 'Create new user',\r\n+    })\r\n }\r\n \r\n module.exports = {\r\n     getAllUsers,\r\n"
+                },
+                {
+                    "date": 1658121416282,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,11 +45,11 @@\n             message: 'Bad request',\r\n             data: 'Please fill all field'\r\n         })\r\n     }\r\n-    await pool.execute('INSERT INTO `USERS` (`first_name`, `last_name`, `email`, `age`) VALUES (?, ?, ?, ?)', [first_name, last_name, email, age]);\r\n+    await pool.execute('UPDATE `USERS` SET `first_name` = ?, `last_name` = ?, `email` = ?, `age` = ? WHERE `id` = ?', [first_name, last_name, email, age, id]);\r\n     return res.status(201).json({\r\n-        message: 'Create new user',\r\n+        message: 'update user',\r\n     })\r\n }\r\n \r\n module.exports = {\r\n"
+                },
+                {
+                    "date": 1658121437573,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,11 +45,12 @@\n             message: 'Bad request',\r\n             data: 'Please fill all field'\r\n         })\r\n     }\r\n-    await pool.execute('UPDATE `USERS` SET `first_name` = ?, `last_name` = ?, `email` = ?, `age` = ? WHERE `id` = ?', [first_name, last_name, email, age, id]);\r\n+    const [rows] = await pool.execute('UPDATE `USERS` SET `first_name` = ?, `last_name` = ?, `email` = ?, `age` = ? WHERE `id` = ?', [first_name, last_name, email, age, id]);\r\n     return res.status(201).json({\r\n         message: 'update user',\r\n+        data: rows\r\n     })\r\n }\r\n \r\n module.exports = {\r\n"
+                },
+                {
+                    "date": 1658121539669,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,9 +46,9 @@\n             data: 'Please fill all field'\r\n         })\r\n     }\r\n     const [rows] = await pool.execute('UPDATE `USERS` SET `first_name` = ?, `last_name` = ?, `email` = ?, `age` = ? WHERE `id` = ?', [first_name, last_name, email, age, id]);\r\n-    return res.status(201).json({\r\n+    return res.status(200).json({\r\n         message: 'update user',\r\n         data: rows\r\n     })\r\n }\r\n"
+                },
+                {
+                    "date": 1658121562532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,8 @@\n     }\r\n     const [rows] = await pool.execute('UPDATE `USERS` SET `first_name` = ?, `last_name` = ?, `email` = ?, `age` = ? WHERE `id` = ?', [first_name, last_name, email, age, id]);\r\n     return res.status(200).json({\r\n         message: 'update user',\r\n-        data: rows\r\n     })\r\n }\r\n \r\n module.exports = {\r\n"
+                },
+                {
+                    "date": 1658121612285,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,8 +51,12 @@\n         message: 'update user',\r\n     })\r\n }\r\n \r\n+const deleteUser = async (req, res) => {\r\n+\r\n+}\r\n+\r\n module.exports = {\r\n     getAllUsers,\r\n     createNewUser,\r\n     getUserById,\r\n"
+                },
+                {
+                    "date": 1658121722726,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,19 @@\n     })\r\n }\r\n \r\n const deleteUser = async (req, res) => {\r\n-\r\n+    let id = req.params.id;\r\n+    if (!id) {\r\n+        return res.status(400).json({\r\n+            message: \"bad request\",\r\n+        })\r\n+    }\r\n+    const [rows] = await pool.execute('DELETE FROM `USERS` WHERE `id` = ?', [id]);\r\n+    return res.status(200).json({\r\n+        message: \"deleteUser\",\r\n+        data: rows\r\n+    })\r\n }\r\n \r\n module.exports = {\r\n     getAllUsers,\r\n"
+                },
+                {
+                    "date": 1658121730099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -69,6 +69,7 @@\n module.exports = {\r\n     getAllUsers,\r\n     createNewUser,\r\n     getUserById,\r\n-    updateUser\r\n+    updateUser,\r\n+    deleteUser\r\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1658061210954,
+            "name": "Commit-0",
+            "content": "const getAllUsers = (req, res) => {\r\n\r\n}\r\n\r\nexport.exports = {\r\n    getAllUsers\r\n}"
+        }
+    ]
+}

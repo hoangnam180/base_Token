@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 18,
+            "activePatchIndex": 20,
             "patches": [
                 {
                     "date": 1657863426399,
@@ -80,6 +80,14 @@
                 {
                     "date": 1658041271562,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n const port = process.env.PORT || 3000\r\n \r\n app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n+\r\n //config view engine\r\n configViewEngine(app)\r\n \r\n //init web route\r\n"
+                },
+                {
+                    "date": 1658061406134,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n require('dotenv').config()\r\n import express from 'express'\r\n import initWebRoute from './router/web'\r\n import configViewEngine from './config/viewEngine'\r\n+import initAPIRoute from './router/api'\r\n // import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n \r\n"
+                },
+                {
+                    "date": 1658061432675,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,10 @@\n configViewEngine(app)\r\n \r\n //init web route\r\n initWebRoute(app)\r\n+//init api route\r\n+initAPIRoute(app)\r\n \r\n \r\n app.listen(port, () => {\r\n     console.log(`Example app listening at http://localhost:${port}`)\r\n"
                 }
             ],
             "date": 1657863426399,
