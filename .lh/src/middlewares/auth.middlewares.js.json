@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 47,
+            "activePatchIndex": 55,
             "patches": [
                 {
                     "date": 1658163385479,
@@ -196,6 +196,38 @@
                 {
                     "date": 1658166901799,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,6 @@\n import pool from '../config/connectDatabase'\r\n const requireAuth = async (req, res, next) => {\r\n-    console.log(\"check querryfasdfasdfasdfasdfasdfsadfasdfasdfsd >>>>\", req.query);\r\n     if (!req.cookies.email) {\r\n         res.redirect('/admin');\r\n         return;\r\n     }\r\n"
+                },
+                {
+                    "date": 1658211314761,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.cookies.email}'`;\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n         req.data = [rows[0]];\r\n+        res.locals.user = rows[0];\r\n         next();\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658211968343,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n import pool from '../config/connectDatabase'\r\n const requireAuth = async (req, res, next) => {\r\n-    if (!req.cookies.email) {\r\n+    if (!req.signedCookies.email) {\r\n         res.redirect('/admin');\r\n         return;\r\n     }\r\n-    const sql = `SELECT * FROM thanhvien WHERE email = '${req.cookies.email}'`;\r\n+    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n         req.data = [rows[0]];\r\n         res.locals.user = rows[0];\r\n"
+                },
+                {
+                    "date": 1658212072033,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n import pool from '../config/connectDatabase'\r\n const requireAuth = async (req, res, next) => {\r\n+    console.log(req.cookies.email, req.signedCookies.email));\r\n     if (!req.signedCookies.email) {\r\n         res.redirect('/admin');\r\n         return;\r\n     }\r\n"
+                },
+                {
+                    "date": 1658212128848,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,6 @@\n import pool from '../config/connectDatabase'\r\n const requireAuth = async (req, res, next) => {\r\n-    console.log(req.cookies.email, req.signedCookies.email));\r\n     if (!req.signedCookies.email) {\r\n         res.redirect('/admin');\r\n         return;\r\n     }\r\n"
+                },
+                {
+                    "date": 1658212698366,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n import pool from '../config/connectDatabase'\r\n const requireAuth = async (req, res, next) => {\r\n+    console.log(req.signedCookies);\r\n     if (!req.signedCookies.email) {\r\n         res.redirect('/admin');\r\n         return;\r\n     }\r\n"
+                },
+                {
+                    "date": 1658217135166,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n         req.data = [rows[0]];\r\n         res.locals.user = rows[0];\r\n+        res.locals.query = req.query;\r\n         next();\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658217234216,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n         req.data = [rows[0]];\r\n         res.locals.user = rows[0];\r\n         res.locals.query = req.query;\r\n+        console.log(res.locals.query);\r\n         next();\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658217261172,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,8 @@\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n         req.data = [rows[0]];\r\n         res.locals.user = rows[0];\r\n         res.locals.query = req.query;\r\n-        console.log(res.locals.query);\r\n         next();\r\n     }\r\n }\r\n \r\n"
                 }
             ],
             "date": 1658163385479,

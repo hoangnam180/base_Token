@@ -1,0 +1,110 @@
+{
+    "sourceFile": "src/views/admin/sidebar.ejs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 23,
+            "patches": [
+                {
+                    "date": 1658214057709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658214147281,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,5 @@\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n-    <!--\r\n-Tip 1: You can change the color of the sidebar using: data-color=\"purple | blue | green | orange | red\"\r\n-\r\n-Tip 2: you can also add an image using data-image tag\r\n--->\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n                 Quản lý\r\n"
+                },
+                {
+                    "date": 1658214252939,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./table.html\">\r\n                     <i class=\"nc-icon nc-notes\"></i>\r\n-                    <p>Table List</p>\r\n+                    <p>Danh sách </p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./typography.html\">\r\n"
+                },
+                {
+                    "date": 1658214314018,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./table.html\">\r\n                     <i class=\"nc-icon nc-notes\"></i>\r\n-                    <p>Danh sách </p>\r\n+                    <p>Quản lý tài khoản </p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./typography.html\">\r\n"
+                },
+                {
+                    "date": 1658214327986,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,15 +14,15 @@\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./table.html\">\r\n                     <i class=\"nc-icon nc-notes\"></i>\r\n-                    <p>Quản lý tài khoản </p>\r\n+                    <p>Quản lý tài khoản</p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./typography.html\">\r\n                     <i class=\"nc-icon nc-paper-2\"></i>\r\n-                    <p>Typography</p>\r\n+                    <p>Quản lý </p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./icons.html\">\r\n"
+                },
+                {
+                    "date": 1658214350743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,21 +20,21 @@\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./typography.html\">\r\n                     <i class=\"nc-icon nc-paper-2\"></i>\r\n-                    <p>Quản lý </p>\r\n+                    <p>Quản lý danh mục</p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./icons.html\">\r\n                     <i class=\"nc-icon nc-atom\"></i>\r\n-                    <p>Icons</p>\r\n+                    <p>Quản lý hóa đơn</p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./maps.html\">\r\n                     <i class=\"nc-icon nc-pin-3\"></i>\r\n-                    <p>Maps</p>\r\n+                    <p>Quản lý sản phẩm</p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n                 <a class=\"nav-link\" href=\"./notifications.html\">\r\n"
+                },
+                {
+                    "date": 1658214393791,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n                     <p>Thông Tin User</p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n-                <a class=\"nav-link\" href=\"./table.html\">\r\n+                <a class=\"nav-link\" href=\"\">\r\n                     <i class=\"nc-icon nc-notes\"></i>\r\n                     <p>Quản lý tài khoản</p>\r\n                 </a>\r\n             </li>\r\n"
+                },
+                {
+                    "date": 1658214422306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n             </a>\r\n         </div>\r\n         <ul class=\"nav\">\r\n             <li class=\"nav-item active\">\r\n-                <a class=\"nav-link\" href=\"./user.html\">\r\n+                <a class=\"nav-link\" href=\"/admin/home\">\r\n                     <i class=\"nc-icon nc-circle-09\"></i>\r\n                     <p>Thông Tin User</p>\r\n                 </a>\r\n             </li>\r\n"
+                },
+                {
+                    "date": 1658214431416,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n             </a>\r\n         </div>\r\n         <ul class=\"nav\">\r\n             <li class=\"nav-item active\">\r\n-                <a class=\"nav-link\" href=\"/admin/home\">\r\n+                <a class=\"nav-link\" href=\"/admin/home.ejs\">\r\n                     <i class=\"nc-icon nc-circle-09\"></i>\r\n                     <p>Thông Tin User</p>\r\n                 </a>\r\n             </li>\r\n"
+                },
+                {
+                    "date": 1658214442490,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n             </a>\r\n         </div>\r\n         <ul class=\"nav\">\r\n             <li class=\"nav-item active\">\r\n-                <a class=\"nav-link\" href=\"/admin/home.ejs\">\r\n+                <a class=\"nav-link\" href=\"/admin/home.\">\r\n                     <i class=\"nc-icon nc-circle-09\"></i>\r\n                     <p>Thông Tin User</p>\r\n                 </a>\r\n             </li>\r\n"
+                },
+                {
+                    "date": 1658214466195,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,15 +6,15 @@\n             </a>\r\n         </div>\r\n         <ul class=\"nav\">\r\n             <li class=\"nav-item active\">\r\n-                <a class=\"nav-link\" href=\"/admin/home.\">\r\n+                <a class=\"nav-link\" href=\"/admin/home\">\r\n                     <i class=\"nc-icon nc-circle-09\"></i>\r\n                     <p>Thông Tin User</p>\r\n                 </a>\r\n             </li>\r\n             <li>\r\n-                <a class=\"nav-link\" href=\"\">\r\n+                <a class=\"nav-link\" href=\"/admin/account\">\r\n                     <i class=\"nc-icon nc-notes\"></i>\r\n                     <p>Quản lý tài khoản</p>\r\n                 </a>\r\n             </li>\r\n"
+                },
+                {
+                    "date": 1658216519284,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+<% const navItems = [\"home\", \"articles\", \"videos\", \"audios\"] %>\r\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n"
+                },
+                {
+                    "date": 1658216559327,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-<% const navItems = [\"home\", \"articles\", \"videos\", \"audios\"] %>\r\n+<% const navItems = [\"Thông Tin User\", \"Quản lý tài khoản\", \"Quản lý danh mục\", \"Quản lý hóa đơn\",\"Quản lý sản phẩm\"] %>\r\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n@@ -36,14 +36,8 @@\n                     <i class=\"nc-icon nc-pin-3\"></i>\r\n                     <p>Quản lý sản phẩm</p>\r\n                 </a>\r\n             </li>\r\n-            <li>\r\n-                <a class=\"nav-link\" href=\"./notifications.html\">\r\n-                    <i class=\"nc-icon nc-bell-55\"></i>\r\n-                    <p>Notifications</p>\r\n-                </a>\r\n-            </li>\r\n             <li class=\"nav-item active active-pro\">\r\n                 <a class=\"nav-link active\" href=\"upgrade.html\">\r\n                     <i class=\"nc-icon nc-alien-33\"></i>\r\n                     <p>Upgrade to PRO</p>\r\n"
+                },
+                {
+                    "date": 1658216609393,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,18 @@\n             <a href=\"#\" class=\"simple-text\">\r\n                 Quản lý\r\n             </a>\r\n         </div>\r\n+        <% navItems.forEach(navlink => { %>\r\n         <ul class=\"nav\">\r\n+            <li class=\"nav-item\">\r\n+                <a class=\"nav-link\" href=\"#\">\r\n+                    <i class=\"nc-icon nc-circle-09\"></i>\r\n+                    <p><%= navlink %></p>\r\n+                </a>\r\n+            </li>\r\n+        <% }) %>\r\n+        <ul class=\"nav\">\r\n             <li class=\"nav-item active\">\r\n                 <a class=\"nav-link\" href=\"/admin/home\">\r\n                     <i class=\"nc-icon nc-circle-09\"></i>\r\n                     <p>Thông Tin User</p>\r\n"
+                },
+                {
+                    "date": 1658216789817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n-<% const navItems = [\"Thông Tin User\", \"Quản lý tài khoản\", \"Quản lý danh mục\", \"Quản lý hóa đơn\",\"Quản lý sản phẩm\"] %>\r\n+<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name :\"Quản lý tài khoản\",\"nc-icon nc-notes\"}, \r\n+{\"Quản lý danh mục\",nc-icon nc-paper-2}, {\"Quản lý hóa đơn\",nc-icon nc-atom},{\"Quản lý sản phẩm\",\"nc-icon nc-pin-3\"}] %>\r\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n@@ -9,9 +10,9 @@\n         <% navItems.forEach(navlink => { %>\r\n         <ul class=\"nav\">\r\n             <li class=\"nav-item\">\r\n                 <a class=\"nav-link\" href=\"#\">\r\n-                    <i class=\"nc-icon nc-circle-09\"></i>\r\n+                    <i class=\"<%= navlink %>\"></i>\r\n                     <p><%= navlink %></p>\r\n                 </a>\r\n             </li>\r\n         <% }) %>\r\n"
+                },
+                {
+                    "date": 1658216861807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n-<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name :\"Quản lý tài khoản\",\"nc-icon nc-notes\"}, \r\n-{\"Quản lý danh mục\",nc-icon nc-paper-2}, {\"Quản lý hóa đơn\",nc-icon nc-atom},{\"Quản lý sản phẩm\",\"nc-icon nc-pin-3\"}] %>\r\n+<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name : \"Quản lý tài khoản\",icon : \"nc-icon nc-notes\"}, \r\n+{name :\"Quản lý danh mục\",icon : nc-icon nc-paper-2}, {name:\"Quản lý hóa đơn\",icon:\"nc-icon nc-atom\"},{name:\"Quản lý sản phẩm\",icon :\"nc-icon nc-pin-3\"}] %>\r\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n"
+                },
+                {
+                    "date": 1658216873836,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,10 @@\n         <% navItems.forEach(navlink => { %>\r\n         <ul class=\"nav\">\r\n             <li class=\"nav-item\">\r\n                 <a class=\"nav-link\" href=\"#\">\r\n-                    <i class=\"<%= navlink %>\"></i>\r\n-                    <p><%= navlink %></p>\r\n+                    <i class=\"<%= navlink.icon %>\"></i>\r\n+                    <p><%= navlink.name %></p>\r\n                 </a>\r\n             </li>\r\n         <% }) %>\r\n         <ul class=\"nav\">\r\n"
+                },
+                {
+                    "date": 1658216896976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n-<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name : \"Quản lý tài khoản\",icon : \"nc-icon nc-notes\"}, \r\n-{name :\"Quản lý danh mục\",icon : nc-icon nc-paper-2}, {name:\"Quản lý hóa đơn\",icon:\"nc-icon nc-atom\"},{name:\"Quản lý sản phẩm\",icon :\"nc-icon nc-pin-3\"}] %>\r\n+<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name : \"Quản lý tài khoản\",icon : \"nc-icon nc-notes\"}] %>\r\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n"
+                },
+                {
+                    "date": 1658216946172,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name : \"Quản lý tài khoản\",icon : \"nc-icon nc-notes\"}] %>\r\n+<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name : \"Quản lý tài khoản\",icon : \"nc-icon nc-notes\"},] %>\r\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n"
+                },
+                {
+                    "date": 1658216973655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name : \"Quản lý tài khoản\",icon : \"nc-icon nc-notes\"},] %>\r\n+<% const navItems = [{name : \"Thông Tin User\",icon :\"nc-icon nc-circle-09\"}, {name : \"Quản lý tài khoản\",icon : \"nc-icon nc-notes\"},{name :\"Quản lý danh mục\",icon :\" nc-icon nc-paper-2\"}, {name:\"Quản lý hóa đơn\",icon:\"nc-icon nc-atom\"},{name:\"Quản lý sản phẩm\",icon :\"nc-icon nc-pin-3\"}] %>\r\n <div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n     <div class=\"sidebar-wrapper\">\r\n         <div class=\"logo\">\r\n             <a href=\"#\" class=\"simple-text\">\r\n"
+                },
+                {
+                    "date": 1658216991074,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,43 +14,5 @@\n                     <p><%= navlink.name %></p>\r\n                 </a>\r\n             </li>\r\n         <% }) %>\r\n-        <ul class=\"nav\">\r\n-            <li class=\"nav-item active\">\r\n-                <a class=\"nav-link\" href=\"/admin/home\">\r\n-                    <i class=\"nc-icon nc-circle-09\"></i>\r\n-                    <p>Thông Tin User</p>\r\n-                </a>\r\n-            </li>\r\n-            <li>\r\n-                <a class=\"nav-link\" href=\"/admin/account\">\r\n-                    <i class=\"nc-icon nc-notes\"></i>\r\n-                    <p>Quản lý tài khoản</p>\r\n-                </a>\r\n-            </li>\r\n-            <li>\r\n-                <a class=\"nav-link\" href=\"./typography.html\">\r\n-                    <i class=\"nc-icon nc-paper-2\"></i>\r\n-                    <p>Quản lý danh mục</p>\r\n-                </a>\r\n-            </li>\r\n-            <li>\r\n-                <a class=\"nav-link\" href=\"./icons.html\">\r\n-                    <i class=\"nc-icon nc-atom\"></i>\r\n-                    <p>Quản lý hóa đơn</p>\r\n-                </a>\r\n-            </li>\r\n-            <li>\r\n-                <a class=\"nav-link\" href=\"./maps.html\">\r\n-                    <i class=\"nc-icon nc-pin-3\"></i>\r\n-                    <p>Quản lý sản phẩm</p>\r\n-                </a>\r\n-            </li>\r\n-            <li class=\"nav-item active active-pro\">\r\n-                <a class=\"nav-link active\" href=\"upgrade.html\">\r\n-                    <i class=\"nc-icon nc-alien-33\"></i>\r\n-                    <p>Upgrade to PRO</p>\r\n-                </a>\r\n-            </li>\r\n-        </ul>\r\n     </div>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658217177384,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,9 @@\n             <li class=\"nav-item\">\r\n                 <a class=\"nav-link\" href=\"#\">\r\n                     <i class=\"<%= navlink.icon %>\"></i>\r\n                     <p><%= navlink.name %></p>\r\n+                    <p><%=  %></p>\r\n                 </a>\r\n             </li>\r\n         <% }) %>\r\n     </div>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658217200195,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             <li class=\"nav-item\">\r\n                 <a class=\"nav-link\" href=\"#\">\r\n                     <i class=\"<%= navlink.icon %>\"></i>\r\n                     <p><%= navlink.name %></p>\r\n-                    <p><%=  %></p>\r\n+                    <p><%= query. %></p>\r\n                 </a>\r\n             </li>\r\n         <% }) %>\r\n     </div>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658217270882,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,8 @@\n             <li class=\"nav-item\">\r\n                 <a class=\"nav-link\" href=\"#\">\r\n                     <i class=\"<%= navlink.icon %>\"></i>\r\n                     <p><%= navlink.name %></p>\r\n-                    <p><%= query. %></p>\r\n                 </a>\r\n             </li>\r\n         <% }) %>\r\n     </div>\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1658214057709,
+            "name": "Commit-0",
+            "content": "<div class=\"sidebar\" data-image=\"../assets/img/sidebar-5.jpg\">\r\n    <!--\r\nTip 1: You can change the color of the sidebar using: data-color=\"purple | blue | green | orange | red\"\r\n\r\nTip 2: you can also add an image using data-image tag\r\n-->\r\n    <div class=\"sidebar-wrapper\">\r\n        <div class=\"logo\">\r\n            <a href=\"#\" class=\"simple-text\">\r\n                Quản lý\r\n            </a>\r\n        </div>\r\n        <ul class=\"nav\">\r\n            <li class=\"nav-item active\">\r\n                <a class=\"nav-link\" href=\"./user.html\">\r\n                    <i class=\"nc-icon nc-circle-09\"></i>\r\n                    <p>Thông Tin User</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a class=\"nav-link\" href=\"./table.html\">\r\n                    <i class=\"nc-icon nc-notes\"></i>\r\n                    <p>Table List</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a class=\"nav-link\" href=\"./typography.html\">\r\n                    <i class=\"nc-icon nc-paper-2\"></i>\r\n                    <p>Typography</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a class=\"nav-link\" href=\"./icons.html\">\r\n                    <i class=\"nc-icon nc-atom\"></i>\r\n                    <p>Icons</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a class=\"nav-link\" href=\"./maps.html\">\r\n                    <i class=\"nc-icon nc-pin-3\"></i>\r\n                    <p>Maps</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a class=\"nav-link\" href=\"./notifications.html\">\r\n                    <i class=\"nc-icon nc-bell-55\"></i>\r\n                    <p>Notifications</p>\r\n                </a>\r\n            </li>\r\n            <li class=\"nav-item active active-pro\">\r\n                <a class=\"nav-link active\" href=\"upgrade.html\">\r\n                    <i class=\"nc-icon nc-alien-33\"></i>\r\n                    <p>Upgrade to PRO</p>\r\n                </a>\r\n            </li>\r\n        </ul>\r\n    </div>"
+        }
+    ]
+}

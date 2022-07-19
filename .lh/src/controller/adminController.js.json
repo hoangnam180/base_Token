@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 148,
+            "activePatchIndex": 163,
             "patches": [
                 {
                     "date": 1658143462253,
@@ -600,6 +600,66 @@
                 {
                     "date": 1658167923411,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n         }\r\n         return res.render('admin/login.ejs', { err: '' })\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        if (!req.cookies.email) {\r\n+        if (req.cookies.email) {\r\n             return res.render('admin/home.ejs', { data: req.data[0] })\r\n         }\r\n     }\r\n     //[POST]\r\n"
+                },
+                {
+                    "date": 1658210618877,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import md5 from 'md5';\r\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = (req, res) => {\r\n@@ -15,10 +16,11 @@\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n+        const hashpassword = md5(password);\r\n         if (!user_name || !password) { return }\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashpassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n"
+                },
+                {
+                    "date": 1658210644921,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const hashpassword = md5(password);\r\n+        console.log(hashpassword);\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashpassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n"
+                },
+                {
+                    "date": 1658210839869,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n+        console.log(password);\r\n         const hashpassword = md5(password);\r\n         console.log(hashpassword);\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashpassword}'`;\r\n"
+                },
+                {
+                    "date": 1658210865847,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,10 +17,8 @@\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         console.log(password);\r\n-        const hashpassword = md5(password);\r\n-        console.log(hashpassword);\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashpassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n"
+                },
+                {
+                    "date": 1658210879644,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         console.log(password);\r\n         if (!user_name || !password) { return }\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashpassword}'`;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n"
+                },
+                {
+                    "date": 1658210962270,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,10 @@\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n-        console.log(password);\r\n+        hashPassword = md5(Number(password));\r\n+        console.log(hashPassword);\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n"
+                },
+                {
+                    "date": 1658210976005,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     }\r\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n-        hashPassword = md5(Number(password));\r\n+        const hashPassword = md5(Number(password));\r\n         console.log(hashPassword);\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n"
+                },
+                {
+                    "date": 1658211009379,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,11 +17,10 @@\n     //[POST]\r\n     checkuser = async (req, res) => {\r\n         const { user_name, password } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n-        console.log(hashPassword);\r\n         if (!user_name || !password) { return }\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${password}'`;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n \r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n"
+                },
+                {
+                    "date": 1658211071016,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,8 @@\n         const hashPassword = md5(Number(password));\r\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n-\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email);\r\n             res.render('admin/home.ejs', { data: rows[0] })\r\n             return;\r\n"
+                },
+                {
+                    "date": 1658211705435,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,11 @@\n         if (!user_name || !password) { return }\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            res.cookie('email', rows[0].email);\r\n+            res.cookie('email', rows[0].email, {\r\n+\r\n+            });\r\n             res.render('admin/home.ejs', { data: rows[0] })\r\n             return;\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658211721438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n             res.cookie('email', rows[0].email, {\r\n-\r\n+                signed: true,\r\n             });\r\n             res.render('admin/home.ejs', { data: rows[0] })\r\n             return;\r\n         }\r\n"
+                },
+                {
+                    "date": 1658212754224,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class AdminController {\r\n     login = (req, res) => {\r\n-        if (req.cookies.email) {\r\n+        if (req.signedCookies.email) {\r\n             res.redirect('/admin/home');\r\n             return;\r\n         }\r\n         return res.render('admin/login.ejs', { err: '' })\r\n"
+                },
+                {
+                    "date": 1658212817007,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         }\r\n         return res.render('admin/login.ejs', { err: '' })\r\n     }\r\n     getHomepage = (req, res) => {\r\n-        if (req.cookies.email) {\r\n+        if (req.signedCookies.email) {\r\n             return res.render('admin/home.ejs', { data: req.data[0] })\r\n         }\r\n     }\r\n     //[POST]\r\n"
+                },
+                {
+                    "date": 1658214599426,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,8 +37,14 @@\n     logout = (req, res) => {\r\n         res.clearCookie('email');\r\n         return res.redirect('/admin');\r\n     }\r\n+\r\n+\r\n+    account = async (req, res) => {\r\n+        const sql = `SELECT * FROM thanhvien`;\r\n+        const [rows] = await pool.execute(sql);\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new AdminController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658214613344,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n \r\n     account = async (req, res) => {\r\n         const sql = `SELECT * FROM thanhvien`;\r\n         const [rows] = await pool.execute(sql);\r\n+        return res.render('admin/account.ejs', { data: rows })\r\n     }\r\n }\r\n \r\n \r\n"
                 }
             ],
             "date": 1658143462253,

@@ -13,7 +13,7 @@ app.use(morgan("combined"))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.use(cookieParser());
+app.use(cookieParser('asdfsdgfsdr243234'));
 
 //config view engine
 configViewEngine(app)
