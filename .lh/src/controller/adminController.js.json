@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 163,
+            "activePatchIndex": 179,
             "patches": [
                 {
                     "date": 1658143462253,
@@ -660,6 +660,70 @@
                 {
                     "date": 1658214613344,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n \r\n     account = async (req, res) => {\r\n         const sql = `SELECT * FROM thanhvien`;\r\n         const [rows] = await pool.execute(sql);\r\n+        return res.render('admin/account.ejs', { data: rows })\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658222403828,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,51 +1,51 @@\n-import md5 from 'md5';\r\n-import pool from '../config/connectDatabase'\r\n-//[GET]\r\n-class AdminController {\r\n-    login = (req, res) => {\r\n-        if (req.signedCookies.email) {\r\n-            res.redirect('/admin/home');\r\n-            return;\r\n-        }\r\n-        return res.render('admin/login.ejs', { err: '' })\r\n-    }\r\n-    getHomepage = (req, res) => {\r\n-        if (req.signedCookies.email) {\r\n-            return res.render('admin/home.ejs', { data: req.data[0] })\r\n-        }\r\n-    }\r\n-    //[POST]\r\n-    checkuser = async (req, res) => {\r\n-        const { user_name, password } = req.body;\r\n-        const hashPassword = md5(Number(password));\r\n-        if (!user_name || !password) { return }\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashPassword}'`;\r\n-        const [rows] = await pool.execute(sql);\r\n-        if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-            res.cookie('email', rows[0].email, {\r\n-                signed: true,\r\n-            });\r\n-            res.render('admin/home.ejs', { data: rows[0] })\r\n-            return;\r\n-        }\r\n-        else {\r\n-            res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\r\n-            return;\r\n-        }\r\n-    }\r\n-\r\n-    logout = (req, res) => {\r\n-        res.clearCookie('email');\r\n-        return res.redirect('/admin');\r\n-    }\r\n-\r\n-\r\n-    account = async (req, res) => {\r\n-        const sql = `SELECT * FROM thanhvien`;\r\n-        const [rows] = await pool.execute(sql);\r\n-        return res.render('admin/account.ejs', { data: rows })\r\n-    }\r\n-}\r\n-\r\n-\r\n+import md5 from 'md5';\n+import pool from '../config/connectDatabase'\n+//[GET]\n+class AdminController {\n+    login = (req, res) => {\n+        if (req.signedCookies.email) {\n+            res.redirect('/admin/home');\n+            return;\n+        }\n+        return res.render('admin/login.ejs', { err: '' })\n+    }\n+    getHomepage = (req, res) => {\n+        if (req.signedCookies.email) {\n+            return res.render('admin/home.ejs', { data: req.data[0] })\n+        }\n+    }\n+    //[POST]\n+    checkuser = async (req, res) => {\n+        const { user_name, password } = req.body;\n+        const hashPassword = md5(Number(password));\n+        if (!user_name || !password) { return }\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${user_name}' AND mat_khau = '${hashPassword}'`;\n+        const [rows] = await pool.execute(sql);\n+        if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\n+            res.cookie('email', rows[0].email, {\n+                signed: true,\n+            });\n+            res.render('admin/home.ejs', { data: rows[0] })\n+            return;\n+        }\n+        else {\n+            res.render('admin/login.ejs', { err: 'Sai tài khoản hoặc mật khẩu' })\n+            return;\n+        }\n+    }\n+\n+    logout = (req, res) => {\n+        res.clearCookie('email');\n+        return res.redirect('/admin');\n+    }\n+\n+\n+    account = async (req, res) => {\n+        const sql = `SELECT * FROM thanhvien`;\n+        const [rows] = await pool.execute(sql);\n+        return res.render('admin/account.ejs', { data: rows, query: req.query })\n+    }\n+}\n+\n+\n module.exports = new AdminController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658222654958,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n+        console.log(query);\n         return res.render('admin/account.ejs', { data: rows, query: req.query })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658222690252,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,8 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        console.log(query);\n         return res.render('admin/account.ejs', { data: rows, query: req.query })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658222726574,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        return res.render('admin/account.ejs', { data: rows, query: req.query })\n+        return res.render('admin/account.ejs', { data: rows, query: query })\n     }\n }\n \n \n"
+                },
+                {
+                    "date": 1658222740784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n+        console.log(query);\n         return res.render('admin/account.ejs', { data: rows, query: query })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658222818334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        console.log(query);\n+        console.log(locals.query);\n         return res.render('admin/account.ejs', { data: rows, query: query })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658222837774,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,8 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        console.log(locals.query);\n         return res.render('admin/account.ejs', { data: rows, query: query })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658222845490,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n+        console.log(req.locals.query);\n         return res.render('admin/account.ejs', { data: rows, query: query })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658222861968,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,8 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        console.log(req.locals.query);\n         return res.render('admin/account.ejs', { data: rows, query: query })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658223002599,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,10 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        return res.render('admin/account.ejs', { data: rows, query: query })\n+        log\n+        return res.render('admin/account.ejs', { data: rows })\n     }\n }\n \n \n"
+                },
+                {
+                    "date": 1658223012090,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        log\n+        console.log(req.params);\n         return res.render('admin/account.ejs', { data: rows })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658223049335,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        console.log(req.params);\n+        console.log(req);\n         return res.render('admin/account.ejs', { data: rows })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658223106075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n         console.log(req);\n-        return res.render('admin/account.ejs', { data: rows })\n+        return res.render('admin/account.ejs', { data: rows, url: req.url })\n     }\n }\n \n \n"
+                },
+                {
+                    "date": 1658223257560,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        console.log(req);\n+        console.log(req.url);\n         return res.render('admin/account.ejs', { data: rows, url: req.url })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658223280917,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,8 @@\n \n     account = async (req, res) => {\n         const sql = `SELECT * FROM thanhvien`;\n         const [rows] = await pool.execute(sql);\n-        console.log(req.url);\n         return res.render('admin/account.ejs', { data: rows, url: req.url })\n     }\n }\n \n"
+                },
+                {
+                    "date": 1658223735129,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         return res.render('admin/login.ejs', { err: '' })\n     }\n     getHomepage = (req, res) => {\n         if (req.signedCookies.email) {\n-            return res.render('admin/home.ejs', { data: req.data[0] })\n+            return res.render('admin/home.ejs', { data: req.data[0], url: req.url })\n         }\n     }\n     //[POST]\n     checkuser = async (req, res) => {\n"
                 }
             ],
             "date": 1658143462253,

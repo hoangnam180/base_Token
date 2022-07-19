@@ -11,7 +11,7 @@ class AdminController {
     }
     getHomepage = (req, res) => {
         if (req.signedCookies.email) {
-            return res.render('admin/home.ejs', { data: req.data[0] })
+            return res.render('admin/home.ejs', { data: req.data[0], url: req.url })
         }
     }
     //[POST]
@@ -43,7 +43,7 @@ class AdminController {
     account = async (req, res) => {
         const sql = `SELECT * FROM thanhvien`;
         const [rows] = await pool.execute(sql);
-        return res.render('admin/account.ejs', { data: rows })
+        return res.render('admin/account.ejs', { data: rows, url: req.url })
     }
 }
 

@@ -1,4 +1,10 @@
-<% const navItems = [{name : "Thông Tin User",icon :"nc-icon nc-circle-09"}, {name : "Quản lý tài khoản",icon : "nc-icon nc-notes"},{name :"Quản lý danh mục",icon :" nc-icon nc-paper-2"}, {name:"Quản lý hóa đơn",icon:"nc-icon nc-atom"},{name:"Quản lý sản phẩm",icon :"nc-icon nc-pin-3"}] %>
+<% const navItems = [{ name: "Thông Tin User", icon: "nc-icon nc-circle-09", link: "/home" },
+                    { name: "Quản lý tài khoản", icon: "nc-icon nc-notes", link: "/account" },
+                    { name: "Quản lý danh mục", icon: " nc-icon nc-paper-2", link: "/category" },
+                    { name: "Quản lý hóa đơn", icon: "nc-icon nc-atom", link: "/bill" },
+                    { name: "Quản lý sản phẩm", icon: "nc-icon nc-pin-3", link: "/producs"}
+                    ] 
+%>
 <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
@@ -8,11 +14,23 @@
         </div>
         <% navItems.forEach(navlink => { %>
         <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="<%= navlink.icon %>"></i>
-                    <p><%= navlink.name %></p>
-                </a>
-            </li>
+            <% if(hrefUrl === navlink.link){ %>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/admin<%= navlink.link %>">
+                        <i class="<%= navlink.icon %>"></i>
+                        <p><%= navlink.name %></p>
+                    </a>
+                </li>
+        <% } 
+        else { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin<%= navlink.link %>">
+                        <i class="<%= navlink.icon %>"></i>
+                        <p><%= navlink.name %></p>
+                    </a>
+                </li>
+        <% } %>
+        %>
+
         <% }) %>
     </div>

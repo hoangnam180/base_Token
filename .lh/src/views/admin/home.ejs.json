@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 60,
+            "activePatchIndex": 61,
             "patches": [
                 {
                     "date": 1658157400977,
@@ -248,6 +248,10 @@
                 {
                     "date": 1658214968292,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,18 +1,4 @@\n-<!--\n-=========================================================\n- Light Bootstrap Dashboard - v2.0.1\n-=========================================================\n-\n- Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard\n- Copyright 2019 Creative Tim (https://www.creative-tim.com)\n- Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)\n-\n- Coded by Creative Tim\n-\n-=========================================================\n-\n- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  -->\n <!DOCTYPE html>\n <html lang=\"en\">\n \n <head>\n"
+                },
+                {
+                    "date": 1658223758453,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n </head>\n \n <body>\n     <div class=\"wrapper\">\n-        <%- include('./sidebar'); -%>\n+        <%- include('./sidebar',{hrefUrl : url}); -%>\n         </div>\n         <div class=\"main-panel\">\n             <!-- Navbar -->\n             <%- include('./navbar'); -%>\n"
                 }
             ],
             "date": 1658157400977,
