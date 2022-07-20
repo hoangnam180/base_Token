@@ -38,56 +38,52 @@
                          <div class="col-md-12">
                              <div class="card strpied-tabled-with-hover">
                                  <div class="card-header ">
-                                     <h4 class="card-title">Danh sách Tài khoản</h4>
+                                     <h4 class="card-title">Danh sách danh mục sản phẩm</h4>
                                  </div>
                                  <div class="card-body table-full-width table-responsive">
                                      <table class="table table-hover table-striped">
                                          <thead>
-                                             <th>ID</th>
-                                             <th>Tên</th>
-                                             <th>Email</th>
-                                             <th>Đia chỉ</th>
-                                             <th>Số điện thoại</th>
+                                             <th>Mã Hóa Đơn</th>
+                                             <th>Tên Khách Hàng</th>
                                          </thead>
                                          <tbody>
-                                            <% data.forEach(user => { %>
+                                            <% data.forEach(bill => { %>
                                                 <tr>
-                                                    <td><%= user.id_thanhvien %></td>
-                                                    <td><%= user.name %></td>
-                                                    <td><%= user.email %></td>
-                                                    <td><%= user.address %></td>
-                                                    <td><%= user.sdt %></td>
+                                                    <td><%= bill.id %></td>
+                                                    <td><%= bill.name %></td>
+                                                    <td><%= bill.name_product %></td>
+                                                    <td><%= bill.price %></td>
                                                     <td style="display:flex;gap: 20px;justify-content: flex-end;">
-                                                        <button data-toggle="modal" data-target="#delete-account" data-id="<%= user.id_thanhvien %>"  type="button" style="cursor: pointer;" class="btn btn-danger">Xóa</button>
+                                                        <button data-toggle="modal" data-target="#delete-bill" data-id="<%= bill.id %>"  type="button" style="cursor: pointer;" class="btn btn-danger">Xóa</button>
                                                 </td>
                                                 </tr>
                                                 <% }) %>
                                          </tbody>
                                      </table>
-                                     <form name="delete-accounts-form" method="POST"></form>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="delete-account" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Xóa User</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            </div>
-                                            <div class="modal-body">
-                                            Bạn có chắc muốn xóa user này không
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button id="btn-delete-account" type="button" class="btn btn-danger">Xóa</button>
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy bỏ</button>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
                              </div>
                          </div>
                      </div>
+                     <form name="delete-bills-form" method="POST"></form>
+                        <!-- Modal1 -->
+                        <div class="modal fade" id="delete-bill" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Xóa hóa đơn</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                Bạn có chắc muốn xóa hóa đơn này không
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="btn-delete-bill" type="button" class="btn btn-danger">Xóa</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy bỏ</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                  </div>
              </div>
              
@@ -111,23 +107,24 @@
  <script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
  <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
  <script src="../assets/js/demo.js"></script>
-    <script>
-      let id ;
-        const form_delete = document.forms['delete-accounts-form'];
-        //onpen modal delete bill
-        $('#delete-account').on('shown.bs.modal', function (e) {
-                id = e.relatedTarget.dataset.id;
-                console.log(e.relatedTarget.dataset.id);
-            });
+ <script>
+    let id ;
+    const form_delete = document.forms['delete-bills-form'];
+    //onpen modal delete bill
+    $('#delete-bill').on('shown.bs.modal', function (e) {
+            id = e.relatedTarget.dataset.id;
+            console.log(e.relatedTarget.dataset.id);
+        });
 
-            $("#btn-delete-account").click(function(){
-                if(id != null){
-                    form_delete.action = "delete/" + id;
-                    form_delete.submit();
-                }
-                return;
-            });
+        $("#btn-delete-bill").click(function(){
+            if(id != null){
+                form_delete.action = "bills/delete/" + id;
+                form_delete.submit();
+            }
+            return;
+        });
         
-    </script>
+
+ </script>
  </html>
  
