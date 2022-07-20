@@ -21,6 +21,12 @@
             justify-content: flex-end !important;    
             gap: 15px;
         }
+        .card-header{
+            display: flex;
+            gap: 20px;
+            flex-direction: row;
+            align-items: center;
+        }
     </style>
 </head>
 
@@ -39,6 +45,10 @@
                              <div class="card strpied-tabled-with-hover">
                                  <div class="card-header ">
                                      <h4 class="card-title">Danh sách Tài khoản</h4>
+                                        <!-- /thêm tài khoản/ -->
+                                        <a href="account/create" class="btn btn-primary" style="cursor: pointer;">
+                                            Thêm tài khoản
+                                        </a>
                                  </div>
                                  <div class="card-body table-full-width table-responsive">
                                      <table class="table table-hover table-striped">

@@ -65,7 +65,18 @@ class AdminController {
         const [rows] = await pool.execute(sql);
         return res.render('admin/account.ejs', { data: rows, url: req.url })
     }
-
+    //GET create account page
+    getCreateAccount = async (req, res) => {
+        return res.render('admin/createAccount.ejs', { url: req.url })
+    }
+    //POST create account page
+    createAccount = async (req, res) => {
+        const { sdt, cmnd, address, name, email, password } = req.body;
+        const hashPassword = md5(Number(password));
+        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, email, mat_khau) VALUES ('${sdt}', '${cmnd}', '${address}', '${name}', '${email}', '${hashPassword}')`;
+        await pool.execute(sql);
+        res.redirect('/admin/account');
+    }
     // delete account page
     deleteAccount = async (req, res) => {
         const { id } = req.params;
@@ -108,6 +119,17 @@ class AdminController {
         return res.redirect('/admin/categories');
     }
 
+    //GET create categories page
+    getCreateCategory = async (req, res) => {
+        return res.render('admin/createCategories.ejs', { url: req.url })
+    }
+    //POST create categories page
+    createCategory = async (req, res) => {
+        const { ten_dm } = req.body;
+        const sql = `INSERT INTO dmsanpham (ten_dm) VALUES ('${ten_dm}')`;
+        await pool.execute(sql);
+        return res.redirect('/admin/categories');
+    }
 
     // Get bills page
     bills = async (req, res) => {
@@ -149,6 +171,17 @@ class AdminController {
         const { ten_sp, gia_sp, trang_thai, ma_dm } = req.body;
         const { id } = req.params;
         const sql = `UPDATE sanpham SET ten_sp = '${ten_sp}', gia_sp = ${gia_sp}, trang_thai = '${trang_thai}', id_dm = ${ma_dm} WHERE id_sp = ${id}`;
+        await pool.execute(sql);
+        return res.redirect('/admin/products');
+    }
+    // GET create product page
+    getCreateProduct = async (req, res) => {
+        return res.render('admin/createProduct.ejs', { url: req.url })
+    }
+    //POST create product page
+    createProduct = async (req, res) => {
+        const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description } = req.body;
+        const sql = `INSERT INTO sanpham (id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (NULL, ${ma_dm}, '${ten_sp}', 'NULL', FLOOR('${gia_sp}'), '${khuyen_mai}', '${trang_thai}', '${description}')`;
         await pool.execute(sql);
         return res.redirect('/admin/products');
     }
