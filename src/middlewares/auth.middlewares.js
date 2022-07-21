@@ -11,6 +11,13 @@ const requireAuth = async (req, res, next) => {
         res.locals.user = rows[0];
         next();
     }
+    if (rows.length > 0 && rows[0].quyen_truy_cap === 1) {
+        req.data = [rows[0]];
+        res.locals.user = rows[0];
+        next();
+    }
 }
+
+
 
 module.exports = { requireAuth };

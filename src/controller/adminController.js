@@ -164,13 +164,19 @@ class AdminController {
         const { id } = req.params;
         const sql = `SELECT * FROM sanpham WHERE id_sp = ${id}`;
         const [rows] = await pool.execute(sql);
+        console.log(rows[0]);
         return res.render('admin/editProduct.ejs', { data: rows[0], url: req.url })
     }
     // update product
     updateProduct = async (req, res) => {
-        const { ten_sp, gia_sp, trang_thai, ma_dm } = req.body;
+        //get img from sanpham
         const { id } = req.params;
-        const sql = `UPDATE sanpham SET ten_sp = '${ten_sp}', gia_sp = ${gia_sp}, trang_thai = '${trang_thai}', id_dm = ${ma_dm} WHERE id_sp = ${id}`;
+        const sqlimg = `SELECT anh_sp FROM sanpham WHERE id_sp = ${id}`;
+        const [rowsimg] = await pool.execute(sqlimg);
+        const { anh_sp } = rowsimg[0];
+        console.log(anh_sp);
+        const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description } = req.body;
+        const sql = `UPDATE sanpham SET ten_sp = '${ten_sp}', gia_sp = '${gia_sp}', trang_thai = '${trang_thai}', id_dm = '${ma_dm}', khuyen_mai = '${khuyen_mai}', chi_tiet_sp = '${description}', anh_sp = '${anh_sp ? anh_sp : ""}' WHERE id_sp = ${id}`;
         await pool.execute(sql);
         return res.redirect('/admin/products');
     }
@@ -180,8 +186,11 @@ class AdminController {
     }
     //POST create product page
     createProduct = async (req, res) => {
-        const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description } = req.body;
-        const sql = `INSERT INTO sanpham (id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (NULL, ${ma_dm}, '${ten_sp}', 'NULL', FLOOR('${gia_sp}'), '${khuyen_mai}', '${trang_thai}', '${description}')`;
+        if (req.file.path != null || req.file.path != undefined) {
+            req.body.avatar = req.file.path.split('\\').slice(2).join('/');
+        }
+        const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description, avatar } = req.body;
+        const sql = `INSERT INTO sanpham (id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (NULL, ${ma_dm}, '${ten_sp}', '${avatar ? avatar : "NULL"}', FLOOR('${gia_sp}'), '${khuyen_mai}', '${trang_thai}', '${description}')`;
         await pool.execute(sql);
         return res.redirect('/admin/products');
     }

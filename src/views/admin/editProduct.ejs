@@ -32,26 +32,38 @@
                      <div class="row">
                          <div class="col-md-12">
                             <% if(data){ %>
-                                <form action="/admin/products/update/<%=data.id_sp %>" method="POST">
-                                    <div class="form-group">
-                                      <label for="id">Mã sản phẩm</label>
-                                      <input type="text" class="form-control" id="id_sanpham" disabled value="<%=data.id_sp %>">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="id">Mã danh mục</label>
-                                      <input name="ma_dm" type="text" class="form-control" id="id_dm" value="<%=data.id_dm %>">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="id_name">Tên sản phẩm</label>
-                                      <input name="ten_sp" type="text" class="form-control" id="id_name"  value="<%= data.ten_sp %>">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="id_name">Giá sản phẩm</label>
-                                      <input name="gia_sp" type="text" class="form-control" id="id_name"  value="<%= data.gia_sp %>">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="id_name">Trạng thái</label>
-                                      <input name="trang_thai" type="text" class="form-control" id="id_name"  value="<%= data.trang_thai %>">
+                                <form action="/admin/products/update/<%=data.id_sp %>" method="POST" enctype="multipart/form-data" >
+                                  <div class="form-group">
+                                    <label>Mã sản phẩm</label>
+                                    <input type="text" class="form-control" disabled placeholder="Mã tự động">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Mã danh mục</label>
+                                    <input name="ma_dm" type="text" class="form-control" value="<%= data.id_dm %>">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Tên sản phẩm</label>
+                                    <input name="ten_sp" type="text" class="form-control" value="<%= data.ten_sp %>">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Giá sản phẩm</label>
+                                    <input name="gia_sp" type="text" class="form-control" value="<%= data.gia_sp %>">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Ảnh sản phẩm</label>
+                                    <input name="avatar" type="file" class="form-control" value="<%= data.anh_sp %>">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <input name="trang_thai" type="text" class="form-control" value="<%= data.trang_thai %>">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Khuyễn mãi</label>
+                                    <input name="khuyen_mai" type="text" class="form-control" value="<%= data.khuyen_mai %>">
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="exampleFormControlTextarea1">Chi tiết sản phẩm</label>
+                                      <textarea name="description" class="form-control" rows="3" value="<%= data.chi_tiet_sp %>"></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Lưu lại</button>
                                   </form>

@@ -56,6 +56,7 @@
                                              <th>Mã sản phẩm</th>
                                              <th>Tên sản phẩm</th>
                                              <th>Giá sản phẩm</th>
+                                             <th>Ảnh sản phẩm</th>
                                              <th>Trạng thái</th>
                                          </thead>
                                          <tbody>
@@ -64,6 +65,7 @@
                                                     <td><%= prod.id_sp %></td>
                                                     <td><%= prod.ten_sp %></td>
                                                     <td><%= prod.gia_sp %></td>
+                                                    <td><img src="/<%= prod.anh_sp %>" alt="ảnh sản phẩm" width="50"></td>
                                                     <td><%= prod.trang_thai %></td>
                                                     <td style="display:flex;gap: 20px;justify-content: flex-end;">
                                                             <button data-toggle="modal" data-target="#delete-products" data-id="<%= prod.id_sp%>"  type="button" style="cursor: pointer;" class="btn btn-danger ">Xóa</button>
