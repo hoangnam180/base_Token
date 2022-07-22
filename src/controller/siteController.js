@@ -21,10 +21,14 @@ class SiteController {
     //GET DETIAL PRODUCT
     getDetailProduct = async (req, res) => {
         const sql = `SELECT * FROM sanpham WHERE id_sp = ${req.query.id}`;
+        //get comments fron blsanpham
+        const sql1 = `SELECT * FROM blsanpham WHERE id_sp = ${req.query.id}`
+        const [comments] = await pool.execute(sql1);
         const [rows] = await pool.query(sql);
         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {
             res.render('pages/index.ejs', {
                 dataDetail: rows[0],
+                comments,
                 page_layout: req.query.page_layout
             });
         }
