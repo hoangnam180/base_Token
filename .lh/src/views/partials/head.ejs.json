@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/views/partials/head.ejs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1658451469108,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1658451469108,
+            "name": "Commit-0",
+            "content": "<meta charset=\"utf-8\">\r\n<title>EShopper - Bootstrap Shop Template</title>\r\n<meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\">\r\n<meta content=\"Free HTML Templates\" name=\"keywords\">\r\n<meta content=\"Free HTML Templates\" name=\"description\">\r\n\r\n<!-- Favicon -->\r\n<link href=\"/img/favicon.ico\" rel=\"icon\">\r\n\r\n<!-- Google Web Fonts -->\r\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\">\r\n<link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap\" rel=\"stylesheet\"> \r\n\r\n<!-- Font Awesome -->\r\n<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<!-- Libraries Stylesheet -->\r\n<link href=\"/lib/owlcarousel/assets/owl.carousel.min.css\" rel=\"stylesheet\">\r\n\r\n<!-- Customized Bootstrap Stylesheet -->\r\n<link href=\"/css/style.css\" rel=\"stylesheet\">"
+        }
+    ]
+}

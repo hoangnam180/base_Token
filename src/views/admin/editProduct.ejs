@@ -38,8 +38,12 @@
                                     <input type="text" class="form-control" disabled placeholder="Mã tự động">
                                   </div>
                                   <div class="form-group">
-                                    <label>Mã danh mục</label>
-                                    <input name="ma_dm" type="text" class="form-control" value="<%= data.id_dm %>">
+                                    <select class="form-control" name="id_dm">
+                                      <option>Chọn danh mục</option>
+                                      <% data2.forEach(category => { %>
+                                        <option value="<%=category.id_dm %>"><%=category.ten_dm %></option>
+                                        <% }) %>
+                                    </select>
                                   </div>
                                   <div class="form-group">
                                     <label>Tên sản phẩm</label>

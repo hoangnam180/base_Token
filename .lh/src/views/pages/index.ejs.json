@@ -1,0 +1,114 @@
+{
+    "sourceFile": "src/views/pages/index.ejs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 24,
+            "patches": [
+                {
+                    "date": 1658451464920,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658451482143,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n <!DOCTYPE html>\r\n <html lang=\"en\">\r\n \r\n <head>\r\n+    <%- include('../partials/head'); -%>\r\n     <style>\r\n         .img-product{\r\n             width: 100%;\r\n             height: 230px;\r\n"
+                },
+                {
+                    "date": 1658452755841,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,8 +39,9 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n+    <h1>%<= url %></h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (url) {\r\n         case '/' : %>\r\n"
+                },
+                {
+                    "date": 1658452783425,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n-    <h1>%<= url %></h1>\r\n+    <h1><%= url %></h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (url) {\r\n         case '/' : %>\r\n"
+                },
+                {
+                    "date": 1658453114178,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,8 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n-    <h1><%= url %></h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (url) {\r\n         case '/' : %>\r\n"
+                },
+                {
+                    "date": 1658453233096,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,18 +32,18 @@\n               <% }\r\n             %>\r\n             <div class=\"col-lg-9\">\r\n                 <%- include('../partials/navbar'); -%>\r\n-                <% if (url == '/') { %>\r\n+                <% if (page_layout == '/') { %>\r\n                     <%- include('../partials/slider'); -%>\r\n                   <% }\r\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n-    <% switch (url) {\r\n+    <% switch (page_layout) {\r\n         case '/' : %>\r\n             <%- include('./home',{data : products}); -%>\r\n             <% break;\r\n         case 'detail-product' : %>\r\n"
+                },
+                {
+                    "date": 1658453630152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,8 +50,11 @@\n         <% if (dataDetail) { %>\r\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n+        case 'cart' : %>\r\n+            <%- include('./cart',{data : dataCart}); -%>\r\n+            <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n \r\n"
+                },
+                {
+                    "date": 1658453677654,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,10 +50,10 @@\n         <% if (dataDetail) { %>\r\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n-        case 'cart' : %>\r\n-            <%- include('./cart',{data : dataCart}); -%>\r\n+        case 'products' : %>\r\n+            <%- include('./products'); -%>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658454795744,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,11 +50,8 @@\n         <% if (dataDetail) { %>\r\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n-        case 'products' : %>\r\n-            <%- include('./products'); -%>\r\n-            <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n \r\n"
+                },
+                {
+                    "date": 1658454878944,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,8 +50,13 @@\n         <% if (dataDetail) { %>\r\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n+        case 'products' : %>\r\n+        <% if (dataDetail) { %>\r\n+        <%- include('./product-detail',{data : dataDetail}); -%>\r\n+        <% } %>\r\n+            <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n \r\n"
+                },
+                {
+                    "date": 1658455069506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,11 +51,9 @@\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n-        <% if (dataDetail) { %>\r\n-        <%- include('./product-detail',{data : dataDetail}); -%>\r\n-        <% } %>\r\n+        <%- include('./product-detail'); -%>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658455108062,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,9 +51,9 @@\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n-        <%- include('./product-detail'); -%>\r\n+        <%- include('./products'); -%>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658455380655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,9 +51,11 @@\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n-        <%- include('./products'); -%>\r\n+        <% if (danh) { %>\r\n+            <%- include('./product-detail',{data : dataDetail}); -%>\r\n+            <% } %>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658455398403,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,9 +51,9 @@\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n-        <% if (danh) { %>\r\n+        <% if (danhmucsp && sanpham) { %>\r\n             <%- include('./product-detail',{data : dataDetail}); -%>\r\n             <% } %>\r\n             <% break;\r\n         default:\r\n"
+                },
+                {
+                    "date": 1658455423316,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n         <% if (danhmucsp && sanpham) { %>\r\n-            <%- include('./product-detail',{data : dataDetail}); -%>\r\n+            <%- include('./products',{data1 : danhmucsp,data2 : sanpham}); -%>\r\n             <% } %>\r\n             <% break;\r\n         default:\r\n             break;\r\n"
+                },
+                {
+                    "date": 1658455466363,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,11 +51,11 @@\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n-        <% if (danhmucsp && sanpham) { %>\r\n+        <% if (danhmucsp) { %>\r\n             <%- include('./products',{data1 : danhmucsp,data2 : sanpham}); -%>\r\n-            <% } %>\r\n+        <% } %>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658455483001,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,11 +51,9 @@\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n-        <% if (danhmucsp) { %>\r\n             <%- include('./products',{data1 : danhmucsp,data2 : sanpham}); -%>\r\n-        <% } %>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658455532561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,9 +51,11 @@\n         <%- include('./product-detail',{data : dataDetail}); -%>\r\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n+        <% if (danhmucsp && sanpham) { %>\r\n             <%- include('./products',{data1 : danhmucsp,data2 : sanpham}); -%>\r\n+            <% } %>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658455715279,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n         <% if (danhmucsp && sanpham) { %>\r\n-            <%- include('./products',{data1 : danhmucsp,data2 : sanpham}); -%>\r\n+            <%- include('./products',{data1 : danhmucsp}); -%>\r\n             <% } %>\r\n             <% break;\r\n         default:\r\n             break;\r\n"
+                },
+                {
+                    "date": 1658455728824,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n         <% } %>\r\n             <% break;\r\n         case 'products' : %>\r\n         <% if (danhmucsp && sanpham) { %>\r\n-            <%- include('./products',{data1 : danhmucsp}); -%>\r\n+            <%- include('./products',{data1 : danhmucsp,data2 : sanpham}); -%>\r\n             <% } %>\r\n             <% break;\r\n         default:\r\n             break;\r\n"
+                },
+                {
+                    "date": 1658455756998,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,8 +39,9 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n+    <h1><%= data1.ten_dm %></h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (page_layout) {\r\n         case '/' : %>\r\n"
+                },
+                {
+                    "date": 1658455778001,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n-    <h1><%= data1.ten_dm %></h1>\r\n+    <h1><%= danhmucsp.ten_dm %></h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (page_layout) {\r\n         case '/' : %>\r\n"
+                },
+                {
+                    "date": 1658455817910,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n-    <h1><%= danhmucsp.ten_dm %></h1>\r\n+    <h1><%= danhmucsp</h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (page_layout) {\r\n         case '/' : %>\r\n"
+                },
+                {
+                    "date": 1658455825492,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n-    <h1><%= danhmucsp</h1>\r\n+    <h1><%= danhmucsp%></h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (page_layout) {\r\n         case '/' : %>\r\n"
+                },
+                {
+                    "date": 1658455832992,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,8 @@\n                 %>\r\n             </div>\r\n         </div>\r\n     </div>\r\n-    <h1><%= danhmucsp%></h1>\r\n     <!-- Navbar End -->\r\n     <!-- Content -->\r\n     <% switch (page_layout) {\r\n         case '/' : %>\r\n"
+                }
+            ],
+            "date": 1658451464920,
+            "name": "Commit-0",
+            "content": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <style>\r\n        .img-product{\r\n            width: 100%;\r\n            height: 230px;\r\n            overflow: hidden;\r\n            text-align: center;\r\n        }\r\n        .img-product img{\r\n            width: 100%;\r\n            height: 100%;\r\n            object-fit: cover;\r\n        }\r\n    </style>\r\n</head>\r\n\r\n<body>\r\n    <!-- Topbar Start -->\r\n    <%- include('../partials/header'); -%>\r\n    <!-- Topbar End -->\r\n\r\n\r\n    <!-- Navbar Start -->\r\n    <div class=\"container-fluid mb-5\">\r\n        <div class=\"row border-top px-xl-5\">\r\n            <% if (locals.dataLocal) { %>\r\n                <%- include('../partials/categorybar',{data : dataLocal}); -%>\r\n              <% }\r\n            %>\r\n            <div class=\"col-lg-9\">\r\n                <%- include('../partials/navbar'); -%>\r\n                <% if (url == '/') { %>\r\n                    <%- include('../partials/slider'); -%>\r\n                  <% }\r\n                %>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <!-- Navbar End -->\r\n    <!-- Content -->\r\n    <% switch (url) {\r\n        case '/' : %>\r\n            <%- include('./home',{data : products}); -%>\r\n            <% break;\r\n        case 'detail-product' : %>\r\n        <% if (dataDetail) { %>\r\n        <%- include('./product-detail',{data : dataDetail}); -%>\r\n        <% } %>\r\n            <% break;\r\n        default:\r\n            break;\r\n        } %>\r\n\r\n    <!-- Footer Start -->\r\n    <%- include('../partials/footer'); -%>\r\n    <!-- Footer End -->\r\n\r\n\r\n    <!-- Back to Top -->\r\n    <a href=\"#\" class=\"btn btn-primary back-to-top\"><i class=\"fa fa-angle-double-up\"></i></a>\r\n\r\n\r\n    <!-- JavaScript Libraries -->\r\n    <script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script>\r\n    <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js\"></script>\r\n    <script src=\"/lib/easing/easing.min.js\"></script>\r\n    <script src=\"/lib/owlcarousel/owl.carousel.min.js\"></script>\r\n\r\n    <!-- Contact Javascript File -->\r\n    <script src=\"/mail/jqBootstrapValidation.min.js\"></script>\r\n    <script src=\"/mail/contact.js\"></script>\r\n\r\n    <!-- Template Javascript -->\r\n    <script src=\"/js/main.js\"></script>\r\n</body>\r\n\r\n</html>"
+        }
+    ]
+}

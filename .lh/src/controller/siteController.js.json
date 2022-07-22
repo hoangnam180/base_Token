@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 54,
             "patches": [
                 {
                     "date": 1658155698655,
@@ -12,6 +12,218 @@
                 {
                     "date": 1658155716838,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class SiteController {\r\n     getHomepage = async (req, res) => {\r\n-        return res.render('index.ejs', { dataUser: rows })\r\n+        return res.render('index.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658452541760,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,33 @@\n import pool from '../config/connectDatabase'\r\n //[GET]\r\n class SiteController {\r\n     getHomepage = async (req, res) => {\r\n-        return res.render('index.ejs')\r\n+        const sql = `SELECT * FROM sanpham ORDER BY id_sp DESC LIMIT 8`\r\n+        const [rows] = await pool.query(sql)\r\n+        console.log(rows);\r\n+        res.render('pages/index.ejs', {\r\n+            products: rows,\r\n+            url: req.url //url cua trang hien tai\r\n+        });\r\n     }\r\n+\r\n+    //GET DETIAL PRODUCT\r\n+    getDetailProduct = async (req, res) => {\r\n+        const id = req.params.id;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp = ${id}`;\r\n+        const [rows] = await pool.query(sql);\r\n+        if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {\r\n+            console.log(rows[0]);\r\n+            res.render('pages/index.ejs', {\r\n+                dataDetail: rows[0],\r\n+                url: \"detail-product\"\r\n+            });\r\n+        }\r\n+        else {\r\n+            res.render('pages/404.ejs');\r\n+        }\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new SiteController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658452573366,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n class SiteController {\r\n     getHomepage = async (req, res) => {\r\n         const sql = `SELECT * FROM sanpham ORDER BY id_sp DESC LIMIT 8`\r\n         const [rows] = await pool.query(sql)\r\n-        console.log(rows);\r\n+        console.log(\"Checkk query >>>>>>>>>>>\", req.query);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             url: req.url //url cua trang hien tai\r\n         });\r\n"
+                },
+                {
+                    "date": 1658452597713,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,8 @@\n class SiteController {\r\n     getHomepage = async (req, res) => {\r\n         const sql = `SELECT * FROM sanpham ORDER BY id_sp DESC LIMIT 8`\r\n         const [rows] = await pool.query(sql)\r\n-        console.log(\"Checkk query >>>>>>>>>>>\", req.query);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             url: req.url //url cua trang hien tai\r\n         });\r\n"
+                },
+                {
+                    "date": 1658452619977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         const sql = `SELECT * FROM sanpham ORDER BY id_sp DESC LIMIT 8`\r\n         const [rows] = await pool.query(sql)\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n-            url: req.url //url cua trang hien tai\r\n+            url: req.query.page_layout //url cua trang hien tai\r\n         });\r\n     }\r\n \r\n     //GET DETIAL PRODUCT\r\n"
+                },
+                {
+                    "date": 1658452639396,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         const sql = `SELECT * FROM sanpham ORDER BY id_sp DESC LIMIT 8`\r\n         const [rows] = await pool.query(sql)\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n-            url: req.query.page_layout //url cua trang hien tai\r\n+            url: req.url //url cua trang hien tai\r\n         });\r\n     }\r\n \r\n     //GET DETIAL PRODUCT\r\n"
+                },
+                {
+                    "date": 1658452649402,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {\r\n             console.log(rows[0]);\r\n             res.render('pages/index.ejs', {\r\n                 dataDetail: rows[0],\r\n-                url: \"detail-product\"\r\n+                url: req.query.page_layout\r\n             });\r\n         }\r\n         else {\r\n             res.render('pages/404.ejs');\r\n"
+                },
+                {
+                    "date": 1658452674518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,9 @@\n     }\r\n \r\n     //GET DETIAL PRODUCT\r\n     getDetailProduct = async (req, res) => {\r\n-        const id = req.params.id;\r\n-        const sql = `SELECT * FROM sanpham WHERE id_sp = ${id}`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp = ${req.query.id}`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {\r\n             console.log(rows[0]);\r\n             res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658452821925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,8 @@\n     getDetailProduct = async (req, res) => {\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp = ${req.query.id}`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {\r\n-            console.log(rows[0]);\r\n             res.render('pages/index.ejs', {\r\n                 dataDetail: rows[0],\r\n                 url: req.query.page_layout\r\n             });\r\n"
+                },
+                {
+                    "date": 1658452834719,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n     //GET DETIAL PRODUCT\r\n     getDetailProduct = async (req, res) => {\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp = ${req.query.id}`;\r\n         const [rows] = await pool.query(sql);\r\n+        console.log(req.query);\r\n         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {\r\n             res.render('pages/index.ejs', {\r\n                 dataDetail: rows[0],\r\n                 url: req.query.page_layout\r\n"
+                },
+                {
+                    "date": 1658452870781,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     //GET DETIAL PRODUCT\r\n     getDetailProduct = async (req, res) => {\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp = ${req.query.id}`;\r\n         const [rows] = await pool.query(sql);\r\n-        console.log(req.query);\r\n+        console.log(\"check query>>>>>>>>>\", req.query);\r\n         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {\r\n             res.render('pages/index.ejs', {\r\n                 dataDetail: rows[0],\r\n                 url: req.query.page_layout\r\n"
+                },
+                {
+                    "date": 1658453216699,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n         const sql = `SELECT * FROM sanpham ORDER BY id_sp DESC LIMIT 8`\r\n         const [rows] = await pool.query(sql)\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n-            url: req.url //url cua trang hien tai\r\n+            page_layout: req.url //url cua trang hien tai\r\n         });\r\n     }\r\n \r\n     //GET DETIAL PRODUCT\r\n@@ -17,9 +17,9 @@\n         console.log(\"check query>>>>>>>>>\", req.query);\r\n         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {\r\n             res.render('pages/index.ejs', {\r\n                 dataDetail: rows[0],\r\n-                url: req.query.page_layout\r\n+                page_layout: req.query.page_layout\r\n             });\r\n         }\r\n         else {\r\n             res.render('pages/404.ejs');\r\n"
+                },
+                {
+                    "date": 1658453868429,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,19 @@\n         else {\r\n             res.render('pages/404.ejs');\r\n         }\r\n     }\r\n+\r\n+    //GET PRODUCTS\r\n+    getProducts = async (req, res) => {\r\n+\r\n+        const sql = `SELECT * FROM sanpham`\r\n+        const [rows] = await pool.query(sql)\r\n+        res.render('pages/index.ejs', {\r\n+            products: rows,\r\n+            page_layout: req.query.page_layout\r\n+        });\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new SiteController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658453993551,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n \r\n-        const sql = `SELECT * FROM sanpham`\r\n+        const sql = `SELECT ,* FROM sanpham`\r\n         const [rows] = await pool.query(sql)\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             page_layout: req.query.page_layout\r\n"
+                },
+                {
+                    "date": 1658454002781,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n \r\n-        const sql = `SELECT ,* FROM sanpham`\r\n+        const sql = `SELECT danhmuc.,* FROM sanpham`\r\n         const [rows] = await pool.query(sql)\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             page_layout: req.query.page_layout\r\n"
+                },
+                {
+                    "date": 1658454009641,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n \r\n-        const sql = `SELECT danhmuc.,* FROM sanpham`\r\n+        const sql = `SELECT danhmuc.ten_dm,* FROM sanpham`\r\n         const [rows] = await pool.query(sql)\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             page_layout: req.query.page_layout\r\n"
+                },
+                {
+                    "date": 1658454083443,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,11 +27,12 @@\n     }\r\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n-\r\n-        const sql = `SELECT danhmuc.ten_dm,* FROM sanpham`\r\n+        //join danhmuc on sanpham.id_dm = danhmuc.id_dm \r\n+        const sql = `SELECT * FROM sanpham INNER JOIN danhmuc ON sanpham.id_dm = danhmuc.id_dm`;\r\n         const [rows] = await pool.query(sql)\r\n+        console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             page_layout: req.query.page_layout\r\n         });\r\n"
+                },
+                {
+                    "date": 1658454204809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //join danhmuc on sanpham.id_dm = danhmuc.id_dm \r\n-        const sql = `SELECT * FROM sanpham INNER JOIN danhmuc ON sanpham.id_dm = danhmuc.id_dm`;\r\n+        const sql = `SELECT * FROM sanpham INNER JOIN dm_sanpham ON sanpham.id_dm = danhmuc.id_dm`;\r\n         const [rows] = await pool.query(sql)\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n"
+                },
+                {
+                    "date": 1658454213553,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //join danhmuc on sanpham.id_dm = danhmuc.id_dm \r\n-        const sql = `SELECT * FROM sanpham INNER JOIN dm_sanpham ON sanpham.id_dm = danhmuc.id_dm`;\r\n+        const sql = `SELECT * FROM sanpham INNER JOIN dm_sanpham ON sanpham.id_dm = dm_sanpham.id_dm`;\r\n         const [rows] = await pool.query(sql)\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n"
+                },
+                {
+                    "date": 1658454264363,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //join danhmuc on sanpham.id_dm = danhmuc.id_dm \r\n-        const sql = `SELECT * FROM sanpham INNER JOIN dm_sanpham ON sanpham.id_dm = dm_sanpham.id_dm`;\r\n+        const sql = `SELECT * FROM sanpham INNER JOIN dm_sanpham ON sanpham.id_dm = dmsanpham.id_dm`;\r\n         const [rows] = await pool.query(sql)\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n"
+                },
+                {
+                    "date": 1658454367078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //join danhmuc on sanpham.id_dm = danhmuc.id_dm \r\n-        const sql = `SELECT * FROM sanpham INNER JOIN dm_sanpham ON sanpham.id_dm = dmsanpham.id_dm`;\r\n+        const sql = `SELECT * FROM sanpham  JOIN dm_sanpham ON sanpham.id_dm = dmsanpham.id_dm`;\r\n         const [rows] = await pool.query(sql)\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n"
+                },
+                {
+                    "date": 1658454408991,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,10 +27,11 @@\n     }\r\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n-        //join danhmuc on sanpham.id_dm = danhmuc.id_dm \r\n-        const sql = `SELECT * FROM sanpham  JOIN dm_sanpham ON sanpham.id_dm = dmsanpham.id_dm`;\r\n+        //get category and sanpham\r\n+        const sql = `SELECT * FROM danhmucsp`;\r\n+\r\n         const [rows] = await pool.query(sql)\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n"
+                },
+                {
+                    "date": 1658454523071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,15 +27,17 @@\n     }\r\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n-        //get category and sanpham\r\n-        const sql = `SELECT * FROM danhmucsp`;\r\n-\r\n-        const [rows] = await pool.query(sql)\r\n-        console.log(rows);\r\n+        //get danhmusp and sanpham\r\n+        const id = req.query.id;\r\n+        const sql = `SELECT * FROM danhmusp`;\r\n+        const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n+        const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n+        //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n-            products: rows,\r\n+            danhmusp: rows1,\r\n+            sanpham: rows2,\r\n             page_layout: req.query.page_layout\r\n         });\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658454553718,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,8 +32,9 @@\n         const id = req.query.id;\r\n         const sql = `SELECT * FROM danhmusp`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n+        console.log(\"check query>>>>>>>>>\", rows2);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1,\r\n             sanpham: rows2,\r\n"
+                },
+                {
+                    "date": 1658454566393,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id;\r\n-        const sql = `SELECT * FROM danhmusp`;\r\n+        const sql = `SELECT * FROM danhmusp WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", rows2);\r\n         //get danhmusp and sanpham\r\n"
+                },
+                {
+                    "date": 1658454605545,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id;\r\n-        const sql = `SELECT * FROM danhmusp WHERE id_dm = ${id}`;\r\n+        const sql = `SELECT * FROM danhmucsp WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", rows2);\r\n         //get danhmusp and sanpham\r\n"
+                },
+                {
+                    "date": 1658454620640,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,19 +28,19 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n-        const id = req.query.id;\r\n-        const sql = `SELECT * FROM danhmucsp WHERE id_dm = ${id}`;\r\n-        const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n-        const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows2);\r\n-        //get danhmusp and sanpham\r\n-        res.render('pages/index.ejs', {\r\n-            danhmusp: rows1,\r\n-            sanpham: rows2,\r\n-            page_layout: req.query.page_layout\r\n-        });\r\n+        const id = req.query;\r\n+        // const sql = `SELECT * FROM danhmucsp WHERE id_dm = ${id}`;\r\n+        // const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n+        // const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n+        // console.log(\"check query>>>>>>>>>\", rows2);\r\n+        // //get danhmusp and sanpham\r\n+        // res.render('pages/index.ejs', {\r\n+        //     danhmusp: rows1,\r\n+        //     sanpham: rows2,\r\n+        //     page_layout: req.query.page_layout\r\n+        // });\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658454638500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query;\r\n         // const sql = `SELECT * FROM danhmucsp WHERE id_dm = ${id}`;\r\n         // const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         // const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        // console.log(\"check query>>>>>>>>>\", rows2);\r\n+        console.log(\"check query>>>>>>>>>\", req.query);\r\n         // //get danhmusp and sanpham\r\n         // res.render('pages/index.ejs', {\r\n         //     danhmusp: rows1,\r\n         //     sanpham: rows2,\r\n"
+                },
+                {
+                    "date": 1658454661188,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,13 +28,13 @@\n \r\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n-        const id = req.query;\r\n-        // const sql = `SELECT * FROM danhmucsp WHERE id_dm = ${id}`;\r\n-        // const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n-        // const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", req.query);\r\n+        const id = req.query.id_dm;\r\n+        const sql = `SELECT * FROM danhmucsp WHERE id_dm = ${id}`;\r\n+        const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n+        const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n+        console.log(\"check query>>>>>>>>>\", req.rows2);\r\n         // //get danhmusp and sanpham\r\n         // res.render('pages/index.ejs', {\r\n         //     danhmusp: rows1,\r\n         //     sanpham: rows2,\r\n"
+                },
+                {
+                    "date": 1658454713971,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n     //GET PRODUCTS\r\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id_dm;\r\n-        const sql = `SELECT * FROM danhmucsp WHERE id_dm = ${id}`;\r\n+        const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", req.rows2);\r\n         // //get danhmusp and sanpham\r\n"
+                },
+                {
+                    "date": 1658454786858,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,14 +33,14 @@\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", req.rows2);\r\n-        // //get danhmusp and sanpham\r\n-        // res.render('pages/index.ejs', {\r\n-        //     danhmusp: rows1,\r\n-        //     sanpham: rows2,\r\n-        //     page_layout: req.query.page_layout\r\n-        // });\r\n+        //get danhmusp and sanpham\r\n+        res.render('pages/index.ejs', {\r\n+            danhmusp: rows1,\r\n+            sanpham: rows2,\r\n+            page_layout: req.query.page_layout\r\n+        });\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658454835887,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", req.rows2);\r\n+        console.log(\"check query>>>>>>>>>\",req.query.page_layout);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1,\r\n             sanpham: rows2,\r\n"
+                },
+                {
+                    "date": 1658454895811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\",req.query.page_layout);\r\n+        console.log(\"check query>>>>>>>>>\", rows1);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1,\r\n             sanpham: rows2,\r\n"
+                },
+                {
+                    "date": 1658454927917,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,13 +32,13 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n-            danhmusp: rows1,\r\n-            sanpham: rows2,\r\n+            danhmusp: rows1[0],\r\n+            sanpham: rows2[0],\r\n             page_layout: req.query.page_layout\r\n         });\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658454944342,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658454991024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n-        const sql2 = `SELECT * FROM sanpham where id_dm = ${id}`;\r\n+        const sql2 = `SELECT * FROM sanpham where`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658455007184,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n-        const sql2 = `SELECT * FROM sanpham where`;\r\n+        const sql2 = `SELECT * FROM sanpham`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658455032184,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n-        const sql2 = `SELECT * FROM sanpham`;\r\n+        const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658455210906,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n-        const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n+        const sql2 = `SELECT * FROM sanpham`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658455246941,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,11 +30,11 @@\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n-        const sql2 = `SELECT * FROM sanpham`;\r\n+        const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows2);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658455267353,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows2);\r\n+        console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658455312133,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0], row2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658455507511,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0], row2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0], rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmusp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658455516667,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         console.log(\"check query>>>>>>>>>\", rows1[0], rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n-            danhmusp: rows1[0],\r\n+            danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n             page_layout: req.query.page_layout\r\n         });\r\n     }\r\n"
+                },
+                {
+                    "date": 1658455872481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0], rows2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658455939593,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0], rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658455976548,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0], rows2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0].ten_dm, rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658455997531,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0].ten_dm, rows2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0], rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658456007934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0], rows2[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658456023277,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0].ten_dm);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658456035847,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0].ten_dm);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0][0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658456048079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0][0]);\r\n+        console.log(\"check query>>>>>>>>>\", rows1[0][0].ten_dm);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658456068626,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,12 +32,11 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n-        console.log(\"check query>>>>>>>>>\", rows1[0][0].ten_dm);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n-            danhmucsp: rows1[0],\r\n+            danhmucsp: rows1[0][0],\r\n             sanpham: rows2[0],\r\n             page_layout: req.query.page_layout\r\n         });\r\n     }\r\n"
+                },
+                {
+                    "date": 1658457753149,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     getProducts = async (req, res) => {\r\n         //get danhmusp and sanpham\r\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n-        const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id}`;\r\n+        const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id} ORDER BY id_sp DESC`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0][0],\r\n"
                 }
             ],
             "date": 1658155698655,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 23,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1657863426399,
@@ -100,6 +100,14 @@
                 {
                     "date": 1658211877994,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n \r\n app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n \r\n-app.use(cookieParser());\r\n+app.use(cookieParser('asdfsdgfsdr243234'));\r\n \r\n //config view engine\r\n configViewEngine(app)\r\n \r\n"
+                },
+                {
+                    "date": 1658451930762,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,10 @@\n // import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n const cookieParser = require(\"cookie-parser\");\r\n-\r\n+const url = require('url');\r\n+const querystring = require('querystring');\r\n app.use(morgan(\"combined\"))\r\n \r\n app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n"
+                },
+                {
+                    "date": 1658452012804,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,11 @@\n // import connection from './config/connectDatabase'\r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n const cookieParser = require(\"cookie-parser\");\r\n-const url = require('url');\r\n-const querystring = require('querystring');\r\n+var url = require('url');\r\n+var url_parts = url.parse(request.url, true);\r\n+var query = url_parts.query;\r\n app.use(morgan(\"combined\"))\r\n \r\n app.use(express.urlencoded({ extended: true }))\r\n app.use(express.json())\r\n"
                 }
             ],
             "date": 1657863426399,

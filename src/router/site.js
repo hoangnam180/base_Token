@@ -4,7 +4,8 @@ import { dataLocal } from '../middlewares/dataLocal.middleware'
 const router = express.Router();
 
 router.get('/', dataLocal, siteController.getHomepage);
-router.get('/detail-product/:id', dataLocal, siteController.getDetailProduct);
+router.get('/detail', dataLocal, siteController.getDetailProduct);
+router.get('/category', dataLocal, siteController.getProducts);
 
 module.exports = router;
 

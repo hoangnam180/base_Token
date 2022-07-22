@@ -163,9 +163,10 @@ class AdminController {
     editProduct = async (req, res) => {
         const { id } = req.params;
         const sql = `SELECT * FROM sanpham WHERE id_sp = ${id}`;
-        const [rows] = await pool.execute(sql);
-        console.log(rows[0]);
-        return res.render('admin/editProduct.ejs', { data: rows[0], url: req.url })
+        const sql2 = `SELECT * FROM dmsanpham`;
+        const [rows, rows2] = await Promise.all([pool.execute(sql), pool.execute(sql2)]);
+        console.log("Checkk SQL:>>>>>", sql);
+        return res.render('admin/editProduct.ejs', { data: rows[0][0], data2: rows2[0], url: req.url })
     }
     // update product
     updateProduct = async (req, res) => {
@@ -175,8 +176,8 @@ class AdminController {
         const [rowsimg] = await pool.execute(sqlimg);
         const { anh_sp } = rowsimg[0];
         console.log(anh_sp);
-        const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description } = req.body;
-        const sql = `UPDATE sanpham SET ten_sp = '${ten_sp}', gia_sp = '${gia_sp}', trang_thai = '${trang_thai}', id_dm = '${ma_dm}', khuyen_mai = '${khuyen_mai}', chi_tiet_sp = '${description}', anh_sp = '${anh_sp ? anh_sp : ""}' WHERE id_sp = ${id}`;
+        const { ten_sp, gia_sp, trang_thai, id_dm, khuyen_mai, description } = req.body;
+        const sql = `UPDATE sanpham SET ten_sp = '${ten_sp}', gia_sp = '${gia_sp}', trang_thai = '${trang_thai}', id_dm = '${id_dm}', khuyen_mai = '${khuyen_mai}', chi_tiet_sp = '${description}', anh_sp = '${anh_sp ? anh_sp : ""}' WHERE id_sp = ${id}`;
         await pool.execute(sql);
         return res.redirect('/admin/products');
     }
