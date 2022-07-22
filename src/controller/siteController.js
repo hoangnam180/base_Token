@@ -2,11 +2,19 @@ import pool from '../config/connectDatabase'
 //[GET]
 class SiteController {
     getHomepage = async (req, res) => {
-        const sql = `SELECT * FROM sanpham ORDER BY id_sp DESC LIMIT 8`
-        const [rows] = await pool.query(sql)
+        //pagination product
+        const page = parseInt(req.query.page) || 1;
+        const perPage = 8;
+        const start = (page - 1) * perPage;
+        const end = page * perPage;
+        const [Count] = await pool.execute('SELECT COUNT(*) FROM `sanpham`');
+        const totalPage = Math.ceil(Count[0]['COUNT(*)'] / perPage);
+        const [products] = await pool.execute('SELECT * FROM sanpham LIMIT ?, ?', [start, end]);
         res.render('pages/index.ejs', {
-            products: rows,
-            page_layout: req.url //url cua trang hien tai
+            products,
+            page,
+            totalPage,
+            page_layout: '/'
         });
     }
 
@@ -14,7 +22,6 @@ class SiteController {
     getDetailProduct = async (req, res) => {
         const sql = `SELECT * FROM sanpham WHERE id_sp = ${req.query.id}`;
         const [rows] = await pool.query(sql);
-        console.log("check query>>>>>>>>>", req.query);
         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {
             res.render('pages/index.ejs', {
                 dataDetail: rows[0],
@@ -38,6 +45,27 @@ class SiteController {
             danhmucsp: rows1[0][0],
             sanpham: rows2[0],
             page_layout: req.query.page_layout
+        });
+    }
+
+    //GET SEARCH
+    getSearch = async (req, res) => {
+        let search = req.query.search;
+        search = search.replace(/\s/g, '%');
+        //pagegination product
+        const page = parseInt(req.query.page) || 1;
+        const perPage = 8;
+        const start = (page - 1) * perPage;
+        const end = page * perPage;
+        const [Count] = await pool.execute('SELECT COUNT(*) FROM `sanpham` WHERE ten_sp LIKE "%' + search + '%"');
+        const totalPage = Math.ceil(Count[0]['COUNT(*)'] / perPage);
+        const [sanpham] = await pool.execute('SELECT * FROM sanpham WHERE ten_sp LIKE "%' + search + '%" LIMIT ?, ?', [start, end]);
+        res.render('pages/index.ejs', {
+            sanpham,
+            page,
+            totalPage,
+            search: req.query.search,
+            page_layout: 'search'
         });
     }
 }

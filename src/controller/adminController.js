@@ -183,15 +183,17 @@ class AdminController {
     }
     // GET create product page
     getCreateProduct = async (req, res) => {
-        return res.render('admin/createProduct.ejs', { url: req.url })
+        const sql = `SELECT * FROM dmsanpham`;
+        const [rows] = await pool.execute(sql);
+        return res.render('admin/createProduct.ejs', { data: rows, url: req.url })
     }
     //POST create product page
     createProduct = async (req, res) => {
-        if (req.file.path != null || req.file.path != undefined) {
+        if (req.file != null || req.file != undefined) {
             req.body.avatar = req.file.path.split('\\').slice(2).join('/');
         }
-        const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description, avatar } = req.body;
-        const sql = `INSERT INTO sanpham (id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (NULL, ${ma_dm}, '${ten_sp}', '${avatar ? avatar : "NULL"}', FLOOR('${gia_sp}'), '${khuyen_mai}', '${trang_thai}', '${description}')`;
+        const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description, avatar, ban_chay } = req.body;
+        const sql = `INSERT INTO sanpham (ban_chay,id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (${ban_chay ? ban_chay : 0},NULL, ${ma_dm}, '${ten_sp}', '${avatar ? avatar : "NULL"}', FLOOR('${gia_sp}'), '${khuyen_mai}', '${trang_thai}', '${description}')`;
         await pool.execute(sql);
         return res.redirect('/admin/products');
     }

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1658155684931,
@@ -32,6 +32,10 @@
                 {
                     "date": 1658454145126,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,8 @@\n const router = express.Router();\r\n \r\n router.get('/', dataLocal, siteController.getHomepage);\r\n router.get('/detail', dataLocal, siteController.getDetailProduct);\r\n-router.get('/products', dataLocal, siteController.getProducts);\r\n+router.get('/category', dataLocal, siteController.getProducts);\r\n \r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658472120420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,12 @@\n-import express from 'express'\r\n-import siteController from '../controller/siteController'\r\n-import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n-const router = express.Router();\r\n-\r\n-router.get('/', dataLocal, siteController.getHomepage);\r\n-router.get('/detail', dataLocal, siteController.getDetailProduct);\r\n-router.get('/category', dataLocal, siteController.getProducts);\r\n-\r\n-module.exports = router;\r\n-\r\n+import express from 'express'\n+import siteController from '../controller/siteController'\n+import { dataLocal } from '../middlewares/dataLocal.middleware'\n+const router = express.Router();\n+\n+router.get('/detail', dataLocal, siteController.getDetailProduct);\n+router.get('/category', dataLocal, siteController.getProducts);\n+router.get('/search', dataLocal, siteController.getSearch);\n+router.get('/', dataLocal, siteController.getHomepage);\n+\n+module.exports = router;\n+\n"
                 }
             ],
             "date": 1658155684931,

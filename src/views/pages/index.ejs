@@ -56,6 +56,9 @@
             <%- include('./products',{data1 : danhmucsp,data2 : sanpham}); -%>
             <% } %>
             <% break;
+        case 'search' : %>
+            <%- include('./search',{data : sanpham}); -%>
+            <% break;
         default:
             break;
         } %>
