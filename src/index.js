@@ -3,7 +3,7 @@ import express from 'express'
 import initWebRoute from './router/index.js'
 import configViewEngine from './config/viewEngine'
 import morgan from 'morgan'
-// import connection from './config/connectDatabase'
+
 const app = express()
 const port = process.env.PORT || 3000
 const cookieParser = require("cookie-parser");

@@ -175,9 +175,9 @@ class AdminController {
         const sqlimg = `SELECT anh_sp FROM sanpham WHERE id_sp = ${id}`;
         const [rowsimg] = await pool.execute(sqlimg);
         const { anh_sp } = rowsimg[0];
-        console.log(anh_sp);
-        const { ten_sp, gia_sp, trang_thai, id_dm, khuyen_mai, description } = req.body;
-        const sql = `UPDATE sanpham SET ten_sp = '${ten_sp}', gia_sp = '${gia_sp}', trang_thai = '${trang_thai}', id_dm = '${id_dm}', khuyen_mai = '${khuyen_mai}', chi_tiet_sp = '${description}', anh_sp = '${anh_sp ? anh_sp : ""}' WHERE id_sp = ${id}`;
+        let { ten_sp, gia_sp, trang_thai, id_dm, khuyen_mai, description } = req.body;
+        let newprice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(gia_sp);
+        const sql = `UPDATE sanpham SET ten_sp = '${ten_sp}', gia_sp = '${newprice}', trang_thai = '${trang_thai}', id_dm = '${id_dm}', khuyen_mai = '${khuyen_mai}', chi_tiet_sp = '${description}', anh_sp = '${anh_sp ? anh_sp : ""}' WHERE id_sp = ${id}`;
         await pool.execute(sql);
         return res.redirect('/admin/products');
     }
@@ -193,9 +193,27 @@ class AdminController {
             req.body.avatar = req.file.path.split('\\').slice(2).join('/');
         }
         const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description, avatar, ban_chay } = req.body;
-        const sql = `INSERT INTO sanpham (ban_chay,id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (${ban_chay ? ban_chay : 0},NULL, ${ma_dm}, '${ten_sp}', '${avatar ? avatar : "NULL"}', FLOOR('${gia_sp}'), '${khuyen_mai}', '${trang_thai}', '${description}')`;
+        let newprice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(gia_sp);
+        const sql = `INSERT INTO sanpham (ban_chay,id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (${ban_chay ? ban_chay : 0},NULL, ${ma_dm}, '${ten_sp}', '${avatar ? avatar : "NULL"}', '${newprice}', '${khuyen_mai}', '${trang_thai}', '${description}')`;
         await pool.execute(sql);
+        console.log(sql);
         return res.redirect('/admin/products');
+    }
+
+    // GET comments page
+    comments = async (req, res) => {
+        const sql = `SELECT * FROM blsanpham`;
+        const [rows] = await pool.execute(sql);
+
+        console.log(rows);
+        return res.render('admin/comments.ejs', { data: rows, url: req.url })
+    }
+    // delete comments
+    deleteComment = async (req, res) => {
+        const { id } = req.params;
+        const sql = `DELETE FROM blsanpham WHERE blsanpham.id_bl = ${id}`;
+        await pool.execute(sql);
+        return res.redirect('/admin/comments');
     }
 }
 

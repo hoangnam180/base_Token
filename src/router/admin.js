@@ -36,6 +36,9 @@ router.post('/products/update/:id', imgMiddleware.uploadFile, authMiddleware.req
 router.get('/products/create', authMiddleware.requireAuth, adminController.getCreateProduct);
 router.post('/products/create', imgMiddleware.uploadFile, authMiddleware.requireAuth, adminController.createProduct);
 
+//COMMENTs
+router.get('/comments', authMiddleware.requireAuth, adminController.comments);
+router.post('/comments/delete/:id', authMiddleware.requireAuth, adminController.deleteComment);
 router.get('/', adminController.login);
 module.exports = router;
 

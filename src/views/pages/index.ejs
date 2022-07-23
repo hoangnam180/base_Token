@@ -26,6 +26,11 @@
             height: 100%;
             object-fit: cover;
         }
+        @media (min-width: 1025px) {
+            .h-custom {
+            height: 100vh !important;
+            }
+        }
     </style>
 </head>
 
@@ -59,7 +64,7 @@
             <% break;
         case 'detail-product' : %>
         <% if (dataDetail || comments) { %>
-        <%- include('./product-detail',{data : dataDetail,data1 : comments}); -%>
+        <%- include('./product-detail',{data : dataDetail,data1 : comments,data2:count}); -%>
         <% } %>
             <% break;
         case 'products' : %>
@@ -95,6 +100,27 @@
 
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
+    <script>
+      const [...listStar] = document.querySelectorAll('.star-review');
+      const value_star = document.querySelector('#value_star');
+      //on click star setAtribute class fas fa-star for it and when two click remove class far fa-star for other star
+      let count = 0;  
+      //how to get count star fas fa-star
+        listStar.forEach(star => {
+            star.addEventListener('click', function() {
+            if (star.classList.contains('fas')) {
+                star.classList.remove('fas');
+                star.classList.add('far');
+                count--;
+            } else {
+                star.classList.remove('far');
+                star.classList.add('fas');
+                count++;
+            }
+            value_star.value = count;
+            });
+        });
+    </script>
 </body>
 
 </html>

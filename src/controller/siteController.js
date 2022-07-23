@@ -23,12 +23,16 @@ class SiteController {
         const sql = `SELECT * FROM sanpham WHERE id_sp = ${req.query.id}`;
         //get comments fron blsanpham
         const sql1 = `SELECT * FROM blsanpham WHERE id_sp = ${req.query.id}`
+        //select count comment by id_sp
+        const sql2 = `SELECT COUNT(*) FROM blsanpham WHERE id_sp = ${req.query.id}`
+        const [rows] = await pool.execute(sql);
         const [comments] = await pool.execute(sql1);
-        const [rows] = await pool.query(sql);
+        const [count] = await pool.execute(sql2);
         if (rows[0] !== undefined || rows[0] !== null || rows[0] !== '' || rows[0] !== 0 || rows[0] !== '0') {
             res.render('pages/index.ejs', {
                 dataDetail: rows[0],
                 comments,
+                count: count[0]['COUNT(*)'],
                 page_layout: req.query.page_layout
             });
         }
@@ -71,6 +75,26 @@ class SiteController {
             search: req.query.search,
             page_layout: 'search'
         });
+    }
+
+    //POST COMMENT
+    postComment = async (req, res) => {
+        const id = req.params.id;
+        const { message, name, sdt, star } = req.body;
+        let date;
+        date = new Date();
+        date = date.getUTCFullYear() + '-' +
+            ('00' + (date.getUTCMonth() + 1)).slice(-2) + '-' +
+            ('00' + date.getUTCDate()).slice(-2) + ' ' +
+            ('00' + date.getUTCHours()).slice(-2) + ':' +
+            ('00' + date.getUTCMinutes()).slice(-2) + ':' +
+            ('00' + date.getUTCSeconds()).slice(-2);
+        console.log(date);
+        const sql = `INSERT INTO blsanpham (id_bl, id_sp, ten, dien_thoai, binh_luan, ngay_gio, star) VALUES (NULL, ${id}, '${name}', '${sdt}', '${message}', '${date}', ${star ? star : 0})`;
+        console.log(sql);
+        await pool.execute(sql);
+        res.redirect('back');
+
     }
 }
 

@@ -1,12 +1,10 @@
 import express from 'express'
+import { dataLocal } from '../middlewares/dataLocal.middleware'
 import userController from '../controller/userController'
 const router = express.Router();
 
-router.get('/:id', userController.getDetail);
-// router.get("/detail/user/:id", homeController.getDetail)
-// router.post("/create-new-user", homeController.createNewUser)
-// router.post("/delete/user/:id", homeController.deleteUser)
-// router.get("/edit/getuser/:id", homeController.getUserById)
-// router.post("/update/user/:id", homeController.updateUser)
+router.get('/register', userController.register);
+router.post('/register', userController.registerPost);
+
 module.exports = router;
 
