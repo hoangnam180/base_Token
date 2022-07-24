@@ -85,6 +85,12 @@
         case 'checkout' : %>
             <%- include('./checkout',{data : products,data2 : Arr_giohang,data3 : user}); -%>
             <% break;
+        case 'bills' : %>
+            <%- include('./bills'); -%>
+            <% break;
+        case 'contact' : %>
+            <%- include('./contact'); -%>
+            <% break;
         default:
             break;
         } %>

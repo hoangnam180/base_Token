@@ -97,6 +97,13 @@ class SiteController {
         res.redirect('back');
 
     }
+
+    //GET Contact
+    getContact = (req, res) => {
+        res.render('pages/index.ejs', {
+            page_layout: 'contact'
+        });
+    }
 }
 
 

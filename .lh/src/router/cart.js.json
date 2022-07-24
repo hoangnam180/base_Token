@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1658599209955,
@@ -64,6 +64,22 @@
                 {
                     "date": 1658647953669,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,12 +4,12 @@\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n //add cart\r\n-router.get('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n-router.get('/minus/:id', authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n-router.get('/delete/:id', authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n+router.get('/add/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n+router.get('/minus/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n+router.get('/delete/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n //checkout\r\n-router.get('/checkout', authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n+router.get('/checkout', dataLocal, authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n \r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658651280526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,7 +9,9 @@\n router.get('/minus/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n router.get('/delete/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n //checkout\r\n router.get('/checkout', dataLocal, authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n+//BILLS\r\n+router.get('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);\r\n \r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658651411046,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,8 @@\n router.get('/delete/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n //checkout\r\n router.get('/checkout', dataLocal, authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n //BILLS\r\n-router.get('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);\r\n+router.post('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);\r\n \r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658654006418,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,7 +11,8 @@\n //checkout\r\n router.get('/checkout', dataLocal, authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n //BILLS\r\n router.post('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);\r\n+router.get('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);\r\n \r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658654013541,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,8 @@\n //checkout\r\n router.get('/checkout', dataLocal, authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n //BILLS\r\n router.post('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);\r\n-router.get('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);\r\n+router.get('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getBills);\r\n \r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
                 }
             ],
             "date": 1658599209955,

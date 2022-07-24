@@ -105,6 +105,34 @@ class CartController {
             page_layout: 'checkout'
         })
     }
+    async bills(req, res) {
+        const Arr_giohang = req.signedCookies.giohang;
+        let totalPrice = req.body.price;
+        const userId = req.signedCookies.id_user;
+        const list_id_sp = Arr_giohang.map(item => item.id).join(',');
+        const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;
+        const [rows] = await pool.execute(sql);
+        const name_product = rows.map(item => item.ten_sp).join(',');
+        const sql1 = `INSERT INTO hoa_don (id, name_product, price, id_thanhvien) VALUES (NULL , '${name_product}', '${totalPrice}', ${userId})`;
+        console.log(sql1);
+        const [rows1] = await pool.execute(sql1);
+        // clear cookie
+        res.clearCookie('giohang');
+        if (rows1.affectedRows > 0) {
+            res.render('pages/index.ejs', {
+                page_layout: 'bills'
+            })
+            return;
+        }
+
+        res.redirect('/cart');
+    }
+
+    getBills(req, res) {
+        res.render('pages/index.ejs', {
+            page_layout: 'bills'
+        })
+    }
 }
 
 

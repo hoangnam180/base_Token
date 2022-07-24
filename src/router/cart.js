@@ -10,6 +10,9 @@ router.get('/minus/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartContr
 router.get('/delete/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.deleteCart);
 //checkout
 router.get('/checkout', dataLocal, authMiddleware.requireAuthbyUser1, cartController.checkout);
+//BILLS
+router.post('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.bills);
+router.get('/bills', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getBills);
 
 router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);
 module.exports = router;

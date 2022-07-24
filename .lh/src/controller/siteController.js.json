@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1658599553310,
@@ -12,6 +12,18 @@
                 {
                     "date": 1658599847719,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,8 +47,9 @@\n         const id = req.query.id_dm;\r\n         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;\r\n         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id} ORDER BY id_sp DESC`;\r\n         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);\r\n+        console.log(rows2[0]);\r\n         //get danhmusp and sanpham\r\n         res.render('pages/index.ejs', {\r\n             danhmucsp: rows1[0][0],\r\n             sanpham: rows2[0],\r\n"
+                },
+                {
+                    "date": 1658654550770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -96,8 +96,13 @@\n         await pool.execute(sql);\r\n         res.redirect('back');\r\n \r\n     }\r\n+\r\n+    //GET Contact\r\n+    getContact = (req, res) => {\r\n+        res.render('pages/contact.ejs');\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new SiteController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658654563176,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -99,9 +99,11 @@\n     }\r\n \r\n     //GET Contact\r\n     getContact = (req, res) => {\r\n-        res.render('pages/contact.ejs');\r\n+        res.render('pages/contact.ejs', {\r\n+            page_layout: 'contact'\r\n+        });\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658654569656,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -99,9 +99,9 @@\n     }\r\n \r\n     //GET Contact\r\n     getContact = (req, res) => {\r\n-        res.render('pages/contact.ejs', {\r\n+        res.render('pages/index.ejs', {\r\n             page_layout: 'contact'\r\n         });\r\n     }\r\n }\r\n"
                 }
             ],
             "date": 1658599553310,

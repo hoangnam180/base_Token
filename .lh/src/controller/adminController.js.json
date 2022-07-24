@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1658590926542,
@@ -20,6 +20,30 @@
                 {
                     "date": 1658639777571,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -193,9 +193,8 @@\n         }\r\n         const { ten_sp, gia_sp, trang_thai, ma_dm, khuyen_mai, description, avatar, ban_chay } = req.body;\r\n         const sql = `INSERT INTO sanpham (ban_chay,id_sp,id_dm, ten_sp, anh_sp,gia_sp, khuyen_mai, trang_thai,chi_tiet_sp) VALUES (${ban_chay ? ban_chay : 0},NULL, ${ma_dm}, '${ten_sp}', '${avatar ? avatar : \"NULL\"}', '${gia_sp}', '${khuyen_mai}', '${trang_thai}', '${description}')`;\r\n         await pool.execute(sql);\r\n-        console.log(sql);\r\n         return res.redirect('/admin/products');\r\n     }\r\n \r\n     // GET comments page\r\n"
+                },
+                {
+                    "date": 1658652850949,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -134,8 +134,10 @@\n     // Get bills page\r\n     bills = async (req, res) => {\r\n         const sql = `SELECT * FROM hoa_don`;\r\n         const [rows] = await pool.execute(sql);\r\n+        // get user\r\n+        const sqlUser = `SELECT * FROM thanhvien`;\r\n         return res.render('admin/bills.ejs', { data: rows, url: req.url })\r\n     }\r\n \r\n     // delete bills \r\n"
+                },
+                {
+                    "date": 1658652874615,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -134,10 +134,9 @@\n     // Get bills page\r\n     bills = async (req, res) => {\r\n         const sql = `SELECT * FROM hoa_don`;\r\n         const [rows] = await pool.execute(sql);\r\n-        // get user\r\n-        const sqlUser = `SELECT * FROM thanhvien`;\r\n+        console.log(rows);\r\n         return res.render('admin/bills.ejs', { data: rows, url: req.url })\r\n     }\r\n \r\n     // delete bills \r\n"
+                },
+                {
+                    "date": 1658652942278,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -134,9 +134,10 @@\n     // Get bills page\r\n     bills = async (req, res) => {\r\n         const sql = `SELECT * FROM hoa_don`;\r\n         const [rows] = await pool.execute(sql);\r\n-        console.log(rows);\r\n+        const list_idthanhvien = [...rows].map(item => item.id_thanhvien);\r\n+        console.log(rows, list_idthanhvien);\r\n         return res.render('admin/bills.ejs', { data: rows, url: req.url })\r\n     }\r\n \r\n     // delete bills \r\n"
+                },
+                {
+                    "date": 1658652991214,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -135,9 +135,10 @@\n     bills = async (req, res) => {\r\n         const sql = `SELECT * FROM hoa_don`;\r\n         const [rows] = await pool.execute(sql);\r\n         const list_idthanhvien = [...rows].map(item => item.id_thanhvien);\r\n-        console.log(rows, list_idthanhvien);\r\n+        list_idthanhvien.join(',');\r\n+        const sqluser = `SELECT * FROM thanhvien WHERE id_thanhvien IN (${list_idthanhvien})`;\r\n         return res.render('admin/bills.ejs', { data: rows, url: req.url })\r\n     }\r\n \r\n     // delete bills \r\n"
+                },
+                {
+                    "date": 1658652999995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -137,8 +137,9 @@\n         const [rows] = await pool.execute(sql);\r\n         const list_idthanhvien = [...rows].map(item => item.id_thanhvien);\r\n         list_idthanhvien.join(',');\r\n         const sqluser = `SELECT * FROM thanhvien WHERE id_thanhvien IN (${list_idthanhvien})`;\r\n+        console.log(\"Checkk SQL>>>>>>>\", sqluser);\r\n         return res.render('admin/bills.ejs', { data: rows, url: req.url })\r\n     }\r\n \r\n     // delete bills \r\n"
+                },
+                {
+                    "date": 1658653049788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -137,10 +137,10 @@\n         const [rows] = await pool.execute(sql);\r\n         const list_idthanhvien = [...rows].map(item => item.id_thanhvien);\r\n         list_idthanhvien.join(',');\r\n         const sqluser = `SELECT * FROM thanhvien WHERE id_thanhvien IN (${list_idthanhvien})`;\r\n-        console.log(\"Checkk SQL>>>>>>>\", sqluser);\r\n-        return res.render('admin/bills.ejs', { data: rows, url: req.url })\r\n+        const [rowsuser] = await pool.execute(sqluser);\r\n+        return res.render('admin/bills.ejs', { data: rows, data2: rowsuser, url: req.url })\r\n     }\r\n \r\n     // delete bills \r\n     deleteBill = async (req, res) => {\r\n"
                 }
             ],
             "date": 1658590926542,

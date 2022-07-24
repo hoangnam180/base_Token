@@ -14,7 +14,7 @@
 
 
     <!-- Checkout Start -->
-    <form>
+    <form action="/cart/bills" method="POST">
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             <div class="col-lg-8">
@@ -23,19 +23,19 @@
                         <div class="contact-form">
                                 <div class="control-group">
                                     <label >Họ và tên</label>
-                                    <input name="name" required type="text" class="form-control" value="<%= data3.name %>"/>
+                                    <input name="name" required type="text" class="form-control" disabled value="<%= data3.name %>"/>
                                 </div>
                                 <div class="control-group mt-2">
                                     <label >Địa chỉ</label>
-                                    <input name="address" required type="text" class="form-control" value="<%= data3.address %>"/>
+                                    <input name="address" required type="text" class="form-control" disabled value="<%= data3.address %>"/>
                                 </div>
                                 <div class="control-group  mt-2">
                                     <label>Số điện thoại</label>
-                                    <input name="sdt" required type="text" class="form-control" value="<%= data3.sdt %>"/>
+                                    <input name="sdt" required type="text" class="form-control" disabled value="<%= data3.sdt %>"/>
                                 </div>
                                 <div class="control-group  mt-2">
                                     <label>Giới tính</label>
-                                    <select class="form-control" id="sel1" required name="sex">
+                                    <select class="form-control" id="sel1" disabled required name="sex">
                                         <option value="1" <%= (data3.gioi_tinh == 1) ? 'selected' : '' %>>Nam</option>
                                         <option value="0" <%= (data3.gioi_tinh == 0) ? 'selected' : '' %>>Nữ</option>
                                         <option value="2" <%= (data3.gioi_tinh == 2) ? 'selected' : '' %>>Khác</option>
@@ -74,6 +74,7 @@
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Thanh toán bằng tiền mặt</h4>
                     </div>
+                    <input type="text" hidden name="price" value="<%= totalPriceAll %>">
                     <div class="card-footer border-secondary bg-transparent">
                         <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Thanh toán</button>
                     </div>

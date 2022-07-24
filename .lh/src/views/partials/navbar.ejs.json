@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 21,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1658587045339,
@@ -92,6 +92,22 @@
                 {
                     "date": 1658593323116,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n         </div>\r\n         <% if (locals.user_client) { %>\r\n             <ul class=\"navbar-nav ml-auto\">\r\n                 <li class=\"nav-item\">\r\n-                    <a class=\"nav-link\" href=\"#pablo\">\r\n+                    <a class=\"nav-link\" href=\"/user\">\r\n                             <i class=\"fas fa-user\"></i>\r\n                             <span style=\"margin-left: 5px;\"><%= user_client.name %></span>\r\n                     </a>\r\n                 </li>\r\n"
+                },
+                {
+                    "date": 1658654273984,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,17 +7,10 @@\n     </button>\r\n     <div class=\"collapse navbar-collapse justify-content-between\" id=\"navbarCollapse\">\r\n         <div class=\"navbar-nav mr-auto py-0\">\r\n             <a href=\"/\" class=\"nav-item nav-link active\">Trang chủ</a>\r\n-            <a href=\"shop.html\" class=\"nav-item nav-link\">Shop</a>\r\n-            <a href=\"detail.html\" class=\"nav-item nav-link\">Shop Detail</a>\r\n-            <div class=\"nav-item dropdown\">\r\n-                <a href=\"#\" class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\">Pages</a>\r\n-                <div class=\"dropdown-menu rounded-0 m-0\">\r\n-                    <a href=\"cart.html\" class=\"dropdown-item\">Shopping Cart</a>\r\n-                    <a href=\"checkout.html\" class=\"dropdown-item\">Checkout</a>\r\n-                </div>\r\n-            </div>\r\n+            <a href=\"shop.html\" class=\"nav-item nav-link\">Giỏ hàng</a>\r\n+            <a href=\"detail.html\" class=\"nav-item nav-link\">Thanh toán</a>\r\n             <a href=\"contact.html\" class=\"nav-item nav-link\">Contact</a>\r\n         </div>\r\n         <% if (locals.user_client) { %>\r\n             <ul class=\"navbar-nav ml-auto\">\r\n"
+                },
+                {
+                    "date": 1658654324611,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,11 +7,11 @@\n     </button>\r\n     <div class=\"collapse navbar-collapse justify-content-between\" id=\"navbarCollapse\">\r\n         <div class=\"navbar-nav mr-auto py-0\">\r\n             <a href=\"/\" class=\"nav-item nav-link active\">Trang chủ</a>\r\n-            <a href=\"shop.html\" class=\"nav-item nav-link\">Giỏ hàng</a>\r\n+            <a href=\"/cart\" class=\"nav-item nav-link\">Giỏ hàng</a>\r\n             <a href=\"detail.html\" class=\"nav-item nav-link\">Thanh toán</a>\r\n-            <a href=\"contact.html\" class=\"nav-item nav-link\">Contact</a>\r\n+            <a href=\"contact.html\" class=\"nav-item nav-link\">Liên hệ</a>\r\n         </div>\r\n         <% if (locals.user_client) { %>\r\n             <ul class=\"navbar-nav ml-auto\">\r\n                 <li class=\"nav-item\">\r\n"
+                },
+                {
+                    "date": 1658654332956,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     <div class=\"collapse navbar-collapse justify-content-between\" id=\"navbarCollapse\">\r\n         <div class=\"navbar-nav mr-auto py-0\">\r\n             <a href=\"/\" class=\"nav-item nav-link active\">Trang chủ</a>\r\n             <a href=\"/cart\" class=\"nav-item nav-link\">Giỏ hàng</a>\r\n-            <a href=\"detail.html\" class=\"nav-item nav-link\">Thanh toán</a>\r\n+            <a href=\"cart/checkout\" class=\"nav-item nav-link\">Thanh toán</a>\r\n             <a href=\"contact.html\" class=\"nav-item nav-link\">Liên hệ</a>\r\n         </div>\r\n         <% if (locals.user_client) { %>\r\n             <ul class=\"navbar-nav ml-auto\">\r\n"
+                },
+                {
+                    "date": 1658654616602,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         <div class=\"navbar-nav mr-auto py-0\">\r\n             <a href=\"/\" class=\"nav-item nav-link active\">Trang chủ</a>\r\n             <a href=\"/cart\" class=\"nav-item nav-link\">Giỏ hàng</a>\r\n             <a href=\"cart/checkout\" class=\"nav-item nav-link\">Thanh toán</a>\r\n-            <a href=\"contact.html\" class=\"nav-item nav-link\">Liên hệ</a>\r\n+            <a href=\"/contact\" class=\"nav-item nav-link\">Liên hệ</a>\r\n         </div>\r\n         <% if (locals.user_client) { %>\r\n             <ul class=\"navbar-nav ml-auto\">\r\n                 <li class=\"nav-item\">\r\n"
                 }
             ],
             "date": 1658587045339,

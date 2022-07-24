@@ -135,7 +135,11 @@ class AdminController {
     bills = async (req, res) => {
         const sql = `SELECT * FROM hoa_don`;
         const [rows] = await pool.execute(sql);
-        return res.render('admin/bills.ejs', { data: rows, url: req.url })
+        const list_idthanhvien = [...rows].map(item => item.id_thanhvien);
+        list_idthanhvien.join(',');
+        const sqluser = `SELECT * FROM thanhvien WHERE id_thanhvien IN (${list_idthanhvien})`;
+        const [rowsuser] = await pool.execute(sqluser);
+        return res.render('admin/bills.ejs', { data: rows, data2: rowsuser, url: req.url })
     }
 
     // delete bills 

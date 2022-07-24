@@ -45,12 +45,33 @@
                                          <thead>
                                              <th>Mã Hóa Đơn</th>
                                              <th>Tên Khách Hàng</th>
+                                             <th>Số điện thoại</th>
+                                             <th>Địa chỉ</th>
+                                             <th>Tên Sản Phẩm</th>
+                                             <th>Tổng tiền</th>
                                          </thead>
                                          <tbody>
                                             <% data.forEach(bill => { %>
                                                 <tr>
                                                     <td><%= bill.id %></td>
-                                                    <td><%= bill.name %></td>
+                                                    <td> <% for (let i = 0; i < data2.length; i++) { %>
+                                                        <% if (data2[i].id_thanhvien == bill.id_thanhvien) { %>
+                                                            <%= data2[i].name %>
+                                                        <% } %>
+                                                    <% } %>
+                                                    </td>
+                                                    <td> <% for (let i = 0; i < data2.length; i++) { %>
+                                                        <% if (data2[i].id_thanhvien == bill.id_thanhvien) { %>
+                                                            <%= data2[i].sdt %>
+                                                        <% } %>
+                                                    <% } %>
+                                                    </td>
+                                                    <td> <% for (let i = 0; i < data2.length; i++) { %>
+                                                        <% if (data2[i].id_thanhvien == bill.id_thanhvien) { %>
+                                                            <%= data2[i].address %>
+                                                        <% } %>
+                                                    <% } %>
+                                                    </td>
                                                     <td><%= bill.name_product %></td>
                                                     <td><%= bill.price %></td>
                                                     <td style="display:flex;gap: 20px;justify-content: flex-end;">

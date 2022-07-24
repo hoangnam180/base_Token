@@ -8,6 +8,7 @@ router.get('/detail', dataLocal, authMiddleware.requireAuthbyUser, siteControlle
 router.get('/category', dataLocal, authMiddleware.requireAuthbyUser, siteController.getProducts);
 router.get('/search', dataLocal, authMiddleware.requireAuthbyUser, siteController.getSearch);
 router.post('/comment/:id', dataLocal, authMiddleware.requireAuthbyUser, siteController.postComment);
+router.get('/contact', dataLocal, authMiddleware.requireAuthbyUser, siteController.getContact);
 router.get('/', dataLocal, authMiddleware.requireAuthbyUser, siteController.getHomepage);
 
 module.exports = router;

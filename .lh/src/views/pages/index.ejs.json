@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 27,
+            "activePatchIndex": 31,
             "patches": [
                 {
                     "date": 1658590010868,
@@ -116,6 +116,22 @@
                 {
                     "date": 1658649306244,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -82,9 +82,9 @@\n         case 'cart' : %>\r\n             <%- include('./cart',{data : products,data2 : Arr_giohang}); -%>\r\n             <% break;\r\n         case 'checkout' : %>\r\n-            <%- include('./checkout',{data : products,data2 : Arr_giohang}); -%>\r\n+            <%- include('./checkout',{data : products,data2 : Arr_giohang,data3 : user}); -%>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658651385046,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -84,8 +84,11 @@\n             <% break;\r\n         case 'checkout' : %>\r\n             <%- include('./checkout',{data : products,data2 : Arr_giohang,data3 : user}); -%>\r\n             <% break;\r\n+        case 'bills' : %>\r\n+            <%- include('./bills'); -%>\r\n+            <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n \r\n"
+                },
+                {
+                    "date": 1658654485689,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -87,8 +87,11 @@\n             <% break;\r\n         case 'bills' : %>\r\n             <%- include('./bills'); -%>\r\n             <% break;\r\n+        case 'contact' : %>\r\n+            <%- include('./bills'); -%>\r\n+            <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n \r\n"
+                },
+                {
+                    "date": 1658654494879,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -88,9 +88,9 @@\n         case 'bills' : %>\r\n             <%- include('./bills'); -%>\r\n             <% break;\r\n         case 'contact' : %>\r\n-            <%- include('./bills'); -%>\r\n+            <%- include('./contact); -%>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
+                },
+                {
+                    "date": 1658654593747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -88,9 +88,9 @@\n         case 'bills' : %>\r\n             <%- include('./bills'); -%>\r\n             <% break;\r\n         case 'contact' : %>\r\n-            <%- include('./contact); -%>\r\n+            <%- include('./contact'); -%>\r\n             <% break;\r\n         default:\r\n             break;\r\n         } %>\r\n"
                 }
             ],
             "date": 1658590010868,
