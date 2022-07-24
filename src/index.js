@@ -1,8 +1,8 @@
-require('dotenv').config()
 const express = require('express')
 const initWebRoute = require('./router/index.js')
 const configViewEngine = require('./config/viewEngine')
 const morgan = require('morgan')
+require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT || 3000

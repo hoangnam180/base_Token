@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1658657346523,
@@ -20,6 +20,10 @@
                 {
                     "date": 1658658167407,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n-// require process.env.NODE_ENV === 'production' ? './src/config/connectDatabase.js' : './src/config/connectDatabase.js';\r\n-const process = require('process');\r\n+require('dotenv').config()\r\n const express = require('express')\r\n const initWebRoute = require('./router/index.js')\r\n const configViewEngine = require('./config/viewEngine')\r\n const morgan = require('morgan')\r\n"
+                },
+                {
+                    "date": 1658659541799,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n-require('dotenv').config()\r\n const express = require('express')\r\n const initWebRoute = require('./router/index.js')\r\n const configViewEngine = require('./config/viewEngine')\r\n const morgan = require('morgan')\r\n+require('dotenv').config()\r\n \r\n const app = express()\r\n const port = process.env.PORT || 3000\r\n const cookieParser = require(\"cookie-parser\");\r\n"
                 }
             ],
             "date": 1658657346523,
