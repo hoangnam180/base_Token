@@ -1,8 +1,8 @@
 require('dotenv').config()
-import express from 'express'
-import initWebRoute from './router/index.js'
-import configViewEngine from './config/viewEngine'
-import morgan from 'morgan'
+const express = require('express')
+const initWebRoute = require('./router/index.js')
+const configViewEngine = require('./config/viewEngine')
+const morgan = require('morgan')
 
 const app = express()
 const port = process.env.PORT || 3000

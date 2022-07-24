@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/middlewares/dataLocal.middleware.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1658658332256,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658658874160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,14 +3,18 @@\n     const sql = `SELECT * FROM dmsanpham`\r\n     const [rows] = await pool.query(sql)\r\n     if (rows.length > 0) {\r\n         res.locals.dataLocal = rows\r\n-        let total = req.signedCookies.giohang.reduce((total, item) => {\r\n-            return total + item.quantity\r\n-        }, 0);\r\n-        res.locals.cartquatity = total;\r\n-        next()\r\n+        if (req.signedCookies.giohang) {\r\n+            let total = req.signedCookies.giohang.reduce((total, item) => {\r\n+                return total + item.quantity\r\n+            }, 0);\r\n+            res.locals.cartquatity = total;\r\n+            next()\r\n+            return\r\n+        }\r\n     }\r\n+    next()\r\n }\r\n \r\n \r\n \r\n"
+                }
+            ],
+            "date": 1658658332256,
+            "name": "Commit-0",
+            "content": "const pool = require('../config/connectDatabase')\r\nconst dataLocal = async (req, res, next) => {\r\n    const sql = `SELECT * FROM dmsanpham`\r\n    const [rows] = await pool.query(sql)\r\n    if (rows.length > 0) {\r\n        res.locals.dataLocal = rows\r\n        let total = req.signedCookies.giohang.reduce((total, item) => {\r\n            return total + item.quantity\r\n        }, 0);\r\n        res.locals.cartquatity = total;\r\n        next()\r\n    }\r\n}\r\n\r\n\r\n\r\nmodule.exports = { dataLocal };"
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 
-import pool from '../config/connectDatabase'
-import md5 from 'md5';
+const pool = require('../config/connectDatabase')
+const md5 = require('md5')
 class UserController {
     // [GET] REGISTER
     register = (req, res) => {

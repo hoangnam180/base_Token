@@ -1,7 +1,7 @@
-import siteRouter from './site';
-import adminRouter from './admin';
-import userRouter from './users'
-import cartRouter from './cart'
+const siteRouter = require('./site');
+const adminRouter = require('./admin');
+const userRouter = require('./users')
+const cartRouter = require('./cart')
 const initWebRoute = (app) => {
     app.use('/cart', cartRouter);
     app.use('/user', userRouter);

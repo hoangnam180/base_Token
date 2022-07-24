@@ -1,6 +1,6 @@
-import express from 'express';
-import path from 'path';
-import sessionMiddleware from '../middlewares/session.middleware';
+const express = require('express');
+const path = require('path');
+const sessionMiddleware = require('../middlewares/session.middleware');
 const moment = require("moment");
 const configViewEngine = (app) => {
     app.use(express.static('./src/public'))
@@ -13,4 +13,4 @@ const configViewEngine = (app) => {
     app.use(sessionMiddleware.Session);
 }
 
-export default configViewEngine;
+module.exports = configViewEngine;

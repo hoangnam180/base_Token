@@ -1,5 +1,5 @@
-import md5 from 'md5';
-import pool from '../config/connectDatabase'
+const md5 = require('md5');
+const pool = require('../config/connectDatabase')
 //[GET]
 class AdminController {
     //[GET] Page login

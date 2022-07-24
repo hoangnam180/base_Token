@@ -1,5 +1,5 @@
 
-import pool from '../config/connectDatabase'
+const pool = require('../config/connectDatabase');
 class CartController {
     async getCart(req, res) {
         const Arr_giohang = req.signedCookies.giohang;

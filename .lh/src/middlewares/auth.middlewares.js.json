@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/middlewares/auth.middlewares.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1658658319512,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1658658319512,
+            "name": "Commit-0",
+            "content": "const pool = require('../config/connectDatabase')\r\nconst requireAuth = async (req, res, next) => {\r\n    if (!req.signedCookies.email) {\r\n        res.redirect('/admin');\r\n        return;\r\n    }\r\n    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n    const [rows] = await pool.query(sql);\r\n    if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n        req.data = [rows[0]];\r\n        res.locals.user = rows[0];\r\n        next();\r\n    }\r\n}\r\nconst requireAuthbyUser = async (req, res, next) => {\r\n    if (req.signedCookies.email_user) {\r\n        const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n        const [rows] = await pool.query(sql);\r\n        if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n            req.data = [rows[0]];\r\n            res.locals.user_client = rows[0];\r\n            next();\r\n            return\r\n        } else {\r\n            next();\r\n        }\r\n    }\r\n    next();\r\n}\r\n\r\n\r\nconst requireAuthbyUser1 = async (req, res, next) => {\r\n    if (!req.signedCookies.email_user) {\r\n        res.redirect('/user/login');\r\n        return;\r\n    }\r\n    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n    const [rows] = await pool.query(sql);\r\n    if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n        req.data = [rows[0]];\r\n        res.locals.user_client = rows[0];\r\n        next();\r\n    }\r\n}\r\n\r\n// check same email\r\nconst checkEmail = async (req, res, next) => {\r\n    const { email } = req.body;\r\n    const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n    const [rows] = await pool.query(sql);\r\n    if (rows.length > 0) {\r\n        res.render('pages/register', { error: 'Email đã tồn tại' });\r\n        return;\r\n    }\r\n    next();\r\n}\r\n\r\n\r\n\r\nmodule.exports = { requireAuth, checkEmail, requireAuthbyUser, requireAuthbyUser1 };"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/config/connectDatabase.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1658657908138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658658007438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n // get the client\r\n-import mysql from 'mysql2/promise';\r\n+const mysql = require('mysql2/promise');\r\n \r\n // create the connection to database\r\n const pool = mysql.createPool({\r\n     host: 'localhost',\r\n"
+                }
+            ],
+            "date": 1658657908138,
+            "name": "Commit-0",
+            "content": "// get the client\r\nimport mysql from 'mysql2/promise';\r\n\r\n// create the connection to database\r\nconst pool = mysql.createPool({\r\n    host: 'localhost',\r\n    user: 'root',\r\n    database: 'shop_my_pham'\r\n});\r\n\r\n\r\nmodule.exports = pool;"
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-import pool from '../config/connectDatabase'
+const pool = require('../config/connectDatabase')
 //[GET]
 class SiteController {
     getHomepage = async (req, res) => {

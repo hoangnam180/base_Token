@@ -1,5 +1,5 @@
 // get the client
-import mysql from 'mysql2/promise';
+const mysql = require('mysql2/promise');
 
 // create the connection to database
 const pool = mysql.createPool({
@@ -9,4 +9,4 @@ const pool = mysql.createPool({
 });
 
 
-export default pool;
+module.exports = pool;

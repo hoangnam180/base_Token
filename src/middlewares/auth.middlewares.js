@@ -1,4 +1,4 @@
-import pool from '../config/connectDatabase'
+const pool = require('../config/connectDatabase')
 const requireAuth = async (req, res, next) => {
     if (!req.signedCookies.email) {
         res.redirect('/admin');

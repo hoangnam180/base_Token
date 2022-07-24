@@ -1,7 +1,7 @@
-import express from 'express'
-import adminController from '../controller/adminController'
-import authMiddleware from '../middlewares/auth.middlewares'
-import imgMiddleware from '../middlewares/imgs.middlewares'
+const express = require('express')
+const adminController = require('../controller/adminController')
+const authMiddleware = require('../middlewares/auth.middlewares')
+const imgMiddleware = require('../middlewares/imgs.middlewares')
 
 const router = express.Router();
 router.get('/home', authMiddleware.requireAuth, adminController.getHomepage);

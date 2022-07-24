@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/router/users.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1658658285500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658658675514,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n const express = require('express')\r\n const authMiddleware = require('../middlewares/auth.middlewares')\r\n const userController = require('../controller/userController')\r\n-const { dataLocal } = require('../middlewares/dataLocal.middleware')\r\n+const dataLocalMiddleware = require('../middlewares/dataLocal.middleware')\r\n \r\n const router = express.Router();\r\n //register\r\n router.get('/register', userController.register);\r\n@@ -13,9 +13,9 @@\n router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n \r\n // edit user\r\n-router.post('/edit/:id', dataLocal, authMiddleware.requireAuthbyUser1, userController.editUser);\r\n-router.post('/update/:id', dataLocal, authMiddleware.requireAuthbyUser1, userController.updateUser);\r\n-router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.profile);\r\n+router.post('/edit/:id', dataLocalMiddleware.dataLocal, authMiddleware.requireAuthbyUser1, userController.editUser);\r\n+router.post('/update/:id', dataLocalMiddleware.dataLocal, authMiddleware.requireAuthbyUser1, userController.updateUser);\r\n+router.get('/', dataLocalMiddleware.dataLocal, authMiddleware.requireAuthbyUser1, userController.profile);\r\n module.exports = router;\r\n \r\n"
+                }
+            ],
+            "date": 1658658285500,
+            "name": "Commit-0",
+            "content": "const express = require('express')\r\nconst authMiddleware = require('../middlewares/auth.middlewares')\r\nconst userController = require('../controller/userController')\r\nconst { dataLocal } = require('../middlewares/dataLocal.middleware')\r\n\r\nconst router = express.Router();\r\n//register\r\nrouter.get('/register', userController.register);\r\nrouter.post('/register', authMiddleware.checkEmail, userController.registerPost);\r\n\r\n//login\r\nrouter.get('/login', userController.login);\r\nrouter.post('/login', userController.loginPost);\r\nrouter.get('/logout', userController.logout);\r\n\r\n// edit user\r\nrouter.post('/edit/:id', dataLocal, authMiddleware.requireAuthbyUser1, userController.editUser);\r\nrouter.post('/update/:id', dataLocal, authMiddleware.requireAuthbyUser1, userController.updateUser);\r\nrouter.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.profile);\r\nmodule.exports = router;\r\n\r\n"
+        }
+    ]
+}
