@@ -4,6 +4,10 @@ const dataLocal = async (req, res, next) => {
     const [rows] = await pool.query(sql)
     if (rows.length > 0) {
         res.locals.dataLocal = rows
+        let total = req.signedCookies.giohang.reduce((total, item) => {
+            return total + item.quantity
+        }, 0);
+        res.locals.cartquatity = total;
         next()
     }
 }

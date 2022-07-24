@@ -1,0 +1,78 @@
+{
+    "sourceFile": "src/router/users.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 15,
+            "patches": [
+                {
+                    "date": 1658585325266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658585588340,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,6 +7,7 @@\n router.post('/register', userController.registerPost);\r\n \r\n //login\r\n router.get('/login', userController.login);\r\n+router.post('/login', userController.loginPost);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658586095327,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n import express from 'express'\r\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n+import authMiddleware from '../middlewares/auth.middlewares'\r\n import userController from '../controller/userController'\r\n const router = express.Router();\r\n //register\r\n router.get('/register', userController.register);\r\n"
+                },
+                {
+                    "date": 1658586135524,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n import userController from '../controller/userController'\r\n const router = express.Router();\r\n //register\r\n router.get('/register', userController.register);\r\n-router.post('/register', userController.registerPost);\r\n+router.post('/register', authMiddleware.checkEmail, userController.registerPost);\r\n \r\n //login\r\n router.get('/login', userController.login);\r\n router.post('/login', userController.loginPost);\r\n"
+                },
+                {
+                    "date": 1658589492225,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n import express from 'express'\r\n-import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n import authMiddleware from '../middlewares/auth.middlewares'\r\n import userController from '../controller/userController'\r\n const router = express.Router();\r\n //register\r\n@@ -9,6 +8,7 @@\n \r\n //login\r\n router.get('/login', userController.login);\r\n router.post('/login', userController.loginPost);\r\n+router.get('/logout', userController.logout);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658589710782,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n router.post('/register', authMiddleware.checkEmail, userController.registerPost);\r\n \r\n //login\r\n router.get('/login', userController.login);\r\n-router.post('/login', userController.loginPost);\r\n+router.post('/login', authMiddleware.requireAuthbyUser, userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658589723160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n router.post('/register', authMiddleware.checkEmail, userController.registerPost);\r\n \r\n //login\r\n router.get('/login', userController.login);\r\n-router.post('/login', authMiddleware.requireAuthbyUser, userController.loginPost);\r\n+router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658589763069,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n router.post('/register', authMiddleware.checkEmail, userController.registerPost);\r\n \r\n //login\r\n router.get('/login', userController.login);\r\n-router.post('/login', userController.loginPost);\r\n+router.post('/login', authMiddleware.requireAuthbyUser userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658589825397,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n router.post('/register', authMiddleware.checkEmail, userController.registerPost);\r\n \r\n //login\r\n router.get('/login', userController.login);\r\n-router.post('/login', authMiddleware.requireAuthbyUser userController.loginPost);\r\n+router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658591351998,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,6 +9,9 @@\n //login\r\n router.get('/login', userController.login);\r\n router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n+\r\n+// \r\n+router.get('/', authMiddleware.requireAuth, userController.account);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658591528771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,7 +11,7 @@\n router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n \r\n // \r\n-router.get('/', authMiddleware.requireAuth, userController.account);\r\n+router.get('/', authMiddleware.requireAuthbyUser1, userController.account);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658591596034,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,7 +11,7 @@\n router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n \r\n // \r\n-router.get('/', authMiddleware.requireAuthbyUser1, userController.account);\r\n+router.get('/', authMiddleware.requireAuthbyUser1, userController.profile);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658592077859,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n import express from 'express'\r\n import authMiddleware from '../middlewares/auth.middlewares'\r\n import userController from '../controller/userController'\r\n+import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n+\r\n const router = express.Router();\r\n //register\r\n router.get('/register', userController.register);\r\n router.post('/register', authMiddleware.checkEmail, userController.registerPost);\r\n@@ -11,7 +13,7 @@\n router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n \r\n // \r\n-router.get('/', authMiddleware.requireAuthbyUser1, userController.profile);\r\n+router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.profile);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658593429886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,9 @@\n router.get('/login', userController.login);\r\n router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n \r\n-// \r\n+// edit user\r\n+router.post('/edit/:id', authMiddleware.requireAuthbyUser1, userController.editUser);\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.profile);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658594062229,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n router.post('/login', userController.loginPost);\r\n router.get('/logout', userController.logout);\r\n \r\n // edit user\r\n-router.post('/edit/:id', authMiddleware.requireAuthbyUser1, userController.editUser);\r\n+router.post('/edit/:id', dataLocal, authMiddleware.requireAuthbyUser1, userController.editUser);\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.profile);\r\n module.exports = router;\r\n \r\n"
+                },
+                {
+                    "date": 1658595235996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,7 +14,8 @@\n router.get('/logout', userController.logout);\r\n \r\n // edit user\r\n router.post('/edit/:id', dataLocal, authMiddleware.requireAuthbyUser1, userController.editUser);\r\n+router.post('/update/:id', dataLocal, authMiddleware.requireAuthbyUser1, userController.updateUser);\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.profile);\r\n module.exports = router;\r\n \r\n"
+                }
+            ],
+            "date": 1658585325266,
+            "name": "Commit-0",
+            "content": "import express from 'express'\r\nimport { dataLocal } from '../middlewares/dataLocal.middleware'\r\nimport userController from '../controller/userController'\r\nconst router = express.Router();\r\n//register\r\nrouter.get('/register', userController.register);\r\nrouter.post('/register', userController.registerPost);\r\n\r\n//login\r\nrouter.get('/login', userController.login);\r\nmodule.exports = router;\r\n\r\n"
+        }
+    ]
+}

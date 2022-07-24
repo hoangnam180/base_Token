@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import sessionMiddleware from '../middlewares/session.middleware';
 const moment = require("moment");
 const configViewEngine = (app) => {
     app.use(express.static('./src/public'))
@@ -9,6 +10,7 @@ const configViewEngine = (app) => {
         res.locals.moment = moment;
         next();
     });
+    app.use(sessionMiddleware.Session);
 }
 
 export default configViewEngine;

@@ -38,8 +38,6 @@
     <!-- Topbar Start -->
     <%- include('../partials/header'); -%>
     <!-- Topbar End -->
-
-
     <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -74,6 +72,18 @@
             <% break;
         case 'search' : %>
             <%- include('./search',{data : sanpham}); -%>
+            <% break;
+        case 'profile' : %>
+            <%- include('./profile',{data : user}); -%>
+            <% break;
+        case 'edit-user' : %>
+            <%- include('./editprofile',{data : user}); -%>
+            <% break;
+        case 'cart' : %>
+            <%- include('./cart',{data : products,data2 : Arr_giohang}); -%>
+            <% break;
+        case 'checkout' : %>
+            <%- include('./checkout',{data : products,data2 : Arr_giohang,data3 : user}); -%>
             <% break;
         default:
             break;

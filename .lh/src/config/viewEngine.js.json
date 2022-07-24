@@ -1,0 +1,42 @@
+{
+    "sourceFile": "src/config/viewEngine.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1658611705398,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658611753542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n import express from 'express';\r\n import path from 'path';\r\n+import sessionMiddleware from '../middlewares/session.middleware';\r\n const moment = require(\"moment\");\r\n const configViewEngine = (app) => {\r\n     app.use(express.static('./src/public'))\r\n     app.set('view engine', 'ejs')\r\n"
+                },
+                {
+                    "date": 1658611764630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     app.use((req, res, next) => {\r\n         res.locals.moment = moment;\r\n         next();\r\n     });\r\n-\r\n+    app.use(sessionMiddleware);\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658611816342,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     app.use((req, res, next) => {\r\n         res.locals.moment = moment;\r\n         next();\r\n     });\r\n-    app.use(sessionMiddleware);\r\n+    app.use(sessionMiddleware.se);\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658611869673,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     app.use((req, res, next) => {\r\n         res.locals.moment = moment;\r\n         next();\r\n     });\r\n-    app.use(sessionMiddleware.se);\r\n+    app.use(sessionMiddleware.Session);\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658611938237,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     app.use((req, res, next) => {\r\n         res.locals.moment = moment;\r\n         next();\r\n     });\r\n-    app.use(sessionMiddleware.Session);\r\n+    // app.use(sessionMiddleware.Session);\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658611959099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     app.use((req, res, next) => {\r\n         res.locals.moment = moment;\r\n         next();\r\n     });\r\n-    // app.use(sessionMiddleware.Session);\r\n+    app.use(sessionMiddleware.Session);\r\n }\r\n \r\n export default configViewEngine;\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1658611705398,
+            "name": "Commit-0",
+            "content": "import express from 'express';\r\nimport path from 'path';\r\nconst moment = require(\"moment\");\r\nconst configViewEngine = (app) => {\r\n    app.use(express.static('./src/public'))\r\n    app.set('view engine', 'ejs')\r\n    app.set('views', path.join(__dirname, '../views'))\r\n    app.use((req, res, next) => {\r\n        res.locals.moment = moment;\r\n        next();\r\n    });\r\n\r\n}\r\n\r\nexport default configViewEngine;"
+        }
+    ]
+}

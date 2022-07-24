@@ -19,9 +19,28 @@
             </div>
             <a href="contact.html" class="nav-item nav-link">Contact</a>
         </div>
-        <div class="navbar-nav ml-auto py-0">
-            <a href="" class="nav-item nav-link">Đăng nhập</a>
-            <a href="" class="nav-item nav-link">Đăng ký</a>
-        </div>
+        <% if (locals.user_client) { %>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">
+                            <i class="fas fa-user"></i>
+                            <span style="margin-left: 5px;"><%= user_client.name %></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/logout">
+                        <span class="no-icon">Đăng Xuất</span>
+                    </a>
+                </li>
+            </ul>
+            <% }
+            else { %>
+                <div class="navbar-nav ml-auto py-0">
+                    <a href="/user/login" class="nav-item nav-link">Đăng nhập</a>
+                    <a href="/user/register" class="nav-item nav-link">Đăng ký</a>
+                </div>
+                <% } %>
+        %>
+        
     </div>
 </nav>

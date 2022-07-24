@@ -1,0 +1,158 @@
+{
+    "sourceFile": "src/middlewares/auth.middlewares.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 35,
+            "patches": [
+                {
+                    "date": 1658585948976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658586035866,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,5 +38,5 @@\n }\r\n \r\n \r\n \r\n-module.exports = { requireAuth };\n\\ No newline at end of file\n+module.exports = { requireAuth, checkEmail };\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658586284416,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     const { email } = req.body;\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0) {\r\n-        res.render('/user/register', { error: 'Email đã tồn tại' });\r\n+        res.render('pages/register', { error: 'Email đã tồn tại' });\r\n         return;\r\n     }\r\n     next();\r\n }\r\n"
+                },
+                {
+                    "date": 1658587188126,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,21 +11,21 @@\n         res.locals.user = rows[0];\r\n         next();\r\n     }\r\n }\r\n-// const requireAuthbyUser = async (req, res, next) => {\r\n-//     if (!req.signedCookies.email) {\r\n-//         res.redirect('/user');\r\n-//         return;\r\n-//     }\r\n-//     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n-//     const [rows] = await pool.query(sql);\r\n-//     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-//         req.data = [rows[0]];\r\n-//         res.locals.user = rows[0];\r\n-//         next();\r\n-//     }\r\n-// }\r\n+const requireAuthbyUser = async (req, res, next) => {\r\n+    if (!req.signedCookies.email_user) {\r\n+        res.redirect('/user/login');\r\n+        return;\r\n+    }\r\n+    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n+    const [rows] = await pool.query(sql);\r\n+    if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n+        req.data = [rows[0]];\r\n+        res.locals.user = rows[0];\r\n+        next();\r\n+    }\r\n+}\r\n // check same email\r\n const checkEmail = async (req, res, next) => {\r\n     const { email } = req.body;\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n"
+                },
+                {
+                    "date": 1658587199994,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,5 +38,5 @@\n }\r\n \r\n \r\n \r\n-module.exports = { requireAuth, checkEmail };\n\\ No newline at end of file\n+module.exports = { requireAuth, checkEmail, requireAuthbyUser };\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658587236720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n         req.data = [rows[0]];\r\n-        res.locals.user = rows[0];\r\n+        res.locals.user_client = rows[0];\r\n         next();\r\n     }\r\n }\r\n // check same email\r\n"
+                },
+                {
+                    "date": 1658587356420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,9 @@\n         res.locals.user_client = rows[0];\r\n         next();\r\n     }\r\n }\r\n+\r\n // check same email\r\n const checkEmail = async (req, res, next) => {\r\n     const { email } = req.body;\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n"
+                },
+                {
+                    "date": 1658588271414,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n         res.redirect('/user/login');\r\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n+    console.log(sql);\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n         req.data = [rows[0]];\r\n         res.locals.user_client = rows[0];\r\n"
+                },
+                {
+                    "date": 1658588395646,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,11 @@\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     console.log(sql);\r\n     const [rows] = await pool.query(sql);\r\n+    console.log(rows[0]);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-        req.data = [rows[0]];\r\n+        req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n         next();\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658588433287,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,8 @@\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     console.log(sql);\r\n     const [rows] = await pool.query(sql);\r\n-    console.log(rows[0]);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n         next();\r\n"
+                },
+                {
+                    "date": 1658588513075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,13 +17,13 @@\n         res.redirect('/user/login');\r\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n-    console.log(sql);\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n+        console.log(sql);\r\n         next();\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658588550553,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     const [rows] = await pool.query(sql);\r\n-    if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n+    if (rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n         console.log(sql);\r\n         next();\r\n"
+                },
+                {
+                    "date": 1658588572838,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,9 @@\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     const [rows] = await pool.query(sql);\r\n+    console.log(rows);\r\n     if (rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n         console.log(sql);\r\n"
+                },
+                {
+                    "date": 1658588600522,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     if (!req.signedCookies.email_user) {\r\n         res.redirect('/user/login');\r\n         return;\r\n     }\r\n-    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n+    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n     const [rows] = await pool.query(sql);\r\n     console.log(rows);\r\n     if (rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n"
+                },
+                {
+                    "date": 1658588644146,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n     const [rows] = await pool.query(sql);\r\n     console.log(rows);\r\n-    if (rows[0].quyen_truy_cap === 0) {\r\n+    if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n         console.log(sql);\r\n         next();\r\n"
+                },
+                {
+                    "date": 1658588665160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n     const [rows] = await pool.query(sql);\r\n-    console.log(rows);\r\n+    console.log(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n         console.log(sql);\r\n"
+                },
+                {
+                    "date": 1658588748809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,13 +18,11 @@\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n     const [rows] = await pool.query(sql);\r\n-    console.log(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n         req.data = rows[0];\r\n         res.locals.user_client = rows[0];\r\n-        console.log(sql);\r\n         next();\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658589940841,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-        req.data = [rows[0]];\r\n+        req.data = rows[0];\r\n         res.locals.user = rows[0];\r\n         next();\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658590443140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     }\r\n }\r\n const requireAuthbyUser = async (req, res, next) => {\r\n     if (!req.signedCookies.email_user) {\r\n-        res.redirect('/user/login');\r\n+        res.redirect('/');\r\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n     const [rows] = await pool.query(sql);\r\n"
+                },
+                {
+                    "date": 1658590579024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,8 @@\n     }\r\n }\r\n const requireAuthbyUser = async (req, res, next) => {\r\n     if (!req.signedCookies.email_user) {\r\n-        res.redirect('/');\r\n         return;\r\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n     const [rows] = await pool.query(sql);\r\n"
+                },
+                {
+                    "date": 1658590612555,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,18 +12,19 @@\n         next();\r\n     }\r\n }\r\n const requireAuthbyUser = async (req, res, next) => {\r\n-    if (!req.signedCookies.email_user) {\r\n-        return;\r\n+    if (req.signedCookies.email_user) {\r\n+\r\n+\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n+        const [rows] = await pool.query(sql);\r\n+        if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n+            req.data = rows[0];\r\n+            res.locals.user_client = rows[0];\r\n+            next();\r\n+        }\r\n     }\r\n-    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n-    const [rows] = await pool.query(sql);\r\n-    if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-        req.data = rows[0];\r\n-        res.locals.user_client = rows[0];\r\n-        next();\r\n-    }\r\n }\r\n \r\n // check same email\r\n const checkEmail = async (req, res, next) => {\r\n"
+                },
+                {
+                    "date": 1658590622926,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,8 @@\n     }\r\n }\r\n const requireAuthbyUser = async (req, res, next) => {\r\n     if (req.signedCookies.email_user) {\r\n-\r\n-\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n             req.data = rows[0];\r\n"
+                },
+                {
+                    "date": 1658590682226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,12 @@\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n             req.data = rows[0];\r\n             res.locals.user_client = rows[0];\r\n             next();\r\n+            return\r\n         }\r\n     }\r\n+    next();\r\n }\r\n \r\n // check same email\r\n const checkEmail = async (req, res, next) => {\r\n"
+                },
+                {
+                    "date": 1658590706488,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,9 @@\n             res.locals.user_client = rows[0];\r\n             next();\r\n             return\r\n         }\r\n+        return\r\n     }\r\n     next();\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658590715040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n             res.locals.user_client = rows[0];\r\n             next();\r\n             return\r\n         }\r\n-        return\r\n+        next();\r\n     }\r\n     next();\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658590724335,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n             res.locals.user_client = rows[0];\r\n             next();\r\n             return\r\n         }\r\n-        next();\r\n+        return\r\n     }\r\n     next();\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658590752283,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,8 @@\n             res.locals.user_client = rows[0];\r\n             next();\r\n             return\r\n         }\r\n-        return\r\n     }\r\n     next();\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658590773342,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,10 @@\n             req.data = rows[0];\r\n             res.locals.user_client = rows[0];\r\n             next();\r\n             return\r\n+        } else {\r\n+            next();\r\n         }\r\n     }\r\n     next();\r\n }\r\n"
+                },
+                {
+                    "date": 1658590979695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     }\r\n     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n     const [rows] = await pool.query(sql);\r\n     if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n-        req.data = rows[0];\r\n+        req.data = [rows[0]];\r\n         res.locals.user = rows[0];\r\n         next();\r\n     }\r\n }\r\n@@ -16,9 +16,9 @@\n     if (req.signedCookies.email_user) {\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n         const [rows] = await pool.query(sql);\r\n         if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-            req.data = rows[0];\r\n+            req.data = [rows[0]];\r\n             res.locals.user_client = rows[0];\r\n             next();\r\n             return\r\n         } else {\r\n"
+                },
+                {
+                    "date": 1658591387555,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,23 @@\n         }\r\n     }\r\n     next();\r\n }\r\n+const requireAuthbyUser1 = async (req, res, next) => {\r\n+    if (req.signedCookies.email_user) {\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n+        const [rows] = await pool.query(sql);\r\n+        if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n+            req.data = [rows[0]];\r\n+            res.locals.user_client = rows[0];\r\n+            next();\r\n+            return\r\n+        } else {\r\n+            next();\r\n+        }\r\n+    }\r\n+    next();\r\n+}\r\n \r\n // check same email\r\n const checkEmail = async (req, res, next) => {\r\n     const { email } = req.body;\r\n@@ -41,5 +56,5 @@\n }\r\n \r\n \r\n \r\n-module.exports = { requireAuth, checkEmail, requireAuthbyUser };\n\\ No newline at end of file\n+module.exports = { requireAuth, checkEmail, requireAuthbyUser, requireAuthbyUser1 };\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658591435196,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,26 +35,23 @@\n             req.data = [rows[0]];\r\n             res.locals.user_client = rows[0];\r\n             next();\r\n             return\r\n-        } else {\r\n-            next();\r\n         }\r\n+        next();\r\n     }\r\n-    next();\r\n-}\r\n \r\n-// check same email\r\n-const checkEmail = async (req, res, next) => {\r\n-    const { email } = req.body;\r\n-    const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n-    const [rows] = await pool.query(sql);\r\n-    if (rows.length > 0) {\r\n-        res.render('pages/register', { error: 'Email đã tồn tại' });\r\n-        return;\r\n+    // check same email\r\n+    const checkEmail = async (req, res, next) => {\r\n+        const { email } = req.body;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n+        const [rows] = await pool.query(sql);\r\n+        if (rows.length > 0) {\r\n\\ No newline at end of file\n+            res.render('pages/register', { error: 'Email đã tồn tại' });\r\n+            return;\r\n+        }\r\n+        next();\r\n     }\r\n-    next();\r\n-}\r\n \r\n \r\n \r\n-module.exports = { requireAuth, checkEmail, requireAuthbyUser, requireAuthbyUser1 };\n+    module.exports = { requireAuth, checkEmail, requireAuthbyUser, requireAuthbyUser1 };\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658591458618,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,31 +27,22 @@\n     }\r\n     next();\r\n }\r\n const requireAuthbyUser1 = async (req, res, next) => {\r\n-    if (req.signedCookies.email_user) {\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n-        const [rows] = await pool.query(sql);\r\n-        if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-            req.data = [rows[0]];\r\n-            res.locals.user_client = rows[0];\r\n-            next();\r\n-            return\r\n-        }\r\n-        next();\r\n-    }\r\n \r\n-    // check same email\r\n-    const checkEmail = async (req, res, next) => {\r\n-        const { email } = req.body;\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n-        const [rows] = await pool.query(sql);\r\n-        if (rows.length > 0) {\r\n-            res.render('pages/register', { error: 'Email đã tồn tại' });\r\n-            return;\r\n-        }\r\n-        next();\r\n+}\r\n+\r\n+// check same email\r\n+const checkEmail = async (req, res, next) => {\r\n+    const { email } = req.body;\r\n\\ No newline at end of file\n+    const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n+    const [rows] = await pool.query(sql);\r\n+    if (rows.length > 0) {\r\n+        res.render('pages/register', { error: 'Email đã tồn tại' });\r\n+        return;\r\n     }\r\n+    next();\r\n+}\r\n \r\n \r\n \r\n-    module.exports = { requireAuth, checkEmail, requireAuthbyUser, requireAuthbyUser1 };\n+module.exports = { requireAuth, checkEmail, requireAuthbyUser, requireAuthbyUser1 };\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658591471639,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,12 @@\n     }\r\n     next();\r\n }\r\n const requireAuthbyUser1 = async (req, res, next) => {\r\n-\r\n+    if (!req.signedCookies.email) {\r\n+        res.redirect('/admin');\r\n+        return;\r\n+    }\r\n }\r\n \r\n // check same email\r\n const checkEmail = async (req, res, next) => {\r\n"
+                },
+                {
+                    "date": 1658591483749,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n     next();\r\n }\r\n const requireAuthbyUser1 = async (req, res, next) => {\r\n     if (!req.signedCookies.email) {\r\n-        res.redirect('/admin');\r\n+        res.redirect('/user/login');\r\n         return;\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658591506574,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,12 +27,19 @@\n     }\r\n     next();\r\n }\r\n const requireAuthbyUser1 = async (req, res, next) => {\r\n-    if (!req.signedCookies.email) {\r\n+    if (!req.signedCookies.email_user) {\r\n         res.redirect('/user/login');\r\n         return;\r\n     }\r\n+    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n+    const [rows] = await pool.query(sql);\r\n+    if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n+        req.data = [rows[0]];\r\n+        res.locals.user_client = rows[0];\r\n+        next();\r\n+    }\r\n }\r\n \r\n // check same email\r\n const checkEmail = async (req, res, next) => {\r\n"
+                },
+                {
+                    "date": 1658591553345,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,10 @@\n         }\r\n     }\r\n     next();\r\n }\r\n+\r\n+\r\n const requireAuthbyUser1 = async (req, res, next) => {\r\n     if (!req.signedCookies.email_user) {\r\n         res.redirect('/user/login');\r\n         return;\r\n"
+                }
+            ],
+            "date": 1658585948976,
+            "name": "Commit-0",
+            "content": "import pool from '../config/connectDatabase'\r\nconst requireAuth = async (req, res, next) => {\r\n    if (!req.signedCookies.email) {\r\n        res.redirect('/admin');\r\n        return;\r\n    }\r\n    const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n    const [rows] = await pool.query(sql);\r\n    if (rows.length > 0 && rows[0].quyen_truy_cap === 2) {\r\n        req.data = [rows[0]];\r\n        res.locals.user = rows[0];\r\n        next();\r\n    }\r\n}\r\n// const requireAuthbyUser = async (req, res, next) => {\r\n//     if (!req.signedCookies.email) {\r\n//         res.redirect('/user');\r\n//         return;\r\n//     }\r\n//     const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email}'`;\r\n//     const [rows] = await pool.query(sql);\r\n//     if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n//         req.data = [rows[0]];\r\n//         res.locals.user = rows[0];\r\n//         next();\r\n//     }\r\n// }\r\n// check same email\r\nconst checkEmail = async (req, res, next) => {\r\n    const { email } = req.body;\r\n    const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n    const [rows] = await pool.query(sql);\r\n    if (rows.length > 0) {\r\n        res.render('/user/register', { error: 'Email đã tồn tại' });\r\n        return;\r\n    }\r\n    next();\r\n}\r\n\r\n\r\n\r\nmodule.exports = { requireAuth };"
+        }
+    ]
+}

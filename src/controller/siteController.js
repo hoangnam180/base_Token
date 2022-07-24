@@ -48,6 +48,7 @@ class SiteController {
         const sql = `SELECT * FROM dmsanpham WHERE id_dm = ${id}`;
         const sql2 = `SELECT * FROM sanpham WHERE id_dm = ${id} ORDER BY id_sp DESC`;
         const [rows1, rows2] = await Promise.all([pool.query(sql), pool.query(sql2)]);
+        console.log(rows2[0]);
         //get danhmusp and sanpham
         res.render('pages/index.ejs', {
             danhmucsp: rows1[0][0],

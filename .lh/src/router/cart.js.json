@@ -1,0 +1,74 @@
+{
+    "sourceFile": "src/router/cart.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 14,
+            "patches": [
+                {
+                    "date": 1658599209955,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658599275930,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,10 @@\n import express from 'express'\r\n import authMiddleware from '../middlewares/auth.middlewares'\r\n import userController from '../controller/userController'\r\n-import { dataLocal } from '../middlewares/dataLocal.middleware'\n\\ No newline at end of file\n+import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n+\r\n+const router = express.Router();\r\n+\r\n+router.get('/register', userController.register);\r\n+\r\n+module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658599315867,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,7 @@\n import userController from '../controller/userController'\r\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n+router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.getCart);\r\n \r\n-router.get('/register', userController.register);\r\n-\r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658599406413,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import express from 'express'\r\n import authMiddleware from '../middlewares/auth.middlewares'\r\n-import userController from '../controller/userController'\r\n+import cartController from '../controller/cartController'\r\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n-router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, userController.getCart);\r\n+router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658600962236,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,7 +3,7 @@\n import cartController from '../controller/cartController'\r\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n-router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n+router.get('/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658607754840,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,7 +3,7 @@\n import cartController from '../controller/cartController'\r\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n-router.get('/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n+router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658607806427,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,8 @@\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n+//add cart\r\n+router.post('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658607852571,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,7 +5,7 @@\n \r\n const router = express.Router();\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n //add cart\r\n-router.post('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n+// router.post('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658607883383,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,7 +5,7 @@\n \r\n const router = express.Router();\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n //add cart\r\n-// router.post('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n+router.post('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658608075944,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,7 +5,7 @@\n \r\n const router = express.Router();\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n //add cart\r\n-router.post('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n+router.get('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658646083021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,6 +6,7 @@\n const router = express.Router();\r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n //add cart\r\n router.get('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n+router.get('/minus/:id', authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658646469733,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,6 +7,7 @@\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n //add cart\r\n router.get('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n router.get('/minus/:id', authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n+router.get('/delete/:id', authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n \r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658647594473,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,11 +3,13 @@\n import cartController from '../controller/cartController'\r\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n-router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n //add cart\r\n router.get('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n router.get('/minus/:id', authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n router.get('/delete/:id', authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n+//checkout\r\n+router.get('/checkout/:id', authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n \r\n+router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658647864726,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,8 @@\n router.get('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n router.get('/minus/:id', authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n router.get('/delete/:id', authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n //checkout\r\n-router.get('/checkout/:id', authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n+router.get('/checkout', authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n \r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
+                },
+                {
+                    "date": 1658647953669,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,12 +4,12 @@\n import { dataLocal } from '../middlewares/dataLocal.middleware'\r\n \r\n const router = express.Router();\r\n //add cart\r\n-router.get('/add/:id', authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n-router.get('/minus/:id', authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n-router.get('/delete/:id', authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n+router.get('/add/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.addCart);\r\n+router.get('/minus/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.minusCart);\r\n+router.get('/delete/:id', dataLocal, authMiddleware.requireAuthbyUser1, cartController.deleteCart);\r\n //checkout\r\n-router.get('/checkout', authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n+router.get('/checkout', dataLocal, authMiddleware.requireAuthbyUser1, cartController.checkout);\r\n \r\n router.get('/', dataLocal, authMiddleware.requireAuthbyUser1, cartController.getCart);\r\n module.exports = router;\r\n"
+                }
+            ],
+            "date": 1658599209955,
+            "name": "Commit-0",
+            "content": "import express from 'express'\r\nimport authMiddleware from '../middlewares/auth.middlewares'\r\nimport userController from '../controller/userController'\r\nimport { dataLocal } from '../middlewares/dataLocal.middleware'"
+        }
+    ]
+}

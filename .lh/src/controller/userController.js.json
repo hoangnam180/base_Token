@@ -1,0 +1,222 @@
+{
+    "sourceFile": "src/controller/userController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 51,
+            "patches": [
+                {
+                    "date": 1658584859475,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658584925071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,10 @@\n     }\r\n     // [POST] Login\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n+        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('', '', '', '', NULL, '', '', '', '')`\r\n \r\n-\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658585040818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     }\r\n     // [POST] Login\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n-        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('', '', '', '', NULL, '', '', '', '')`\r\n+        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${mat_khau}', 0, ${gioi_tinh ? gioi_tinh : 2})`;\r\n \r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658585074996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,10 @@\n     // [POST] Login\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n         const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${mat_khau}', 0, ${gioi_tinh ? gioi_tinh : 2})`;\r\n-\r\n+        await pool.execute(sql);\r\n+        res.redirect('/');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658585084769,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n         const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${mat_khau}', 0, ${gioi_tinh ? gioi_tinh : 2})`;\r\n         await pool.execute(sql);\r\n-        res.redirect('/');\r\n+        res.redirect('/login');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658585136060,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n     // [POST] Login\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n         const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${mat_khau}', 0, ${gioi_tinh ? gioi_tinh : 2})`;\r\n+        console.log(sql);\r\n         await pool.execute(sql);\r\n         res.redirect('/login');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658585198911,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     }\r\n     // [POST] Login\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n-        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${mat_khau}', 0, ${gioi_tinh ? gioi_tinh : 2})`;\r\n+        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${password}', 0, ${sex ? sex : 2})`;\r\n         console.log(sql);\r\n         await pool.execute(sql);\r\n         res.redirect('/login');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658585248792,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         const { name, password, sdt, address, sex, email } = req.body;\r\n         const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${password}', 0, ${sex ? sex : 2})`;\r\n         console.log(sql);\r\n         await pool.execute(sql);\r\n-        res.redirect('/login');\r\n+        res.redirect('/user/login');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658585348065,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n \r\n import pool from '../config/connectDatabase'\r\n class UserController {\r\n-    // [GET] Login\r\n+    // [GET] REGISTER\r\n     register = (req, res) => {\r\n         res.render('pages/register')\r\n     }\r\n     // [POST] Login\r\n@@ -12,8 +12,10 @@\n         console.log(sql);\r\n         await pool.execute(sql);\r\n         res.redirect('/user/login');\r\n     }\r\n+    // GET Login\r\n+\r\n }\r\n \r\n \r\n module.exports = new UserController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658585367347,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,18 +4,20 @@\n     // [GET] REGISTER\r\n     register = (req, res) => {\r\n         res.render('pages/register')\r\n     }\r\n-    // [POST] Login\r\n+    // [POST] REGISTER\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n         const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${password}', 0, ${sex ? sex : 2})`;\r\n         console.log(sql);\r\n         await pool.execute(sql);\r\n         res.redirect('/user/login');\r\n     }\r\n     // GET Login\r\n-\r\n+    login = (req, res) => {\r\n+        res.render('pages/register')\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new UserController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658585616170,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,22 @@\n         res.redirect('/user/login');\r\n     }\r\n     // GET Login\r\n     login = (req, res) => {\r\n-        res.render('pages/register')\r\n+        res.render('pages/login')\r\n     }\r\n+\r\n+    loginPost = async (req, res) => {\r\n+        const { email, password } = req.body;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${password}'`;\r\n+        const [rows] = await pool.execute(sql);\r\n+        if (rows.length > 0) {\r\n+            req.session.user = rows[0];\r\n+            res.redirect('/');\r\n+        } else {\r\n+            res.redirect('/user/login');\r\n+        }\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new UserController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658585682311,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,10 @@\n     }\r\n     // [POST] REGISTER\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n-        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${password}', 0, ${sex ? sex : 2})`;\r\n+        const hashPassword = md5(Number(password));\r\n+        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${hashPassword}', 0, ${sex ? sex : 2})`;\r\n         console.log(sql);\r\n         await pool.execute(sql);\r\n         res.redirect('/user/login');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658585688136,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n \r\n import pool from '../config/connectDatabase'\r\n+import md5 from 'md5';\r\n class UserController {\r\n     // [GET] REGISTER\r\n     register = (req, res) => {\r\n         res.render('pages/register')\r\n"
+                },
+                {
+                    "date": 1658585736702,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,12 @@\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n         const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${hashPassword}', 0, ${sex ? sex : 2})`;\r\n-        console.log(sql);\r\n-        await pool.execute(sql);\r\n+        const result = await pool.execute(sql);\r\n+        if (result) {\r\n+\r\n+        }\r\n         res.redirect('/user/login');\r\n     }\r\n     // GET Login\r\n     login = (req, res) => {\r\n"
+                },
+                {
+                    "date": 1658585744399,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,9 @@\n         const { name, password, sdt, address, sex, email } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n         const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${hashPassword}', 0, ${sex ? sex : 2})`;\r\n         const result = await pool.execute(sql);\r\n+        console.log(result);\r\n         if (result) {\r\n \r\n         }\r\n         res.redirect('/user/login');\r\n"
+                },
+                {
+                    "date": 1658586315017,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n import md5 from 'md5';\r\n class UserController {\r\n     // [GET] REGISTER\r\n     register = (req, res) => {\r\n-        res.render('pages/register')\r\n+        res.render('pages/register', { error: '' });\r\n     }\r\n     // [POST] REGISTER\r\n     registerPost = async (req, res) => {\r\n         const { name, password, sdt, address, sex, email } = req.body;\r\n"
+                },
+                {
+                    "date": 1658586401234,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n         res.redirect('/user/login');\r\n     }\r\n     // GET Login\r\n     login = (req, res) => {\r\n-        res.render('pages/login')\r\n+        res.render('pages/login', { error: '' });\r\n     }\r\n \r\n     loginPost = async (req, res) => {\r\n         const { email, password } = req.body;\r\n"
+                },
+                {
+                    "date": 1658586479963,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,8 +28,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0) {\r\n             req.session.user = rows[0];\r\n+            console.log(req.session.user);\r\n             res.redirect('/');\r\n         } else {\r\n             res.redirect('/user/login');\r\n         }\r\n"
+                },
+                {
+                    "date": 1658586507106,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,9 @@\n     loginPost = async (req, res) => {\r\n         const { email, password } = req.body;\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${password}'`;\r\n         const [rows] = await pool.execute(sql);\r\n+        console.log(rows);\r\n         if (rows.length > 0) {\r\n             req.session.user = rows[0];\r\n             console.log(req.session.user);\r\n             res.redirect('/');\r\n"
+                },
+                {
+                    "date": 1658586538379,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,10 @@\n     }\r\n \r\n     loginPost = async (req, res) => {\r\n         const { email, password } = req.body;\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${password}'`;\r\n+        const hashPassword = md5(Number(password));\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         console.log(rows);\r\n         if (rows.length > 0) {\r\n             req.session.user = rows[0];\r\n"
+                },
+                {
+                    "date": 1658586572746,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n         const { email, password } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n-        console.log(rows);\r\n+        console.log(sql);\r\n         if (rows.length > 0) {\r\n             req.session.user = rows[0];\r\n             console.log(req.session.user);\r\n             res.redirect('/');\r\n"
+                },
+                {
+                    "date": 1658586594372,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n         res.render('pages/login', { error: '' });\r\n     }\r\n \r\n     loginPost = async (req, res) => {\r\n-        const { email, password } = req.body;\r\n+        const { username, password } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         console.log(sql);\r\n"
+                },
+                {
+                    "date": 1658586718595,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,15 +25,19 @@\n \r\n     loginPost = async (req, res) => {\r\n         const { username, password } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${email}' AND mat_khau = '${hashPassword}'`;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${username}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         console.log(sql);\r\n         if (rows.length > 0) {\r\n-            req.session.user = rows[0];\r\n-            console.log(req.session.user);\r\n-            res.redirect('/');\r\n+            if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n+                res.cookie('email_user', rows[0].username, {\r\n+                    signed: true,\r\n+                });\r\n+                res.redirect('/');\r\n+                return;\r\n+            }\r\n         } else {\r\n             res.redirect('/user/login');\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658586756367,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,8 @@\n         const { username, password } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${username}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n-        console.log(sql);\r\n         if (rows.length > 0) {\r\n             if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n                 res.cookie('email_user', rows[0].username, {\r\n                     signed: true,\r\n@@ -37,9 +36,10 @@\n                 res.redirect('/');\r\n                 return;\r\n             }\r\n         } else {\r\n-            res.redirect('/user/login');\r\n+            res.render('pages/login', { error: 'Sai tài khoản hoặc mật khẩu' });\r\n+            return;\r\n         }\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658586989662,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,11 @@\n         res.redirect('/user/login');\r\n     }\r\n     // GET Login\r\n     login = (req, res) => {\r\n+        if (req.signedCookies.email_user) {\r\n+            res.redirect('/');\r\n+        }\r\n         res.render('pages/login', { error: '' });\r\n     }\r\n \r\n     loginPost = async (req, res) => {\r\n"
+                },
+                {
+                    "date": 1658588224161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${username}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0) {\r\n             if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-                res.cookie('email_user', rows[0].username, {\r\n+                res.cookie('email_user', rows[0].name, {\r\n                     signed: true,\r\n                 });\r\n                 res.redirect('/');\r\n                 return;\r\n"
+                },
+                {
+                    "date": 1658588715706,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${username}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0) {\r\n             if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-                res.cookie('email_user', rows[0].name, {\r\n+                res.cookie('email_user', rows[0].email, {\r\n                     signed: true,\r\n                 });\r\n                 res.redirect('/');\r\n                 return;\r\n"
+                },
+                {
+                    "date": 1658589482407,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,8 +43,9 @@\n             res.render('pages/login', { error: 'Sai tài khoản hoặc mật khẩu' });\r\n             return;\r\n         }\r\n     }\r\n+\r\n }\r\n \r\n \r\n module.exports = new UserController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658589512235,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,8 +44,16 @@\n             return;\r\n         }\r\n     }\r\n \r\n+\r\n+    // GET Logout\r\n+    logout = (req, res) => {\r\n+        res.clearCookie('email_user');\r\n+        return res.redirect('/');\r\n+    }\r\n+\r\n+\r\n }\r\n \r\n \r\n module.exports = new UserController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658589970673,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,8 +35,9 @@\n             if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n                 res.cookie('email_user', rows[0].email, {\r\n                     signed: true,\r\n                 });\r\n+                req.data_user = rows[0];\r\n                 res.redirect('/');\r\n                 return;\r\n             }\r\n         } else {\r\n"
+                },
+                {
+                    "date": 1658590101758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,8 +36,9 @@\n                 res.cookie('email_user', rows[0].email, {\r\n                     signed: true,\r\n                 });\r\n                 req.data_user = rows[0];\r\n+                console.log(req.data_user);\r\n                 res.redirect('/');\r\n                 return;\r\n             }\r\n         } else {\r\n"
+                },
+                {
+                    "date": 1658590148735,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,8 @@\n                 res.cookie('email_user', rows[0].email, {\r\n                     signed: true,\r\n                 });\r\n                 req.data_user = rows[0];\r\n-                console.log(req.data_user);\r\n                 res.redirect('/');\r\n                 return;\r\n             }\r\n         } else {\r\n"
+                },
+                {
+                    "date": 1658590298140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n             if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n                 res.cookie('email_user', rows[0].email, {\r\n                     signed: true,\r\n                 });\r\n-                req.data_user = rows[0];\r\n+                res.locals.user_client = rows[0];\r\n                 res.redirect('/');\r\n                 return;\r\n             }\r\n         } else {\r\n"
+                },
+                {
+                    "date": 1658590404796,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,8 @@\n             if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n                 res.cookie('email_user', rows[0].email, {\r\n                     signed: true,\r\n                 });\r\n-                res.locals.user_client = rows[0];\r\n                 res.redirect('/');\r\n                 return;\r\n             }\r\n         } else {\r\n"
+                },
+                {
+                    "date": 1658591588783,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,8 +51,16 @@\n         res.clearCookie('email_user');\r\n         return res.redirect('/');\r\n     }\r\n \r\n+    // GET Profile\r\n+    profile = async (req, res) => {\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n+        const [rows] = await pool.execute(sql);\r\n+        if (rows.length > 0) {\r\n+            res.render('pages/profile', { user: rows[0] });\r\n+        }\r\n+    }\r\n \r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658591698709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,9 +56,14 @@\n     profile = async (req, res) => {\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0) {\r\n-            res.render('pages/profile', { user: rows[0] });\r\n+            res.render('pages/index.ejs', {\r\n+                products,\r\n+                page,\r\n+                totalPage,\r\n+                page_layout: 'profile',\r\n+            });\r\n         }\r\n     }\r\n \r\n }\r\n"
+                },
+                {
+                    "date": 1658591708612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,11 +57,9 @@\n         const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n         const [rows] = await pool.execute(sql);\r\n         if (rows.length > 0) {\r\n             res.render('pages/index.ejs', {\r\n-                products,\r\n-                page,\r\n-                totalPage,\r\n+                user: rows[0],\r\n                 page_layout: 'profile',\r\n             });\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658593259489,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,17 +30,17 @@\n         const { username, password } = req.body;\r\n         const hashPassword = md5(Number(password));\r\n         const sql = `SELECT * FROM thanhvien WHERE email = '${username}' AND mat_khau = '${hashPassword}'`;\r\n         const [rows] = await pool.execute(sql);\r\n-        if (rows.length > 0) {\r\n-            if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-                res.cookie('email_user', rows[0].email, {\r\n-                    signed: true,\r\n-                });\r\n-                res.redirect('/');\r\n-                return;\r\n-            }\r\n-        } else {\r\n+        if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n+\r\n+            res.cookie('email_user', rows[0].email, {\r\n+                signed: true,\r\n+            });\r\n+            res.redirect('/');\r\n+            return;\r\n+        }\r\n+        else {\r\n             res.render('pages/login', { error: 'Sai tài khoản hoặc mật khẩu' });\r\n             return;\r\n         }\r\n     }\r\n"
+                },
+                {
+                    "date": 1658593459800,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,8 +63,12 @@\n             });\r\n         }\r\n     }\r\n \r\n+    // Get Edit User\r\n+    editUser = async (req, res) => {\r\n+\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new UserController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658593536072,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,9 +65,17 @@\n     }\r\n \r\n     // Get Edit User\r\n     editUser = async (req, res) => {\r\n-\r\n+        const id = req.params.id;\r\n+        const sql = `SELECT * FROM thanhvien WHERE id_thanhvien = ${id}`;\r\n+        const [rows] = await pool.execute(sql);\r\n+        if (rows.length > 0) {\r\n+            res.render('pages/index.ejs', {\r\n+                user: rows[0],\r\n+                page_layout: 'edit-user',\r\n+            });\r\n+        }\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658593546737,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,8 +68,9 @@\n     editUser = async (req, res) => {\r\n         const id = req.params.id;\r\n         const sql = `SELECT * FROM thanhvien WHERE id_thanhvien = ${id}`;\r\n         const [rows] = await pool.execute(sql);\r\n+        console.log(rows);\r\n         if (rows.length > 0) {\r\n             res.render('pages/index.ejs', {\r\n                 user: rows[0],\r\n                 page_layout: 'edit-user',\r\n"
+                },
+                {
+                    "date": 1658593561906,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,9 +68,8 @@\n     editUser = async (req, res) => {\r\n         const id = req.params.id;\r\n         const sql = `SELECT * FROM thanhvien WHERE id_thanhvien = ${id}`;\r\n         const [rows] = await pool.execute(sql);\r\n-        console.log(rows);\r\n         if (rows.length > 0) {\r\n             res.render('pages/index.ejs', {\r\n                 user: rows[0],\r\n                 page_layout: 'edit-user',\r\n"
+                },
+                {
+                    "date": 1658595283138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -75,8 +75,14 @@\n                 page_layout: 'edit-user',\r\n             });\r\n         }\r\n     }\r\n+\r\n+    // Post Edit User\r\n+    updateUser = async (req, res) => {\r\n+        const id = req.params.id;\r\n+        const { name, sdt, address, email, } = req.body;\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new UserController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658595292651,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,9 +79,9 @@\n \r\n     // Post Edit User\r\n     updateUser = async (req, res) => {\r\n         const id = req.params.id;\r\n-        const { name, sdt, address, email, } = req.body;\r\n+        const { name, sdt, address, email } = req.body;\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658595361386,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,9 +79,9 @@\n \r\n     // Post Edit User\r\n     updateUser = async (req, res) => {\r\n         const id = req.params.id;\r\n-        const { name, sdt, address, email } = req.body;\r\n+        const { name, sdt, address, sex } = req.body;\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658595381153,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,8 +80,9 @@\n     // Post Edit User\r\n     updateUser = async (req, res) => {\r\n         const id = req.params.id;\r\n         const { name, sdt, address, sex } = req.body;\r\n+        const sql = ``\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658595389710,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,9 +80,9 @@\n     // Post Edit User\r\n     updateUser = async (req, res) => {\r\n         const id = req.params.id;\r\n         const { name, sdt, address, sex } = req.body;\r\n-        const sql = ``\r\n+\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658595602942,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,9 +80,9 @@\n     // Post Edit User\r\n     updateUser = async (req, res) => {\r\n         const id = req.params.id;\r\n         const { name, sdt, address, sex } = req.body;\r\n-\r\n+        const sql = `UPDATE `thanhvien` SET `sdt` = '0942345523', `cmnd` = '942345523', `address` = '56 Nguyễn Đăng - An Khê - Thanh Khê ê', `name` = 'Hoàng Namfasdf', `gioi_tinh` = '2' WHERE `thanhvien`.`id_thanhvien` = 26`\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658595724689,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,9 +80,10 @@\n     // Post Edit User\r\n     updateUser = async (req, res) => {\r\n         const id = req.params.id;\r\n         const { name, sdt, address, sex } = req.body;\r\n-        const sql = `UPDATE `thanhvien` SET `sdt` = '0942345523', `cmnd` = '942345523', `address` = '56 Nguyễn Đăng - An Khê - Thanh Khê ê', `name` = 'Hoàng Namfasdf', `gioi_tinh` = '2' WHERE `thanhvien`.`id_thanhvien` = 26`\r\n+        const sql = `UPDATE thanhvien SET sdt = '${sdt}',address = '${address}', name = '${name}', gioi_tinh = ${sex} WHERE thanhvien.id_thanhvien = ${id}`\r\n+\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658595800289,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,9 +81,10 @@\n     updateUser = async (req, res) => {\r\n         const id = req.params.id;\r\n         const { name, sdt, address, sex } = req.body;\r\n         const sql = `UPDATE thanhvien SET sdt = '${sdt}',address = '${address}', name = '${name}', gioi_tinh = ${sex} WHERE thanhvien.id_thanhvien = ${id}`\r\n-\r\n+        await pool.execute(sql);\r\n+        res.redirect('/user')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658608827182,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,8 +35,11 @@\n \r\n             res.cookie('email_user', rows[0].email, {\r\n                 signed: true,\r\n             });\r\n+            res.cookie('id_user', rows[0].id_thanhvien, {\r\n+                signed: true,\r\n+            });\r\n             res.redirect('/');\r\n             return;\r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658608908717,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,8 +51,9 @@\n \r\n     // GET Logout\r\n     logout = (req, res) => {\r\n         res.clearCookie('email_user');\r\n+        res.clearCookie('id_user');\r\n         return res.redirect('/');\r\n     }\r\n \r\n     // GET Profile\r\n"
+                }
+            ],
+            "date": 1658584859475,
+            "name": "Commit-0",
+            "content": "\r\nimport pool from '../config/connectDatabase'\r\nclass UserController {\r\n    // [GET] Login\r\n    register = (req, res) => {\r\n        res.render('pages/register')\r\n    }\r\n    // [POST] Login\r\n    registerPost = async (req, res) => {\r\n        const { name, password, sdt, address, sex, email } = req.body;\r\n\r\n\r\n    }\r\n}\r\n\r\n\r\nmodule.exports = new UserController;"
+        }
+    ]
+}

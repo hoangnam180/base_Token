@@ -1,0 +1,550 @@
+{
+    "sourceFile": "src/controller/cartController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 133,
+            "patches": [
+                {
+                    "date": 1658599358331,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1658599369584,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,91 +1,9 @@\n \r\n import pool from '../config/connectDatabase'\r\n import md5 from 'md5';\r\n class CartController {\r\n-    // [GET] REGISTER\r\n-    register = (req, res) => {\r\n-        res.render('pages/register', { error: '' });\r\n-    }\r\n-    // [POST] REGISTER\r\n-    registerPost = async (req, res) => {\r\n-        const { name, password, sdt, address, sex, email } = req.body;\r\n-        const hashPassword = md5(Number(password));\r\n-        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${hashPassword}', 0, ${sex ? sex : 2})`;\r\n-        const result = await pool.execute(sql);\r\n-        console.log(result);\r\n-        if (result) {\r\n \r\n-        }\r\n-        res.redirect('/user/login');\r\n-    }\r\n-    // GET Login\r\n-    login = (req, res) => {\r\n-        if (req.signedCookies.email_user) {\r\n-            res.redirect('/');\r\n-        }\r\n-        res.render('pages/login', { error: '' });\r\n-    }\r\n-\r\n-    loginPost = async (req, res) => {\r\n-        const { username, password } = req.body;\r\n-        const hashPassword = md5(Number(password));\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${username}' AND mat_khau = '${hashPassword}'`;\r\n-        const [rows] = await pool.execute(sql);\r\n-        if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n-\r\n-            res.cookie('email_user', rows[0].email, {\r\n-                signed: true,\r\n-            });\r\n-            res.redirect('/');\r\n-            return;\r\n-        }\r\n-        else {\r\n-            res.render('pages/login', { error: 'Sai tài khoản hoặc mật khẩu' });\r\n-            return;\r\n-        }\r\n-    }\r\n-\r\n-\r\n-    // GET Logout\r\n-    logout = (req, res) => {\r\n-        res.clearCookie('email_user');\r\n-        return res.redirect('/');\r\n-    }\r\n-\r\n-    // GET Profile\r\n-    profile = async (req, res) => {\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n-        const [rows] = await pool.execute(sql);\r\n-        if (rows.length > 0) {\r\n-            res.render('pages/index.ejs', {\r\n-                user: rows[0],\r\n-                page_layout: 'profile',\r\n-            });\r\n-        }\r\n-    }\r\n-\r\n-    // Get Edit User\r\n-    editUser = async (req, res) => {\r\n-        const id = req.params.id;\r\n-        const sql = `SELECT * FROM thanhvien WHERE id_thanhvien = ${id}`;\r\n-        const [rows] = await pool.execute(sql);\r\n-        if (rows.length > 0) {\r\n-            res.render('pages/index.ejs', {\r\n-                user: rows[0],\r\n-                page_layout: 'edit-user',\r\n-            });\r\n-        }\r\n-    }\r\n-\r\n-    // Post Edit User\r\n-    updateUser = async (req, res) => {\r\n-        const id = req.params.id;\r\n-        const { name, sdt, address, sex } = req.body;\r\n-        const sql = `UPDATE thanhvien SET sdt = '${sdt}',address = '${address}', name = '${name}', gioi_tinh = ${sex} WHERE thanhvien.id_thanhvien = ${id}`\r\n-        await pool.execute(sql);\r\n-        res.redirect('/user')\r\n-    }\r\n }\r\n \r\n \r\n module.exports = new CartController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658599433821,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,16 @@\n \r\n import pool from '../config/connectDatabase'\r\n import md5 from 'md5';\r\n class CartController {\r\n-\r\n+    getCart(req, res) {\r\n+        const { id } = req.user;\r\n+        pool.query(`SELECT * FROM cart WHERE user_id = ${id}`, (err, results) => {\r\n+            if (err) throw err;\r\n+            res.send(results);\r\n+        }\r\n+        )\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new CartController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658599481379,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,14 +2,9 @@\n import pool from '../config/connectDatabase'\r\n import md5 from 'md5';\r\n class CartController {\r\n     getCart(req, res) {\r\n-        const { id } = req.user;\r\n-        pool.query(`SELECT * FROM cart WHERE user_id = ${id}`, (err, results) => {\r\n-            if (err) throw err;\r\n-            res.send(results);\r\n-        }\r\n-        )\r\n+        res.render('')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658599492304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import pool from '../config/connectDatabase'\r\n import md5 from 'md5';\r\n class CartController {\r\n     getCart(req, res) {\r\n-        res.render('')\r\n+        res.render('pages/index.ejs')\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658599503556,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,6 @@\n \r\n import pool from '../config/connectDatabase'\r\n-import md5 from 'md5';\r\n class CartController {\r\n     getCart(req, res) {\r\n         res.render('pages/index.ejs')\r\n     }\r\n"
+                },
+                {
+                    "date": 1658599516934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,11 @@\n \r\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n-        res.render('pages/index.ejs')\r\n+        res.render('pages/index.ejs', {\r\n+            page_layout: 'cart'\r\n+        })\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658601099167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n \r\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n+        const { id } = req.params;\r\n+\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658601152507,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,10 @@\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n         const { id } = req.params;\r\n-\r\n+        const id_thanhvien = req.signedCookies.email_user;\r\n+        console.log(id_thanhvien);\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658601242110,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,10 +2,9 @@\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n         const { id } = req.params;\r\n-        const id_thanhvien = req.signedCookies.email_user;\r\n-        console.log(id_thanhvien);\r\n+        const email = req.signedCookies.email_user;\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658601392770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,10 @@\n class CartController {\r\n     getCart(req, res) {\r\n         const { id } = req.params;\r\n         const email = req.signedCookies.email_user;\r\n+        const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n+        const [rows] = await pool.execute(sql);\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658601441819,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,8 @@\n \r\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n-        const { id } = req.params;\r\n-        const email = req.signedCookies.email_user;\r\n-        const sql = `SELECT * FROM thanhvien WHERE email = '${email}'`;\r\n-        const [rows] = await pool.execute(sql);\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658607894003,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,12 @@\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n+\r\n+    addCart(req, res) {\r\n+\r\n+    }\r\n }\r\n \r\n \r\n module.exports = new CartController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658607908863,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,29 @@\n         })\r\n     }\r\n \r\n     addCart(req, res) {\r\n-\r\n+        const id = req.params.id;\r\n+        const userId = req.session.userId;\r\n+        pool.query(`SELECT * FROM products WHERE id = ${id}`, (err, result) => {\r\n+            if (err) throw err;\r\n+            if (result.length > 0) {\r\n+                pool.query(`SELECT * FROM cart WHERE userId = ${userId} AND productId = ${id}`, (err, result) => {\r\n+                    if (err) throw err;\r\n+                    if (result.length > 0) {\r\n+                        pool.query(`UPDATE cart SET quantity = quantity + 1 WHERE userId = ${userId} AND productId = ${id}`, (err, result) => {\r\n+                            if (err) throw err;\r\n+                            res.redirect('/cart');\r\n+                        })\r\n+                    } else {\r\n+                        pool.query(`INSERT INTO cart (userId, productId, quantity) VALUES (${userId}, ${id}, 1)`, (err, result) => {\r\n+                            if (err) throw err;\r\n+                            res.redirect('/cart');\r\n+                        })\r\n+                    }\r\n+                })\r\n+            }\r\n+        })\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658607932106,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.session.userId;\r\n-        pool.query(`SELECT * FROM products WHERE id = ${id}`, (err, result) => {\r\n+        pool.query(`SELECT * FROM sanpham WHERE id = ${id}`, (err, result) => {\r\n             if (err) throw err;\r\n             if (result.length > 0) {\r\n                 pool.query(`SELECT * FROM cart WHERE userId = ${userId} AND productId = ${id}`, (err, result) => {\r\n                     if (err) throw err;\r\n"
+                },
+                {
+                    "date": 1658607985440,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,27 +9,9 @@\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.session.userId;\r\n-        pool.query(`SELECT * FROM sanpham WHERE id = ${id}`, (err, result) => {\r\n-            if (err) throw err;\r\n-            if (result.length > 0) {\r\n-                pool.query(`SELECT * FROM cart WHERE userId = ${userId} AND productId = ${id}`, (err, result) => {\r\n-                    if (err) throw err;\r\n-                    if (result.length > 0) {\r\n-                        pool.query(`UPDATE cart SET quantity = quantity + 1 WHERE userId = ${userId} AND productId = ${id}`, (err, result) => {\r\n-                            if (err) throw err;\r\n-                            res.redirect('/cart');\r\n-                        })\r\n-                    } else {\r\n-                        pool.query(`INSERT INTO cart (userId, productId, quantity) VALUES (${userId}, ${id}, 1)`, (err, result) => {\r\n-                            if (err) throw err;\r\n-                            res.redirect('/cart');\r\n-                        })\r\n-                    }\r\n-                })\r\n-            }\r\n-        })\r\n+        console.log(id, userId);\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658608029336,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     }\r\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n-        const userId = req.session.userId;\r\n+        const userId = req.signedCookies.email_user;\r\n         console.log(id, userId);\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658608164247,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.email_user;\r\n-        console.log(id, userId);\r\n+        const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong) values ('${userId}', '${id}')`;\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658608180735,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.email_user;\r\n-        const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong) values ('${userId}', '${id}')`;\r\n+        const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}')`;\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658608718829,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     }\r\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n-        const userId = req.signedCookies.email_user;\r\n+        const userId = locals.user_client;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}')`;\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658608726588,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = locals.user_client;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}')`;\r\n+        console.log(sql);\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658608841374,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,11 +8,10 @@\n     }\r\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n-        const userId = locals.user_client;\r\n+        const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}')`;\r\n-        console.log(sql);\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658608847053,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}')`;\r\n+        console.log(sql);\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658608928930,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n-        const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}')`;\r\n+        const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n         console.log(sql);\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658608962015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,16 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n-        console.log(sql);\r\n+        pool.query(sql, (err, result) => {\r\n+            if (err) {\r\n+                console.log(err);\r\n+            } else {\r\n+                res.redirect('/');\r\n+            }\r\n+        }\r\n+        )\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658609000092,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,16 +10,9 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n-        pool.query(sql, (err, result) => {\r\n-            if (err) {\r\n-                console.log(err);\r\n-            } else {\r\n-                res.redirect('/');\r\n-            }\r\n-        }\r\n-        )\r\n+        console.log(sql);\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658609022078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,16 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n-        console.log(sql);\r\n+        pool.query(sql, (err, result) => {\r\n+            if (err) {\r\n+                console.log(err);\r\n+            } else {\r\n+                res.redirect('/cart');\r\n+            }\r\n+        }\r\n+        )\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658609048930,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,16 +10,10 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n-        pool.query(sql, (err, result) => {\r\n-            if (err) {\r\n-                console.log(err);\r\n-            } else {\r\n-                res.redirect('/cart');\r\n-            }\r\n-        }\r\n-        )\r\n+        const [rows] = await pool.execute(sql);\r\n+\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658609060132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,10 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n         const [rows] = await pool.execute(sql);\r\n-\r\n+        console.log(rows);\r\n+        res.redirect('/');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658609065896,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n-        const [rows] = await pool.execute(sql);\r\n+        await pool.execute(sql);\r\n         console.log(rows);\r\n         res.redirect('/');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658609084698,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,14 @@\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n-        await pool.execute(sql);\r\n-        console.log(rows);\r\n+        try {\r\n+            await pool.execute(sql);\r\n+        } catch (err) {\r\n+            console.log(err);\r\n+        }\r\n+\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658609126377,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n             page_layout: 'cart'\r\n         })\r\n     }\r\n \r\n-    addCart(req, res) {\r\n+    async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n         try {\r\n"
+                },
+                {
+                    "date": 1658609213380,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,14 +10,10 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n-        try {\r\n-            await pool.execute(sql);\r\n-        } catch (err) {\r\n-            console.log(err);\r\n-        }\r\n-\r\n+        const result = await pool.query(sql);\r\n+        console.log(result);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658609395495,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \r\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n-        const sql = `Insert into gio_hang (id_thanhvien, id_sanpham,tong_tien) values ('${userId}', '${id}' ,0)`;\r\n+        const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n         const result = await pool.query(sql);\r\n         console.log(result);\r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658609424645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,8 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n         const result = await pool.query(sql);\r\n-        console.log(result);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658609461088,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n \r\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n+        const cart = await pool.query(`SELECT * FROM gio_hang WHERE id_user = ${userId}`);\r\n         const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n         const result = await pool.query(sql);\r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658609485286,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,11 +9,12 @@\n \r\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n-        const cart = await pool.query(`SELECT * FROM gio_hang WHERE id_user = ${userId}`);\r\n-        const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n-        const result = await pool.query(sql);\r\n+        const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_user = ${userId}`);\r\n+        console.log(cart);\r\n+        // const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n+        // const result = await pool.query(sql);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658609511221,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \r\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n-        const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_user = ${userId}`);\r\n+        const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n         console.log(cart);\r\n         // const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n         // const result = await pool.query(sql);\r\n         res.redirect('/');\r\n"
+                },
+                {
+                    "date": 1658609633612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,11 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        console.log(cart);\r\n+        if (cart.length > 0 && cart[0].id_sanpham === id) {\r\n+            await pool.query(`UPDATE gio_hang SET so_luong = so_luong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n+        }\r\n         // const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n         // const result = await pool.query(sql);\r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658609765308,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        if (cart.length > 0 && cart[0].id_sanpham === id) {\r\n+        if (cart.length > 0) {\r\n             await pool.query(`UPDATE gio_hang SET so_luong = so_luong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n         }\r\n         // const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n         // const result = await pool.query(sql);\r\n"
+                },
+                {
+                    "date": 1658609876530,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,13 @@\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n         if (cart.length > 0) {\r\n             await pool.query(`UPDATE gio_hang SET so_luong = so_luong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n         }\r\n+        else {\r\n+            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n+        }\r\n+        res.redirect('/cart');\r\n+\r\n         // const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n         // const result = await pool.query(sql);\r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658610177049,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,13 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n         if (cart.length > 0) {\r\n-            await pool.query(`UPDATE gio_hang SET so_luong = so_luong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n+            if (cart[0].id_sanpham === id) {\r\n+                const [updateCart] = await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n+            } else {\r\n+                const [addCart] = await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n+            }\r\n         }\r\n         else {\r\n             await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n         }\r\n"
+                },
+                {
+                    "date": 1658610199865,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n+        console.log(cart[0]);\r\n         if (cart.length > 0) {\r\n             if (cart[0].id_sanpham === id) {\r\n                 const [updateCart] = await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n             } else {\r\n"
+                },
+                {
+                    "date": 1658610214772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,8 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        console.log(cart[0]);\r\n         if (cart.length > 0) {\r\n             if (cart[0].id_sanpham === id) {\r\n                 const [updateCart] = await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n             } else {\r\n@@ -21,12 +20,9 @@\n         }\r\n         else {\r\n             await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n         }\r\n-        res.redirect('/cart');\r\n-\r\n-        // const sql = `INSERT INTO gio_hang (id_thanhvien, id_sp, tong_tien) VALUES (${userId}, ${id}, 0)`;\r\n-        // const result = await pool.query(sql);\r\n+        console.log(cart[0]);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658610250699,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,11 @@\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n         if (cart.length > 0) {\r\n             if (cart[0].id_sanpham === id) {\r\n-                const [updateCart] = await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n+                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n             } else {\r\n-                const [addCart] = await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n+                await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n             }\r\n         }\r\n         else {\r\n             await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n"
+                },
+                {
+                    "date": 1658610383299,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,18 +10,18 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        if (cart.length > 0) {\r\n-            if (cart[0].id_sanpham === id) {\r\n-                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n-            } else {\r\n-                await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n-            }\r\n-        }\r\n-        else {\r\n-            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n-        }\r\n+        // if (cart.length > 0) {\r\n+        //     if (cart[0].id_sanpham === id) {\r\n+        //         await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n+        //     } else {\r\n+        //         await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n+        //     }\r\n+        // }\r\n+        // else {\r\n+        //     await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n+        // }\r\n         console.log(cart[0]);\r\n         res.redirect('/');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658610446640,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,18 +10,18 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        // if (cart.length > 0) {\r\n-        //     if (cart[0].id_sanpham === id) {\r\n-        //         await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n-        //     } else {\r\n-        //         await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n-        //     }\r\n-        // }\r\n-        // else {\r\n-        //     await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n-        // }\r\n+        if (cart.length > 0) {\r\n+            if (cart[0].id_sanpham === id) {\r\n+                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n+            } else {\r\n+                await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n+            }\r\n+        }\r\n+        else {\r\n+            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n+        }\r\n         console.log(cart[0]);\r\n         res.redirect('/');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658610458232,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n         if (cart.length > 0) {\r\n-            if (cart[0].id_sanpham === id) {\r\n+            if (cart[0].id_sp === id) {\r\n                 await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n             } else {\r\n                 await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n             }\r\n"
+                },
+                {
+                    "date": 1658610524159,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,15 +12,15 @@\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n         if (cart.length > 0) {\r\n             if (cart[0].id_sp === id) {\r\n-                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sanpham = ${id}`);\r\n+                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sp = ${id}`);\r\n             } else {\r\n-                await pool.query(`INSERT INTO gio_hang (id_sanpham, soluong) VALUES (${id}, 1)`);\r\n+                await pool.query(`INSERT INTO gio_hang (id_sp, soluong) VALUES (${id}, 1)`);\r\n             }\r\n         }\r\n         else {\r\n-            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sanpham, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n+            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sp, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n         }\r\n         console.log(cart[0]);\r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658610557171,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,18 +10,18 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        if (cart.length > 0) {\r\n-            if (cart[0].id_sp === id) {\r\n-                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sp = ${id}`);\r\n-            } else {\r\n-                await pool.query(`INSERT INTO gio_hang (id_sp, soluong) VALUES (${id}, 1)`);\r\n-            }\r\n-        }\r\n-        else {\r\n-            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sp, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n-        }\r\n+        // if (cart.length > 0) {\r\n+        //     if (cart[0].id_sp === id) {\r\n+        //         await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sp = ${id}`);\r\n+        //     } else {\r\n+        //         await pool.query(`INSERT INTO gio_hang (id_sp, soluong) VALUES (${id}, 1)`);\r\n+        //     }\r\n+        // }\r\n+        // else {\r\n+        //     await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sp, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n+        // }\r\n         console.log(cart[0]);\r\n         res.redirect('/');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658610562861,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n         // }\r\n         // else {\r\n         //     await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sp, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n         // }\r\n-        console.log(cart[0]);\r\n+        console.log(cart[0].id_sp);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658610612610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,18 +10,20 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        // if (cart.length > 0) {\r\n-        //     if (cart[0].id_sp === id) {\r\n-        //         await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sp = ${id}`);\r\n-        //     } else {\r\n-        //         await pool.query(`INSERT INTO gio_hang (id_sp, soluong) VALUES (${id}, 1)`);\r\n-        //     }\r\n-        // }\r\n-        // else {\r\n-        //     await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sp, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n-        // }\r\n+        if (cart.length > 0) {\r\n+            if (cart[0].id_sp === id) {\r\n+                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sp = ${id}`);\r\n+            }\r\n+\r\n+            // else {\r\n+            //     await pool.query(`INSERT INTO gio_hang (id_sp, soluong) VALUES (${id}, 1)`);\r\n+            // }\r\n+        }\r\n+        else {\r\n+            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sp, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n+        }\r\n         console.log(cart[0].id_sp);\r\n         res.redirect('/');\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1658612557436,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,22 +9,9 @@\n \r\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n-        const [cart] = await pool.query(`SELECT * FROM gio_hang WHERE id_thanhvien = ${userId}`);\r\n-        if (cart.length > 0) {\r\n-            if (cart[0].id_sp === id) {\r\n-                await pool.query(`UPDATE gio_hang SET soluong = soluong + 1 WHERE id_thanhvien = ${userId} AND id_sp = ${id}`);\r\n-            }\r\n \r\n-            // else {\r\n-            //     await pool.query(`INSERT INTO gio_hang (id_sp, soluong) VALUES (${id}, 1)`);\r\n-            // }\r\n-        }\r\n-        else {\r\n-            await pool.query(`INSERT INTO gio_hang (id_thanhvien, id_sp, so_luong) VALUES (${userId}, ${id}, 1)`);\r\n-        }\r\n-        console.log(cart[0].id_sp);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658612581166,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \r\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n-\r\n+        const req.signedCookies.giohang\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658612610397,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,10 @@\n \r\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n-        const req.signedCookies.giohang\r\n+        const Arr_giohang = req.signedCookies.giohang;\r\n+        console.log(Arr_giohang);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658612645198,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,10 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        console.log(Arr_giohang);\r\n-        res.redirect('/');\r\n+        if ()\r\n+            res.redirect('/');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658612689155,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,10 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        if ()\r\n-            res.redirect('/');\r\n+        Arr_giohang.push(id);\r\n+        res.redirect('/');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658612707122,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,9 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         Arr_giohang.push(id);\r\n+        console.log(Arr_giohang);\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658612797009,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,12 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        Arr_giohang.push(id);\r\n-        console.log(Arr_giohang);\r\n+        if (Arr_giohang.indexOf(id) === -1) {\r\n+            Arr_giohang.push(id);\r\n+        }\r\n+\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658612812252,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,10 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        if (Arr_giohang.indexOf(id) === -1) {\r\n-            Arr_giohang.push(id);\r\n+        if (Arr_giohang.indexOf(id) >= 0) {\r\n+\r\n         }\r\n \r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658612916620,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,17 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n-\r\n+            // get index by id\r\n+            const index = Arr_giohang.indexOf(id);\r\n+            console.log(index);\r\n+        } else {\r\n+            // add id to Arr_giohang\r\n+            Arr_giohang.push(id);\r\n+            res.cookie('giohang', Arr_giohang, {\r\n+                signed: true,\r\n+            });\r\n         }\r\n \r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658612951211,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,12 +10,12 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n+        console.log(index);\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n             // get index by id\r\n             const index = Arr_giohang.indexOf(id);\r\n-            console.log(index);\r\n         } else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push(id);\r\n             res.cookie('giohang', Arr_giohang, {\r\n"
+                },
+                {
+                    "date": 1658612987180,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,12 +10,12 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        console.log(index);\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n             // get index by id\r\n             const index = Arr_giohang.indexOf(id);\r\n+            console.log(index);\r\n         } else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push(id);\r\n             res.cookie('giohang', Arr_giohang, {\r\n"
+                },
+                {
+                    "date": 1658613046094,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,12 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n             // get index by id\r\n             const index = Arr_giohang.indexOf(id);\r\n-            console.log(index);\r\n+            // get quantity by id\r\n+            const quantity = Arr_giohang[index + 1];\r\n+            // update quantity\r\n+            Arr_giohang[index + 1] = parseInt(quantity) + 1;\r\n         } else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push(id);\r\n             res.cookie('giohang', Arr_giohang, {\r\n"
+                },
+                {
+                    "date": 1658613086880,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n             // get index by id\r\n-            const index = Arr_giohang.indexOf(id);\r\n+            const index = findIndex(fruit => fruit === \"blueberries\");\r\n             // get quantity by id\r\n             const quantity = Arr_giohang[index + 1];\r\n             // update quantity\r\n             Arr_giohang[index + 1] = parseInt(quantity) + 1;\r\n"
+                },
+                {
+                    "date": 1658613136214,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,13 +12,10 @@\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n             // get index by id\r\n-            const index = findIndex(fruit => fruit === \"blueberries\");\r\n-            // get quantity by id\r\n-            const quantity = Arr_giohang[index + 1];\r\n-            // update quantity\r\n-            Arr_giohang[index + 1] = parseInt(quantity) + 1;\r\n+            const index = Arr_giohang.findIndex(q => q === id);\r\n+            console.log(index);\r\n         } else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push(id);\r\n             res.cookie('giohang', Arr_giohang, {\r\n"
+                },
+                {
+                    "date": 1658613194877,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,12 +13,15 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n             // get index by id\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n-            console.log(index);\r\n+\r\n         } else {\r\n             // add id to Arr_giohang\r\n-            Arr_giohang.push(id);\r\n+            Arr_giohang.push({\r\n+                id: id,\r\n+                quantity: 1\r\n+            });\r\n             res.cookie('giohang', Arr_giohang, {\r\n                 signed: true,\r\n             });\r\n         }\r\n"
+                },
+                {
+                    "date": 1658613212211,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,8 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n-            // get index by id\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n \r\n         } else {\r\n             // add id to Arr_giohang\r\n"
+                },
+                {
+                    "date": 1658613226657,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.indexOf(id) >= 0) {\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n \r\n-        } else {\r\n+        }\r\n+        else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push({\r\n                 id: id,\r\n                 quantity: 1\r\n"
+                },
+                {
+                    "date": 1658613285851,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        if (Arr_giohang.indexOf(id) >= 0) {\r\n+        if (Arr_giohang.) {\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n \r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658613294039,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        if (Arr_giohang.) {\r\n+        if (Arr_giohang.length > 0) {\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n \r\n         }\r\n         else {\r\n"
+                },
+                {
+                    "date": 1658613404421,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,10 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n+        const index = Arr_giohang.findIndex(q => q === id);\r\n         if (Arr_giohang.length > 0) {\r\n-            const index = Arr_giohang.findIndex(q => q === id);\r\n \r\n         }\r\n         else {\r\n             // add id to Arr_giohang\r\n"
+                },
+                {
+                    "date": 1658613430470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,10 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        const index = Arr_giohang.findIndex(q => q === id);\r\n         if (Arr_giohang.length > 0) {\r\n+            const index = Arr_giohang.findIndex(q => q === id);\r\n \r\n         }\r\n         else {\r\n             // add id to Arr_giohang\r\n"
+                },
+                {
+                    "date": 1658613441259,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.length > 0) {\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n-\r\n+            Arr_giohang[index] = id;\r\n         }\r\n         else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push({\r\n"
+                },
+                {
+                    "date": 1658613459591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.length > 0) {\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n-            Arr_giohang[index] = id;\r\n+            Arr_giohang[index].quantity += 1;\r\n         }\r\n         else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push({\r\n"
+                },
+                {
+                    "date": 1658613528306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,11 @@\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.length > 0) {\r\n             const index = Arr_giohang.findIndex(q => q === id);\r\n-            Arr_giohang[index].quantity += 1;\r\n+            if (index >= 0) {\r\n+                Arr_giohang[index].quantity += 1;\r\n+            }\r\n         }\r\n         else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push({\r\n"
+                },
+                {
+                    "date": 1658613564890,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,14 @@\n             const index = Arr_giohang.findIndex(q => q === id);\r\n             if (index >= 0) {\r\n                 Arr_giohang[index].quantity += 1;\r\n             }\r\n+            else {\r\n+                Arr_giohang.push({\r\n+                    id: id,\r\n+                    quantity: 1\r\n+                })\r\n+            }\r\n         }\r\n         else {\r\n             // add id to Arr_giohang\r\n             Arr_giohang.push({\r\n"
+                },
+                {
+                    "date": 1658613579033,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,11 +28,8 @@\n             Arr_giohang.push({\r\n                 id: id,\r\n                 quantity: 1\r\n             });\r\n-            res.cookie('giohang', Arr_giohang, {\r\n-                signed: true,\r\n-            });\r\n         }\r\n \r\n         res.redirect('/');\r\n     }\r\n"
+                },
+                {
+                    "date": 1658613588942,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,11 @@\n                 id: id,\r\n                 quantity: 1\r\n             });\r\n         }\r\n-\r\n+        res.cookie('giohang', Arr_giohang, {\r\n+            signed: true,\r\n+        });\r\n         res.redirect('/');\r\n     }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1658613598039,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,8 +29,9 @@\n                 id: id,\r\n                 quantity: 1\r\n             });\r\n         }\r\n+        console.log(Arr_giohang);\r\n         res.cookie('giohang', Arr_giohang, {\r\n             signed: true,\r\n         });\r\n         res.redirect('/');\r\n"
+                },
+                {
+                    "date": 1658613719541,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,10 @@\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.length > 0) {\r\n-            const index = Arr_giohang.findIndex(q => q === id);\r\n+            const index = Arr_giohang.findIndex(item => item.id === id);\r\n+            console.log(\"index\", index);\r\n             if (index >= 0) {\r\n                 Arr_giohang[index].quantity += 1;\r\n             }\r\n             else {\r\n"
+                },
+                {
+                    "date": 1658613786358,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,10 +12,9 @@\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.length > 0) {\r\n             const index = Arr_giohang.findIndex(item => item.id === id);\r\n-            console.log(\"index\", index);\r\n-            if (index >= 0) {\r\n+            if (index != -1) {\r\n                 Arr_giohang[index].quantity += 1;\r\n             }\r\n             else {\r\n                 Arr_giohang.push({\r\n"
+                },
+                {
+                    "date": 1658613850132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,8 @@\n                 id: id,\r\n                 quantity: 1\r\n             });\r\n         }\r\n-        console.log(Arr_giohang);\r\n         res.cookie('giohang', Arr_giohang, {\r\n             signed: true,\r\n         });\r\n         res.redirect('/');\r\n"
+                },
+                {
+                    "date": 1658638388175,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n \r\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n+\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638479099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n \r\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n-\r\n+        const Arr_giohang = req.signedCookies.giohang;\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638557113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n+        console.log(Arr_giohang);\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638665218,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,10 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n+        const list_id_sp = Arr_giohang.map(item => item.id_sp);\r\n+        console.log(list_id_sp);\r\n         if (Arr_giohang.length > 0) {\r\n             const index = Arr_giohang.findIndex(item => item.id === id);\r\n             if (index != -1) {\r\n                 Arr_giohang[index].quantity += 1;\r\n"
+                },
+                {
+                    "date": 1658638740030,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,10 +12,8 @@\n     async addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        const list_id_sp = Arr_giohang.map(item => item.id_sp);\r\n-        console.log(list_id_sp);\r\n         if (Arr_giohang.length > 0) {\r\n             const index = Arr_giohang.findIndex(item => item.id === id);\r\n             if (index != -1) {\r\n                 Arr_giohang[index].quantity += 1;\r\n"
+                },
+                {
+                    "date": 1658638761136,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,10 @@\n class CartController {\r\n     getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n+        const list_id_sp = Arr_giohang.map(item => item.id);\r\n+        console.log(list_id_sp);\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638796437,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id);\r\n-        console.log(list_id_sp);\r\n+        console.log(list_id_sp.join(','));\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638860207,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,10 +3,10 @@\n class CartController {\r\n     getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n-        const list_id_sp = Arr_giohang.map(item => item.id);\r\n-        console.log(list_id_sp.join(','));\r\n+        const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n+        console.log(list_id_sp);\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638896371,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        console.log(list_id_sp);\r\n+        const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp})`;\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638908656,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp})`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp}) by id DESC`;\r\n         res.render('pages/index.ejs', {\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n"
+                },
+                {
+                    "date": 1658638949914,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,12 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp}) by id DESC`;\r\n+        const [rows] = await pool.execute(sql);\r\n+        console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n+\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n \r\n"
+                },
+                {
+                    "date": 1658638976454,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n \r\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n-    getCart(req, res) {\r\n+    async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp}) by id DESC`;\r\n"
+                },
+                {
+                    "date": 1658639084754,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,10 +5,10 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp}) by id DESC`;\r\n-        const [rows] = await pool.execute(sql);\r\n-        console.log(rows);\r\n+        // const [rows] = await pool.execute(sql);\r\n+        // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n             page_layout: 'cart'\r\n         })\r\n"
+                },
+                {
+                    "date": 1658639110996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp}) by id DESC`;\r\n+        console.log(sql);\r\n         // const [rows] = await pool.execute(sql);\r\n         // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n"
+                },
+                {
+                    "date": 1658639141218,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id IN (${list_id_sp}) by id DESC`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp}) by id_sp DESC`;\r\n         console.log(sql);\r\n         // const [rows] = await pool.execute(sql);\r\n         // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658639228829,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,12 +4,12 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp}) by id_sp DESC`;\r\n+        const sql = `SELECT * FROM sanpham IN  ORDER BY sanpham.id_sp ASC`;\r\n         console.log(sql);\r\n-        // const [rows] = await pool.execute(sql);\r\n-        // console.log(rows);\r\n+        const [rows] = await pool.execute(sql);\r\n+        console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n             page_layout: 'cart'\r\n         })\r\n"
+                },
+                {
+                    "date": 1658639240075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham IN  ORDER BY sanpham.id_sp ASC`;\r\n+        const sql = `SELECT * FROM sanpham WHERE  ORDER BY sanpham.id_sp ASC`;\r\n         console.log(sql);\r\n         const [rows] = await pool.execute(sql);\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658639247819,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE  ORDER BY sanpham.id_sp ASC`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp IN ORDER BY sanpham.id_sp ASC`;\r\n         console.log(sql);\r\n         const [rows] = await pool.execute(sql);\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658639256291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id_sp IN ORDER BY sanpham.id_sp ASC`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY sanpham.id_sp ASC`;\r\n         console.log(sql);\r\n         const [rows] = await pool.execute(sql);\r\n         console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658639296635,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,12 +4,12 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY sanpham.id_sp ASC`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY sanpham.id_sp DESC`;\r\n         console.log(sql);\r\n-        const [rows] = await pool.execute(sql);\r\n-        console.log(rows);\r\n+        // const [rows] = await pool.execute(sql);\r\n+        // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n             page_layout: 'cart'\r\n         })\r\n"
+                },
+                {
+                    "date": 1658639311148,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY sanpham.id_sp DESC`;\r\n         console.log(sql);\r\n-        // const [rows] = await pool.execute(sql);\r\n+        const [rows] = await pool.execute(sql);\r\n         // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658639332265,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY sanpham.id_sp DESC`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY id_sp DESC`;\r\n         console.log(sql);\r\n         const [rows] = await pool.execute(sql);\r\n         // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n"
+                },
+                {
+                    "date": 1658639352484,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,8 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY id_sp DESC`;\r\n-        console.log(sql);\r\n         const [rows] = await pool.execute(sql);\r\n         // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n"
+                },
+                {
+                    "date": 1658639397816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id_sp IN ${list_id_sp} ORDER BY id_sp DESC`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp IN ('Paris','London')`;\r\n         const [rows] = await pool.execute(sql);\r\n         // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n"
+                },
+                {
+                    "date": 1658639414843,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n-        const sql = `SELECT * FROM sanpham WHERE id_sp IN ('Paris','London')`;\r\n+        const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         // console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n"
+                },
+                {
+                    "date": 1658639450350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n-        // console.log(rows);\r\n+        console.log(rows[0]);\r\n         res.render('pages/index.ejs', {\r\n \r\n             page_layout: 'cart'\r\n         })\r\n"
+                },
+                {
+                    "date": 1658639495748,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n-        console.log(rows[0]);\r\n+        console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n \r\n             page_layout: 'cart'\r\n         })\r\n"
+                },
+                {
+                    "date": 1658639533816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,11 +6,10 @@\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n-        console.log(rows);\r\n         res.render('pages/index.ejs', {\r\n-\r\n+            products: rows,\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n \r\n"
+                },
+                {
+                    "date": 1658641324739,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n+            Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n \r\n"
+                },
+                {
+                    "date": 1658641660656,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,10 @@\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n+        newGiohang = [req.signedCookies.giohang]\r\n+        console.log(newGiohang);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658641688608,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n-        newGiohang = [req.signedCookies.giohang]\r\n+        newGiohang = [...req.signedCookies.giohang]\r\n         console.log(newGiohang);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n"
+                },
+                {
+                    "date": 1658641711114,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n-        newGiohang = [...req.signedCookies.giohang]\r\n+        const newGiohang = [...req.signedCookies.giohang]\r\n         console.log(newGiohang);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n"
+                },
+                {
+                    "date": 1658641843942,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,12 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n-        console.log(newGiohang);\r\n+        console.log(newGiohang.forEach(item => {\r\n+            item.sanpham = rows.find(sp => sp.id_sp === item.id);\r\n+        }\r\n+        ));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658641872525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,12 +7,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n-        console.log(newGiohang.forEach(item => {\r\n-            item.sanpham = rows.find(sp => sp.id_sp === item.id);\r\n-        }\r\n-        ));\r\n+\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658641991121,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n-\r\n+        log(newGiohang.filter(item => item.id === 38));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658642034013,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n-        log(newGiohang.filter(item => item.id === 38));\r\n+\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658642054509,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n-\r\n+        log(newGiohang.filter(item => item.id === \"38\"));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658642069728,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n-        log(newGiohang.filter(item => item.id === \"38\"));\r\n+        console.log(newGiohang.filter(item => item.id === \"38\"));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658642090635,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,8 @@\n import pool from '../config/connectDatabase'\r\n class CartController {\r\n     async getCart(req, res) {\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n-        console.log(Arr_giohang);\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n"
+                },
+                {
+                    "date": 1658642111468,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,8 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang]\r\n-        console.log(newGiohang.filter(item => item.id === \"38\"));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: req.signedCookies.giohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658642126114,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,12 +5,12 @@\n         const Arr_giohang = req.signedCookies.giohang;\r\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n-        const newGiohang = [...req.signedCookies.giohang]\r\n+        const newGiohang = [...req.signedCookies.giohang];\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n-            Arr_giohang: req.signedCookies.giohang,\r\n+            Arr_giohang: newGiohang,\r\n             page_layout: 'cart'\r\n         })\r\n     }\r\n \r\n"
+                },
+                {
+                    "date": 1658643433542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang];\r\n+        console.log(filter(newGiohang.item => item.id === data[i].id));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: newGiohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658643445431,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang];\r\n-        console.log(filter(newGiohang.item => item.id === data[i].id));\r\n+        console.log(newGiohang.filter(item => item.id === data[i].id));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: newGiohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658643513454,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang];\r\n-        console.log(newGiohang.filter(item => item.id === data[i].id));\r\n+        console.log(newGiohang.filter(item => item.id === \"38\"));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: newGiohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658643546185,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,8 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang];\r\n-        console.log(newGiohang.filter(item => item.id === \"38\"));\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: newGiohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658644057547,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n         const list_id_sp = Arr_giohang.map(item => item.id).join(',');\r\n         const sql = `SELECT * FROM sanpham WHERE id_sp IN (${list_id_sp})`;\r\n         const [rows] = await pool.execute(sql);\r\n         const newGiohang = [...req.signedCookies.giohang];\r\n+        console.log(rows, newGiohang);\r\n         res.render('pages/index.ejs', {\r\n             products: rows,\r\n             Arr_giohang: newGiohang,\r\n             page_layout: 'cart'\r\n"
+                },
+                {
+                    "date": 1658645776679,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n         }\r\n         res.cookie('giohang', Arr_giohang, {\r\n             signed: true,\r\n         });\r\n-        res.redirect('/');\r\n+        res.redirect('/cart');\r\n     }\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658645938466,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             page_layout: 'cart'\r\n         })\r\n     }\r\n \r\n-    async addCart(req, res) {\r\n+    addCart(req, res) {\r\n         const id = req.params.id;\r\n         const userId = req.signedCookies.id_user;\r\n         const Arr_giohang = req.signedCookies.giohang;\r\n         if (Arr_giohang.length > 0) {\r\n@@ -42,8 +42,10 @@\n             signed: true,\r\n         });\r\n         res.redirect('/cart');\r\n     }\r\n+\r\n+\r\n }\r\n \r\n \r\n module.exports = new CartController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658646061028,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,10 +42,26 @@\n             signed: true,\r\n         });\r\n         res.redirect('/cart');\r\n     }\r\n+    minusCart(req, res) {\r\n+        const id = req.params.id;\r\n+        const Arr_giohang = req.signedCookies.giohang;\r\n+        const index = Arr_giohang.findIndex(item => item.id === id);\r\n+        if (index != -1) {\r\n+            if (Arr_giohang[index].quantity > 1) {\r\n+                Arr_giohang[index].quantity -= 1;\r\n+            }\r\n+            else {\r\n+                Arr_giohang.splice(index, 1);\r\n+            }\r\n+        }\r\n+        res.cookie('giohang', Arr_giohang, {\r\n+            signed: true,\r\n+        });\r\n+        res.redirect('/cart');\r\n+    }\r\n \r\n-\r\n }\r\n \r\n \r\n module.exports = new CartController;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1658646478220,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,8 +59,20 @@\n             signed: true,\r\n         });\r\n         res.redirect('/cart');\r\n     }\r\n+    deleteCart(req, res) {\r\n+        const id = req.params.id;\r\n+        const Arr_giohang = req.signedCookies.giohang;\r\n+        const index = Arr_giohang.findIndex(item => item.id === id);\r\n+        if (index != -1) {\r\n+            Arr_giohang.splice(index, 1);\r\n+        }\r\n+        res.cookie('giohang', Arr_giohang, {\r\n+            signed: true,\r\n+        });\r\n+        res.redirect('/cart');\r\n+    }\r\n \r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1658646628647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n                 Arr_giohang: newGiohang,\r\n                 page_layout: 'cart'\r\n             })\r\n         }\r\n-\r\n+        \r\n     }\r\n \r\n     addCart(req, res) {\r\n         const id = req.params.id;\r\n"
+                }
+            ],
+            "date": 1658599358331,
+            "name": "Commit-0",
+            "content": "\r\nimport pool from '../config/connectDatabase'\r\nimport md5 from 'md5';\r\nclass CartController {\r\n    // [GET] REGISTER\r\n    register = (req, res) => {\r\n        res.render('pages/register', { error: '' });\r\n    }\r\n    // [POST] REGISTER\r\n    registerPost = async (req, res) => {\r\n        const { name, password, sdt, address, sex, email } = req.body;\r\n        const hashPassword = md5(Number(password));\r\n        const sql = `INSERT INTO thanhvien (sdt, cmnd, address, name, id_thanhvien, email, mat_khau, quyen_truy_cap, gioi_tinh) VALUES ('${sdt}', ${sdt}, '${address}', '${name}', NULL, '${email}', '${hashPassword}', 0, ${sex ? sex : 2})`;\r\n        const result = await pool.execute(sql);\r\n        console.log(result);\r\n        if (result) {\r\n\r\n        }\r\n        res.redirect('/user/login');\r\n    }\r\n    // GET Login\r\n    login = (req, res) => {\r\n        if (req.signedCookies.email_user) {\r\n            res.redirect('/');\r\n        }\r\n        res.render('pages/login', { error: '' });\r\n    }\r\n\r\n    loginPost = async (req, res) => {\r\n        const { username, password } = req.body;\r\n        const hashPassword = md5(Number(password));\r\n        const sql = `SELECT * FROM thanhvien WHERE email = '${username}' AND mat_khau = '${hashPassword}'`;\r\n        const [rows] = await pool.execute(sql);\r\n        if (rows.length > 0 && rows[0].quyen_truy_cap === 0) {\r\n\r\n            res.cookie('email_user', rows[0].email, {\r\n                signed: true,\r\n            });\r\n            res.redirect('/');\r\n            return;\r\n        }\r\n        else {\r\n            res.render('pages/login', { error: 'Sai tài khoản hoặc mật khẩu' });\r\n            return;\r\n        }\r\n    }\r\n\r\n\r\n    // GET Logout\r\n    logout = (req, res) => {\r\n        res.clearCookie('email_user');\r\n        return res.redirect('/');\r\n    }\r\n\r\n    // GET Profile\r\n    profile = async (req, res) => {\r\n        const sql = `SELECT * FROM thanhvien WHERE email = '${req.signedCookies.email_user}'`;\r\n        const [rows] = await pool.execute(sql);\r\n        if (rows.length > 0) {\r\n            res.render('pages/index.ejs', {\r\n                user: rows[0],\r\n                page_layout: 'profile',\r\n            });\r\n        }\r\n    }\r\n\r\n    // Get Edit User\r\n    editUser = async (req, res) => {\r\n        const id = req.params.id;\r\n        const sql = `SELECT * FROM thanhvien WHERE id_thanhvien = ${id}`;\r\n        const [rows] = await pool.execute(sql);\r\n        if (rows.length > 0) {\r\n            res.render('pages/index.ejs', {\r\n                user: rows[0],\r\n                page_layout: 'edit-user',\r\n            });\r\n        }\r\n    }\r\n\r\n    // Post Edit User\r\n    updateUser = async (req, res) => {\r\n        const id = req.params.id;\r\n        const { name, sdt, address, sex } = req.body;\r\n        const sql = `UPDATE thanhvien SET sdt = '${sdt}',address = '${address}', name = '${name}', gioi_tinh = ${sex} WHERE thanhvien.id_thanhvien = ${id}`\r\n        await pool.execute(sql);\r\n        res.redirect('/user')\r\n    }\r\n}\r\n\r\n\r\nmodule.exports = new CartController;"
+        }
+    ]
+}

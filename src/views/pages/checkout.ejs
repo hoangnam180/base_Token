@@ -1,0 +1,85 @@
+<% totalPriceAll = 0 %>   
+   <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Checkout</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Checkout Start -->
+    <form>
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <h4 class="font-weight-semi-bold mb-4">Thông tin khách hàng</h4>
+                        <div class="contact-form">
+                                <div class="control-group">
+                                    <label >Họ và tên</label>
+                                    <input name="name" required type="text" class="form-control" value="<%= data3.name %>"/>
+                                </div>
+                                <div class="control-group mt-2">
+                                    <label >Địa chỉ</label>
+                                    <input name="address" required type="text" class="form-control" value="<%= data3.address %>"/>
+                                </div>
+                                <div class="control-group  mt-2">
+                                    <label>Số điện thoại</label>
+                                    <input name="sdt" required type="text" class="form-control" value="<%= data3.sdt %>"/>
+                                </div>
+                                <div class="control-group  mt-2">
+                                    <label>Giới tính</label>
+                                    <select class="form-control" id="sel1" required name="sex">
+                                        <option value="1" <%= (data3.gioi_tinh == 1) ? 'selected' : '' %>>Nam</option>
+                                        <option value="0" <%= (data3.gioi_tinh == 0) ? 'selected' : '' %>>Nữ</option>
+                                        <option value="2" <%= (data3.gioi_tinh == 2) ? 'selected' : '' %>>Khác</option>
+                                    </select>
+                                </div>
+                        </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Giỏ hàng thành toán</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="font-weight-medium mb-3">Sản phẩm cần thanh toán</h5>
+                        <% for (let i = 0; i < data.length; i++) { %>
+                            <div class="d-flex justify-content-between">
+                                    <p><%= data[i].ten_sp %></p>
+                                    <p><% for (let j = 0; j < data2.length; j++) { %>
+                                        <% if (data2[j].id == data[i].id_sp) { %>
+                                            <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(data[i].gia_sp * data2[j].quantity)) %>
+                                            <% totalPriceAll += Number(data[i].gia_sp * data2[j].quantity) %>
+                                        <% } %>
+                                    <% } %></p>
+                            </div>
+                            <% } %>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Tổng tiền</h5>
+                            <h5 class="font-weight-bold"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(totalPriceAll)) %></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Thanh toán bằng tiền mặt</h4>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Thanh toán</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <!-- Checkout End -->
