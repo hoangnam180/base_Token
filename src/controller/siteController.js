@@ -1,4 +1,5 @@
 const pool = require('../config/connectDatabase')
+
 //[GET]
 class SiteController {
     getHomepage = async (req, res) => {
@@ -71,7 +72,7 @@ class SiteController {
         const [sanpham] = await pool.execute('SELECT * FROM sanpham WHERE ten_sp LIKE "%' + search + '%" LIMIT ?, ?', [start, end]);
         res.render('pages/index.ejs', {
             sanpham,
-            page,
+            page: req.query.page || 1,
             totalPage,
             search: req.query.search,
             page_layout: 'search'
