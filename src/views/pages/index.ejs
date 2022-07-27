@@ -136,6 +136,31 @@
             value_star.value = count;
             });
         });
+        const form = document.querySelector("#formcmt")
+        // validate form
+        form.addEventListener("submit", function(e) {
+            e.preventDefault()
+            let message = document.querySelector("#message")
+            let sdt = document.querySelector("#sdt")
+            const errorMsg = document.querySelector(".message_err")
+            const errorSdt = document.querySelector(".sdt_err")
+            if(sdt.value.length > 11){
+                errorSdt.innerHTML = "Số điện thoại không đúng"
+                sdt.focus()
+            }else if(sdt.value !== 'number'){
+                errorSdt.innerHTML = "Không phải số điện thoại"
+                sdt.focus()
+            }
+            if(message.value.length < 5) {
+                errorMsg.innerHTML = "Bình luận phải có ít nhất 5 ký tự"
+                return
+            }else{
+                errorMsg.innerHTML = ""
+                form.submit()
+            }
+        })
+        
+    
     </script>
 </body>
 
