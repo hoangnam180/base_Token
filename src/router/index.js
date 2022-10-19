@@ -1,12 +1,8 @@
-const siteRouter = require('./site');
-const adminRouter = require('./admin');
-const userRouter = require('./users')
-const cartRouter = require('./cart')
+const userRouter = require("./users");
+const siteRouter = require("./site");
 const initWebRoute = (app) => {
-    app.use('/cart', cartRouter);
-    app.use('/user', userRouter);
-    app.use('/admin', adminRouter);
-    app.use('/', siteRouter);
-}
+  app.use("/", siteRouter);
+  app.use("/api/v1/user", userRouter);
+};
 
 module.exports = initWebRoute;
