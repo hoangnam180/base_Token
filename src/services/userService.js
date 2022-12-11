@@ -44,7 +44,7 @@ const handleUserLogin = (user_name, password) => {
         userData.errMessage = "OK";
 
         delete user[0].password;
-        userData.user = user;
+        userData.user = user[0];
       } else {
         userData.errCode = 3;
         userData.errMessage = "Wrong password";
